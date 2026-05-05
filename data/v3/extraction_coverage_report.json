@@ -1,0 +1,1433 @@
+{
+  "generatedAt": "2026-05-05T06:04:13.686Z",
+  "totalRawPages": 253,
+  "totalCuratedPages": 242,
+  "perPage": {
+    "1": {
+      "page": 1,
+      "ocrLength": 69,
+      "curated": false,
+      "issues": []
+    },
+    "2": {
+      "page": 2,
+      "ocrLength": 0,
+      "curated": false,
+      "issues": []
+    },
+    "5": {
+      "page": 5,
+      "ocrLength": 600,
+      "curated": true,
+      "issues": [
+        {
+          "type": "years-missing",
+          "severity": "medium",
+          "examples": [
+            "2025年"
+          ],
+          "count": 1,
+          "note": "OCRに登場するが factsに含まれない年代"
+        }
+      ]
+    },
+    "8": {
+      "page": 8,
+      "ocrLength": 1,
+      "curated": false,
+      "issues": []
+    },
+    "12": {
+      "page": 12,
+      "ocrLength": 1220,
+      "curated": true,
+      "issues": [
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "特定名称酒「純米酒」の使用原料は米・米こうじのみ、精米歩合の規定はなく、麹米使用割合15%以上、香味",
+          "rawText": "純米酒：米、米こうじ／（精米歩合の欄なし）／麹米使用割合15%以上／香味、色沢が良好",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        },
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "特定名称酒「本醸造酒」の使用原料は米・米こうじ・醸造アルコール、精米歩合70%以下、麹米使用割合15",
+          "rawText": "本醸造酒：米、米こうじ、醸造アルコール／精米歩合70%以下／麹米使用割合15%以上／香味、色沢が良好",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        },
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "本醸造酒の精米歩合70%以下とは、籾や胚芽など玄米の表層部分を重量で30%以上削り取る（磨く）ことを",
+          "rawText": "例えば、本醸造酒の精米歩合は70%以下と定められていて、これは籾や胚芽など玄米の表層部分を重量で30",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        }
+      ]
+    },
+    "13": {
+      "page": 13,
+      "ocrLength": 983,
+      "curated": true,
+      "issues": [
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "清酒でアルコール分が10度未満かつ発泡性を有するものは、「発泡性を有する旨」と「税率適用区分」も表示",
+          "rawText": "（注）清酒でアルコール分が10度未満で発泡性を有するものは、「発泡性を有する旨」及び「税率適用区分」",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        }
+      ]
+    },
+    "16": {
+      "page": 16,
+      "ocrLength": 1061,
+      "curated": true,
+      "issues": [
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "堅型精米機の普及と冷凍機の導入によって、日本酒の醪温度も次第に低くなった",
+          "rawText": "この頃、冷凍機の登場及び導入によって、醪温度も次第に低くなった。",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        }
+      ]
+    },
+    "17": {
+      "page": 17,
+      "ocrLength": 1217,
+      "curated": true,
+      "issues": [
+        {
+          "type": "years-missing",
+          "severity": "medium",
+          "examples": [
+            "1948年",
+            "536\n（2022年",
+            "2010 2020年"
+          ],
+          "count": 3,
+          "note": "OCRに登場するが factsに含まれない年代"
+        }
+      ]
+    },
+    "18": {
+      "page": 18,
+      "ocrLength": 1368,
+      "curated": true,
+      "issues": [
+        {
+          "type": "years-missing",
+          "severity": "medium",
+          "examples": [
+            "1992（平成4）年"
+          ],
+          "count": 1,
+          "note": "OCRに登場するが factsに含まれない年代"
+        },
+        {
+          "type": "people-missing",
+          "severity": "medium",
+          "examples": [
+            "蔵杜氏",
+            "社員杜氏"
+          ],
+          "count": 2,
+          "note": "OCRに登場するが factsに含まれない人名候補"
+        }
+      ]
+    },
+    "19": {
+      "page": 19,
+      "ocrLength": 1049,
+      "curated": true,
+      "issues": [
+        {
+          "type": "years-missing",
+          "severity": "medium",
+          "examples": [
+            "2022年",
+            "2013（平成25）年"
+          ],
+          "count": 2,
+          "note": "OCRに登場するが factsに含まれない年代"
+        }
+      ]
+    },
+    "24": {
+      "page": 24,
+      "ocrLength": 1092,
+      "curated": true,
+      "issues": [
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "特定名称酒の醸造に使用できるのは三等以上の米に限られる",
+          "rawText": "なお、特定名称酒の醸造に使用できるのは、三等以上の米に限られている（P27図表8）。",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        }
+      ]
+    },
+    "25": {
+      "page": 25,
+      "ocrLength": 970,
+      "curated": true,
+      "issues": [
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "玄米の粗タンパク質は兵庫産山田錦6.55%／千葉産一般米7.95%で、50%精米では3.80%／5.",
+          "rawText": "[図表5]粗タンパク質、玄米（6.55／7.95）、50%精米（3.80／5.12）",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        },
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "玄米の粗脂肪は兵庫産山田錦2.28%／千葉産一般米1.90%で、50%精米では0.051%／0.03",
+          "rawText": "[図表5]粗脂肪、玄米（2.28／1.90）、50%精米（0.051／0.035）",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        },
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "玄米の灰分は兵庫産山田錦・千葉産一般米とも1.00%で、50%精米では0.154%／0.194%まで",
+          "rawText": "[図表5]灰分、玄米（1.00／1.00）、50%精米（0.154／0.194）",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        },
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "精米歩合が低くなるほど、米のでんぷんの比率が高まる",
+          "rawText": "精米による効果：精米歩合が低くなるほど、でんぷんの比率が高まる。",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        },
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "米のタンパク質・脂肪・灰分は外層部に多く含まれるため、精米により減少する",
+          "rawText": "タンパク質、脂肪、灰分は外層部に多く含まれるため、精米により減少する。",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        },
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "高精米により雑味成分が除去され、すっきりとした味わいの日本酒になる",
+          "rawText": "高精米により雑味成分が除去され、すっきりとした味わいになる。",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        },
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "特定名称酒の醸造には三等以上の米が必要で、特定名称酒使用可能最低等級は三等",
+          "rawText": "特定名称酒の製造には三等以上の米が必要。",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        },
+        {
+          "type": "years-missing",
+          "severity": "medium",
+          "examples": [
+            "1993年"
+          ],
+          "count": 1,
+          "note": "OCRに登場するが factsに含まれない年代"
+        }
+      ]
+    },
+    "27": {
+      "page": 27,
+      "ocrLength": 1435,
+      "curated": true,
+      "issues": [
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "冷害年では米のタンパク質が増加することが知られているが、タンパク質含量には品種や栽培肥料の量も大きく",
+          "rawText": "このほか、収量は大きく低下するような冷害年ではタンパク質が増加することが知られているが、タンパク質含",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        }
+      ]
+    },
+    "30": {
+      "page": 30,
+      "ocrLength": 1144,
+      "curated": true,
+      "issues": [
+        {
+          "type": "years-missing",
+          "severity": "medium",
+          "examples": [
+            "2024年"
+          ],
+          "count": 1,
+          "note": "OCRに登場するが factsに含まれない年代"
+        }
+      ]
+    },
+    "32": {
+      "page": 32,
+      "ocrLength": 971,
+      "curated": true,
+      "issues": [
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "酒造好適米品種別生産量2位は五百万石で14,970t（約18.8%）、主産地は新潟・富山・福井・福島",
+          "rawText": "2位 五百万石 14,970t（約18.8%）主産地：新潟・富山・福井・福島・石川",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        },
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "酒造好適米品種別生産量3位は美山錦で3,742t（約4.7%）、主産地は長野・秋田・山形",
+          "rawText": "3位 美山錦 3,742t（約4.7%）主産地：長野・秋田・山形",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        },
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "酒造好適米品種別生産量4位は雄町で2,677t（約3.4%）、主産地は岡山",
+          "rawText": "4位 雄町 2,677t（約3.4%）主産地：岡山",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        },
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "酒造好適米品種別生産量5位は秋田酒こまちで2,024t（約2.5%）、主産地は秋田",
+          "rawText": "5位 秋田酒こまち 2,024t（約2.5%）主産地：秋田",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        },
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "酒造好適米品種別生産量6位は出羽燦々で1,313t、主産地は山形",
+          "rawText": "6位 出羽燦々 1,313t 主産地：山形",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        },
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "酒造好適米品種別生産量7位は夢の香で1,201t、主産地は福島",
+          "rawText": "7位 夢の香 1,201t 主産地：福島",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        },
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "酒造好適米品種別生産量8位は越淡麗で1,069t、主産地は新潟",
+          "rawText": "8位 越淡麗 1,069t 主産地：新潟",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        },
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "酒造好適米品種別生産量9位は吟風で1,038t、主産地は北海道",
+          "rawText": "9位 吟風 1,038t 主産地：北海道",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        },
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "酒造好適米品種別生産量10位はひとごこちで1,010t、主産地は長野・山梨・栃木",
+          "rawText": "10位 ひとごこち 1,010t 主産地：長野・山梨・栃木",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        },
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "酒造好適米品種別生産量11位は八反錦1号で998t、主産地は広島",
+          "rawText": "11位 八反錦1号 998t 主産地：広島",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        },
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "酒造好適米品種別生産量12位は愛山で890t、主産地は兵庫",
+          "rawText": "12位 愛山 890t 主産地：兵庫",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        },
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "酒造好適米品種別生産量13位は華吹雪で873t、主産地は青森",
+          "rawText": "13位 華吹雪 873t 主産地：青森",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        },
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "酒造好適米品種別生産量14位はひだほまれで705t、主産地は岐阜",
+          "rawText": "14位 ひだほまれ 705t 主産地：岐阜",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        },
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "酒造好適米品種別生産量15位は蔵の華で704t、主産地は宮城",
+          "rawText": "15位 蔵の華 704t 主産地：宮城",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        },
+        {
+          "type": "years-missing",
+          "severity": "medium",
+          "examples": [
+            "2022（令和4）年",
+            "1951（昭和26）年"
+          ],
+          "count": 2,
+          "note": "OCRに登場するが factsに含まれない年代"
+        }
+      ]
+    },
+    "33": {
+      "page": 33,
+      "ocrLength": 923,
+      "curated": true,
+      "issues": [
+        {
+          "type": "years-missing",
+          "severity": "medium",
+          "examples": [
+            "1992（平成4）年",
+            "2000（平成12）年"
+          ],
+          "count": 2,
+          "note": "OCRに登場するが factsに含まれない年代"
+        }
+      ]
+    },
+    "34": {
+      "page": 34,
+      "ocrLength": 995,
+      "curated": true,
+      "issues": [
+        {
+          "type": "years-missing",
+          "severity": "medium",
+          "examples": [
+            "1974（昭和49）年",
+            "1859（安政6）年"
+          ],
+          "count": 2,
+          "note": "OCRに登場するが factsに含まれない年代"
+        }
+      ]
+    },
+    "37": {
+      "page": 37,
+      "ocrLength": 904,
+      "curated": true,
+      "issues": [
+        {
+          "type": "years-missing",
+          "severity": "medium",
+          "examples": [
+            "2004（平成16）年",
+            "1957（昭和32）年"
+          ],
+          "count": 2,
+          "note": "OCRに登場するが factsに含まれない年代"
+        }
+      ]
+    },
+    "38": {
+      "page": 38,
+      "ocrLength": 1085,
+      "curated": true,
+      "issues": [
+        {
+          "type": "years-missing",
+          "severity": "medium",
+          "examples": [
+            "1997（平成9）年",
+            "1875\n（明治8）年"
+          ],
+          "count": 2,
+          "note": "OCRに登場するが factsに含まれない年代"
+        }
+      ]
+    },
+    "42": {
+      "page": 42,
+      "ocrLength": 969,
+      "curated": true,
+      "issues": [
+        {
+          "type": "years-missing",
+          "severity": "medium",
+          "examples": [
+            "1887）年"
+          ],
+          "count": 1,
+          "note": "OCRに登場するが factsに含まれない年代"
+        }
+      ]
+    },
+    "43": {
+      "page": 43,
+      "ocrLength": 1279,
+      "curated": true,
+      "issues": [
+        {
+          "type": "years-missing",
+          "severity": "medium",
+          "examples": [
+            "1884（明治17）年",
+            "1893（明治26）年",
+            "1894（明治27）年",
+            "1895（明治28）年",
+            "1908（明治41）年"
+          ],
+          "count": 12,
+          "note": "OCRに登場するが factsに含まれない年代"
+        }
+      ]
+    },
+    "44": {
+      "page": 44,
+      "ocrLength": 2005,
+      "curated": true,
+      "issues": [
+        {
+          "type": "years-missing",
+          "severity": "medium",
+          "examples": [
+            "2006年",
+            "1933（昭和8）年"
+          ],
+          "count": 2,
+          "note": "OCRに登場するが factsに含まれない年代"
+        }
+      ]
+    },
+    "46": {
+      "page": 46,
+      "ocrLength": 1675,
+      "curated": true,
+      "issues": [
+        {
+          "type": "years-missing",
+          "severity": "medium",
+          "examples": [
+            "2004（平成16）年",
+            "2008（平成20）年",
+            "2011（平成23）年",
+            "2016（平成28）年",
+            "1938（昭和13）年"
+          ],
+          "count": 6,
+          "note": "OCRに登場するが factsに含まれない年代"
+        }
+      ]
+    },
+    "47": {
+      "page": 47,
+      "ocrLength": 872,
+      "curated": true,
+      "issues": [
+        {
+          "type": "years-missing",
+          "severity": "medium",
+          "examples": [
+            "2008年"
+          ],
+          "count": 1,
+          "note": "OCRに登場するが factsに含まれない年代"
+        }
+      ]
+    },
+    "48": {
+      "page": 48,
+      "ocrLength": 831,
+      "curated": true,
+      "issues": [
+        {
+          "type": "years-missing",
+          "severity": "medium",
+          "examples": [
+            "2023（令和5）年"
+          ],
+          "count": 1,
+          "note": "OCRに登場するが factsに含まれない年代"
+        }
+      ]
+    },
+    "51": {
+      "page": 51,
+      "ocrLength": 978,
+      "curated": true,
+      "issues": [
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "醸造用水のマンガン基準は0.02ppm以下で、水道水基準（0.05ppm以下）より厳しい",
+          "rawText": "[図表16]マンガン：醸造用水0.02ppm以下、水道水0.05ppm以下",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        },
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "醸造用水のpH基準は中性または微アルカリ性で、水道水基準は5.8以上8.6以下",
+          "rawText": "[図表16]pH：醸造用水中性または微アルカリ性、水道水5.8以上8.6以下",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        }
+      ]
+    },
+    "54": {
+      "page": 54,
+      "ocrLength": 2,
+      "curated": false,
+      "issues": []
+    },
+    "62": {
+      "page": 62,
+      "ocrLength": 1297,
+      "curated": true,
+      "issues": [
+        {
+          "type": "people-missing",
+          "severity": "medium",
+          "examples": [
+            "通常杜氏"
+          ],
+          "count": 1,
+          "note": "OCRに登場するが factsに含まれない人名候補"
+        }
+      ]
+    },
+    "66": {
+      "page": 66,
+      "ocrLength": 707,
+      "curated": true,
+      "issues": [
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "胃酸（胃液）のpHはpH1.5〜pH2.0（酸性）である",
+          "rawText": "胃酸（胃液）：pH1.5〜pH2.0（酸性）",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        },
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "レモンのpHはpH2.5以上である",
+          "rawText": "レモン：pH2.5以上",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        },
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "リンゴのpHはpH3.0以上である",
+          "rawText": "リンゴ：pH3.0以上",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        },
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "スポーツドリンクのpHはpH3.5〜pH4.0である",
+          "rawText": "スポーツドリンク：pH3.5〜pH4.0",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        },
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "日本酒のpHはpH4.2である",
+          "rawText": "日本酒：pH4.2",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        },
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "ヨーグルトのpHはpH4.4以上である",
+          "rawText": "ヨーグルト：pH4.4以上",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        },
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "アスパラガスのpHはpH5.5である",
+          "rawText": "アスパラガス：pH5.5",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        },
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "日本茶のpHはpH4.5〜pH6.5である",
+          "rawText": "日本茶：pH4.5〜pH6.5",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        },
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "水道水のpHはpH6.5である",
+          "rawText": "水道水：pH6.5",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        },
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "牛乳のpHはpH6.7（中性に近い）である",
+          "rawText": "牛乳：pH6.7",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        },
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "血液のpHはpH7.4（弱アルカリ性）である",
+          "rawText": "血液：pH7.4",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        },
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "海水のpHはpH8.0〜pH8.5（弱アルカリ性）である",
+          "rawText": "海水：pH8.0〜pH8.5（弱アルカリ性）",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        }
+      ]
+    },
+    "80": {
+      "page": 80,
+      "ocrLength": 922,
+      "curated": true,
+      "issues": [
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "速醸酒母の分け時の標準的成分は、品温20〜23℃・ボーメ7〜9・アルコール分8〜10%・酸度7位・ア",
+          "rawText": "分け時の標準的な成分は…品温20〜23℃、ボーメ7〜9、アルコール分8〜10%、酸度7位、アミノ酸度",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        }
+      ]
+    },
+    "84": {
+      "page": 84,
+      "ocrLength": 1256,
+      "curated": true,
+      "issues": [
+        {
+          "type": "years-missing",
+          "severity": "medium",
+          "examples": [
+            "1989年"
+          ],
+          "count": 1,
+          "note": "OCRに登場するが factsに含まれない年代"
+        },
+        {
+          "type": "people-missing",
+          "severity": "medium",
+          "examples": [
+            "小玉健吉氏",
+            "若手杜氏"
+          ],
+          "count": 2,
+          "note": "OCRに登場するが factsに含まれない人名候補"
+        }
+      ]
+    },
+    "92": {
+      "page": 92,
+      "ocrLength": 963,
+      "curated": true,
+      "issues": [
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "日本酒酵母は、アルコール分11〜14度では元気に発酵する（増殖は減少）",
+          "rawText": "[図表22]11〜14度：元気に発酵",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        }
+      ]
+    },
+    "103": {
+      "page": 103,
+      "ocrLength": 1770,
+      "curated": true,
+      "issues": [
+        {
+          "type": "years-missing",
+          "severity": "medium",
+          "examples": [
+            "1906（明治39）年",
+            "1912（明治45）年",
+            "1914（大正3）年",
+            "1924（大正13）年",
+            "1925（大正14）年"
+          ],
+          "count": 21,
+          "note": "OCRに登場するが factsに含まれない年代"
+        }
+      ]
+    },
+    "113": {
+      "page": 113,
+      "ocrLength": 1211,
+      "curated": true,
+      "issues": [
+        {
+          "type": "people-missing",
+          "severity": "medium",
+          "examples": [
+            "芥屋杜氏",
+            "柳川杜氏",
+            "筑後杜氏",
+            "南丹杜氏",
+            "但馬杜氏"
+          ],
+          "count": 6,
+          "note": "OCRに登場するが factsに含まれない人名候補"
+        }
+      ]
+    },
+    "114": {
+      "page": 114,
+      "ocrLength": 1285,
+      "curated": true,
+      "issues": [
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "青森県の酒造好適米のうち、華吹雪は836t、華想いは190t、豊盃は190t、吟烏帽子は64tである",
+          "rawText": "華吹雪 836t、華想い 190t、豊盃 190t、吟烏帽子 64t",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        }
+      ]
+    },
+    "116": {
+      "page": 116,
+      "ocrLength": 1223,
+      "curated": true,
+      "issues": [
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "宮城県の酒造好適米は蔵の華704t、美山錦148t、吟のいろは105t、山田錦36tである",
+          "rawText": "蔵の華 704t、美山錦 148t、吟のいろは 105t、山田錦 36t",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        }
+      ]
+    },
+    "118": {
+      "page": 118,
+      "ocrLength": 1321,
+      "curated": true,
+      "issues": [
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "秋田県の酒造好適米は秋田酒こまち2,024t、美山錦961t、美郷錦219t、吟の精135tである",
+          "rawText": "秋田酒こまち 2,024t、美山錦 961t、美郷錦 219t、吟の精 135t",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        },
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "秋田県では大正末期以降に大蔵省醸造試験所の嘉儀金一郎氏が「山廃仕込み」を考案・生酛造りで重労働のすり",
+          "rawText": "明治末期以降、大蔵省醸造試験所の嘉儀金一郎氏が「山廃仕込み」を考案。生酛造りで、重労働だった酛すりを",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        },
+        {
+          "type": "people-missing",
+          "severity": "medium",
+          "examples": [
+            "肉杜氏",
+            "山内杜氏"
+          ],
+          "count": 2,
+          "note": "OCRに登場するが factsに含まれない人名候補"
+        }
+      ]
+    },
+    "120": {
+      "page": 120,
+      "ocrLength": 1300,
+      "curated": true,
+      "issues": [
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "山形県の酒造好適米は出羽燦々1,313t、出羽の里568t、美山錦506t、雪女神319t、亀ノ尾2",
+          "rawText": "出羽燦々 1,313t、出羽の里 568t、美山錦 506t、雪女神 319t、亀ノ尾 211t、山",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        }
+      ]
+    },
+    "122": {
+      "page": 122,
+      "ocrLength": 1391,
+      "curated": true,
+      "issues": [
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "福島県の日本酒生産数量は6,874kl（国内生産量の約2%、全国9位）である",
+          "rawText": "福島県の日本酒生産数量は6,874kl（国内生産量の約2%、全国9位）",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        },
+        {
+          "type": "years-missing",
+          "severity": "medium",
+          "examples": [
+            "2013（平成25）年",
+            "2014（平成26）年",
+            "2016（平成28）年",
+            "2017\n（平成29）年",
+            "2018（平成30）年"
+          ],
+          "count": 5,
+          "note": "OCRに登場するが factsに含まれない年代"
+        }
+      ]
+    },
+    "124": {
+      "page": 124,
+      "ocrLength": 1319,
+      "curated": true,
+      "issues": [
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "栃木県の日本酒生産数量は6,588kl（国内生産量の約2%、全国10位）である",
+          "rawText": "栃木県の日本酒生産数量は6,588kl（国内生産量の約2%、全国10位）",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        },
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "栃木県の酒造好適米は山田錦996t、五百万石272t、夢ささら130t、ひとごこち36t、とちぎ酒1",
+          "rawText": "山田錦 996t、五百万石 272t、夢ささら 130t、ひとごこち 36t、とちぎ酒14 28t",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        }
+      ]
+    },
+    "126": {
+      "page": 126,
+      "ocrLength": 1463,
+      "curated": true,
+      "issues": [
+        {
+          "type": "people-missing",
+          "severity": "medium",
+          "examples": [
+            "越後杜氏",
+            "広島杜氏"
+          ],
+          "count": 2,
+          "note": "OCRに登場するが factsに含まれない人名候補"
+        }
+      ]
+    },
+    "127": {
+      "page": 127,
+      "ocrLength": 1814,
+      "curated": true,
+      "issues": [
+        {
+          "type": "years-missing",
+          "severity": "medium",
+          "examples": [
+            "1995（平成7）年",
+            "1978（昭和53）年"
+          ],
+          "count": 2,
+          "note": "OCRに登場するが factsに含まれない年代"
+        }
+      ]
+    },
+    "128": {
+      "page": 128,
+      "ocrLength": 1415,
+      "curated": true,
+      "issues": [
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "新潟県の酒造好適米は五百万石7,952t、淡麗1,069t、山田錦624t、たかね錦316tである",
+          "rawText": "五百万石 7,952t、淡麗 1,069t、山田錦 624t、たかね錦 316t",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        }
+      ]
+    },
+    "130": {
+      "page": 130,
+      "ocrLength": 1352,
+      "curated": true,
+      "issues": [
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "富山県の酒造好適米は五百万石2,174t、山田錦494t、雄山錦386t、富の香23tである",
+          "rawText": "五百万石 2,174t、山田錦 494t、雄山錦 386t、富の香 23t",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        }
+      ]
+    },
+    "132": {
+      "page": 132,
+      "ocrLength": 1239,
+      "curated": true,
+      "issues": [
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "石川県の日本酒生産数量は3,117kl（国内生産量の約1%、全国17位）である",
+          "rawText": "石川県の日本酒生産数量は3,117kl（国内生産量の約1%、全国17位）",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        },
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "石川県の酒造好適米は五百万石592t、石川門144t、百万石乃白126t、山田錦57tである",
+          "rawText": "五百万石 592t、石川門 144t、百万石乃白 126t、山田錦 57t",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        },
+        {
+          "type": "people-missing",
+          "severity": "medium",
+          "examples": [
+            "名杜氏"
+          ],
+          "count": 1,
+          "note": "OCRに登場するが factsに含まれない人名候補"
+        }
+      ]
+    },
+    "133": {
+      "page": 133,
+      "ocrLength": 1663,
+      "curated": true,
+      "issues": [
+        {
+          "type": "years-missing",
+          "severity": "medium",
+          "examples": [
+            "2020（令和2）年"
+          ],
+          "count": 1,
+          "note": "OCRに登場するが factsに含まれない年代"
+        }
+      ]
+    },
+    "134": {
+      "page": 134,
+      "ocrLength": 1386,
+      "curated": true,
+      "issues": [
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "静岡県の日本酒生産数量は3,093kl（国内生産量の約1%、全国18位）である",
+          "rawText": "静岡県の日本酒生産数量は3,093kl（国内生産量の約1%、全国18位）",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        },
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "静岡県の酒造好適米は山田錦371t、誉富士224tである",
+          "rawText": "山田錦 371t、誉富士 224t",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        },
+        {
+          "type": "people-missing",
+          "severity": "medium",
+          "examples": [
+            "志太杜氏",
+            "有力杜氏",
+            "能登杜氏",
+            "広島杜氏"
+          ],
+          "count": 4,
+          "note": "OCRに登場するが factsに含まれない人名候補"
+        }
+      ]
+    },
+    "138": {
+      "page": 138,
+      "ocrLength": 1266,
+      "curated": true,
+      "issues": [
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "京都府の日本酒生産数量は50,866kl（国内生産量の約16%、全国2位）である",
+          "rawText": "京都府の日本酒生産数量は50,866kl（国内生産量の約16%、全国2位）",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        }
+      ]
+    },
+    "140": {
+      "page": 140,
+      "ocrLength": 1436,
+      "curated": true,
+      "issues": [
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "兵庫県の酒造好適米は山田錦16,031t、愛山890t、五百万石425t、白鶴錦412t、兵庫北錦1",
+          "rawText": "山田錦 16,031t、愛山 890t、五百万石 425t、白鶴錦 412t、兵庫北錦 182t、フ",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        }
+      ]
+    },
+    "141": {
+      "page": 141,
+      "ocrLength": 1745,
+      "curated": true,
+      "issues": [
+        {
+          "type": "years-missing",
+          "severity": "medium",
+          "examples": [
+            "2020（令和2）年"
+          ],
+          "count": 1,
+          "note": "OCRに登場するが factsに含まれない年代"
+        }
+      ]
+    },
+    "142": {
+      "page": 142,
+      "ocrLength": 1349,
+      "curated": true,
+      "issues": [
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "奈良県の日本酒生産数量は2,192kl（国内生産量の約1%未満、全国27位）である",
+          "rawText": "奈良県の日本酒生産数量は2,192kl（国内生産量の約1%未満、全国27位）",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        },
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "奈良県の酒造好適米は山田錦159t、露葉風137tである",
+          "rawText": "山田錦 159t、露葉風 137t",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        }
+      ]
+    },
+    "144": {
+      "page": 144,
+      "ocrLength": 1292,
+      "curated": true,
+      "issues": [
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "岡山県の日本酒生産数量は1,303kl（国内生産量の約1%未満、全国34位）である",
+          "rawText": "岡山県の日本酒生産数量は1,303kl（国内生産量の約1%未満、全国34位）",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        },
+        {
+          "type": "people-missing",
+          "severity": "medium",
+          "examples": [
+            "越後杜氏"
+          ],
+          "count": 1,
+          "note": "OCRに登場するが factsに含まれない人名候補"
+        }
+      ]
+    },
+    "146": {
+      "page": 146,
+      "ocrLength": 1324,
+      "curated": true,
+      "issues": [
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "広島県の酒造好適米は八反錦1号998t、山田錦872t、千本錦130t、八反87t、雄町74t、こい",
+          "rawText": "八反錦1号 998t、山田錦 872t、千本錦 130t、八反 87t、雄町 74t、こいおまち 2",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        },
+        {
+          "type": "years-missing",
+          "severity": "medium",
+          "examples": [
+            "1995（平成7）年"
+          ],
+          "count": 1,
+          "note": "OCRに登場するが factsに含まれない年代"
+        },
+        {
+          "type": "people-missing",
+          "severity": "medium",
+          "examples": [
+            "広島杜氏"
+          ],
+          "count": 1,
+          "note": "OCRに登場するが factsに含まれない人名候補"
+        }
+      ]
+    },
+    "148": {
+      "page": 148,
+      "ocrLength": 1274,
+      "curated": true,
+      "issues": [
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "山口県の日本酒生産数量は7,105kl（国内生産量の約2%、全国8位）である",
+          "rawText": "山口県の日本酒生産数量は7,105kl（国内生産量の約2%、全国8位）",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        },
+        {
+          "type": "people-missing",
+          "severity": "medium",
+          "examples": [
+            "大名大内氏"
+          ],
+          "count": 1,
+          "note": "OCRに登場するが factsに含まれない人名候補"
+        }
+      ]
+    },
+    "150": {
+      "page": 150,
+      "ocrLength": 1321,
+      "curated": true,
+      "issues": [
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "高知県の酒造好適米は吟の夢264t、土佐錦51t、山田錦30t、風鳴子11tである",
+          "rawText": "吟の夢 264t、土佐錦 51t、山田錦 30t、風鳴子 11t",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        }
+      ]
+    },
+    "152": {
+      "page": 152,
+      "ocrLength": 1313,
+      "curated": true,
+      "issues": [
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "福岡県の日本酒生産数量は2,261kl（国内生産量の約1%、全国25位）である",
+          "rawText": "福岡県の日本酒生産数量は2,261kl（国内生産量の約1%、全国25位）",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        },
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "福岡県の酒造好適米は山田錦930t、夢一献502t、吟のさと105tである",
+          "rawText": "山田錦 930t、夢一献 502t、吟のさと 105t",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        },
+        {
+          "type": "people-missing",
+          "severity": "medium",
+          "examples": [
+            "三藩杜氏"
+          ],
+          "count": 1,
+          "note": "OCRに登場するが factsに含まれない人名候補"
+        }
+      ]
+    },
+    "154": {
+      "page": 154,
+      "ocrLength": 504,
+      "curated": true,
+      "issues": [
+        {
+          "type": "years-missing",
+          "severity": "medium",
+          "examples": [
+            "2022（令和4）年"
+          ],
+          "count": 1,
+          "note": "OCRに登場するが factsに含まれない年代"
+        }
+      ]
+    },
+    "163": {
+      "page": 163,
+      "ocrLength": 848,
+      "curated": true,
+      "issues": [
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "裏ラベルの表記例として、使用米=五百万石、原材料=米・米こうじ、精米歩合=60%、アルコール分=15",
+          "rawText": "裏ラベルの例：使用米 五百万石、原材料 米・米こうじ、精米歩合 60%、アルコール分 15度以上16",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        }
+      ]
+    },
+    "168": {
+      "page": 168,
+      "ocrLength": 3,
+      "curated": false,
+      "issues": []
+    },
+    "172": {
+      "page": 172,
+      "ocrLength": 244,
+      "curated": true,
+      "issues": [
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "冷酒のうち、吟醸酒タイプの適温は8〜12℃である",
+          "rawText": "冷酒 8〜12℃：吟醸酒タイプ",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        }
+      ]
+    },
+    "177": {
+      "page": 177,
+      "ocrLength": 12,
+      "curated": false,
+      "issues": []
+    },
+    "181": {
+      "page": 181,
+      "ocrLength": 143,
+      "curated": false,
+      "issues": []
+    },
+    "201": {
+      "page": 201,
+      "ocrLength": 399,
+      "curated": true,
+      "issues": [
+        {
+          "type": "rawText-not-found-in-ocr",
+          "severity": "high",
+          "fact": "ジャンボン ペルシエ（フランス）は、純米酒を12〜14℃で味わう",
+          "rawText": "ジャンボン ペルシエ：純米酒を12〜14℃で味わう。",
+          "note": "rawTextが教本ページに見当たらない（誤った情報の疑い）"
+        }
+      ]
+    },
+    "212": {
+      "page": 212,
+      "ocrLength": 3,
+      "curated": false,
+      "issues": []
+    },
+    "227": {
+      "page": 227,
+      "ocrLength": 1058,
+      "curated": true,
+      "issues": [
+        {
+          "type": "years-missing",
+          "severity": "medium",
+          "examples": [
+            "1914（大正3）年"
+          ],
+          "count": 1,
+          "note": "OCRに登場するが factsに含まれない年代"
+        }
+      ]
+    },
+    "228": {
+      "page": 228,
+      "ocrLength": 568,
+      "curated": true,
+      "issues": [
+        {
+          "type": "years-missing",
+          "severity": "medium",
+          "examples": [
+            "2000（平成12）年",
+            "2022（令和4）年"
+          ],
+          "count": 2,
+          "note": "OCRに登場するが factsに含まれない年代"
+        }
+      ]
+    },
+    "233": {
+      "page": 233,
+      "ocrLength": 928,
+      "curated": true,
+      "issues": [
+        {
+          "type": "years-missing",
+          "severity": "medium",
+          "examples": [
+            "1900（明治33）年"
+          ],
+          "count": 1,
+          "note": "OCRに登場するが factsに含まれない年代"
+        }
+      ]
+    },
+    "237": {
+      "page": 237,
+      "ocrLength": 939,
+      "curated": true,
+      "issues": [
+        {
+          "type": "years-missing",
+          "severity": "medium",
+          "examples": [
+            "2015（平成27）年"
+          ],
+          "count": 1,
+          "note": "OCRに登場するが factsに含まれない年代"
+        }
+      ]
+    },
+    "240": {
+      "page": 240,
+      "ocrLength": 3,
+      "curated": false,
+      "issues": []
+    },
+    "250": {
+      "page": 250,
+      "ocrLength": 1228,
+      "curated": true,
+      "issues": [
+        {
+          "type": "years-missing",
+          "severity": "medium",
+          "examples": [
+            "2006年",
+            "2008年",
+            "2004年",
+            "2017年",
+            "1975年"
+          ],
+          "count": 5,
+          "note": "OCRに登場するが factsに含まれない年代"
+        }
+      ]
+    },
+    "251": {
+      "page": 251,
+      "ocrLength": 757,
+      "curated": true,
+      "issues": [
+        {
+          "type": "years-missing",
+          "severity": "medium",
+          "examples": [
+            "2025年"
+          ],
+          "count": 1,
+          "note": "OCRに登場するが factsに含まれない年代"
+        }
+      ]
+    },
+    "252": {
+      "page": 252,
+      "ocrLength": 3,
+      "curated": false,
+      "issues": []
+    }
+  },
+  "summary": {
+    "unreadContentPages": 0,
+    "factsWithRawTextNotInOcr": 71,
+    "pagesWithMissingYears": 31,
+    "pagesWithMissingPeople": 12
+  }
+}

@@ -1,0 +1,1622 @@
+[
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "日本酒の表示",
+    "subject": "清酒の表示義務事項",
+    "attribute": "項目",
+    "value": "原材料名・保存または飲用上の注意事項・原産国名（輸入品）・製造者氏名・製造場所在地・内容量・清酒または日本酒・アルコール分",
+    "page": 38,
+    "tags": ["表示", "義務"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "日本酒の表示",
+    "subject": "原料米の品種名表示",
+    "attribute": "条件",
+    "value": "使用割合50%超の場合、使用割合と併記",
+    "page": 38,
+    "tags": ["表示", "任意"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "日本酒の表示",
+    "subject": "貯蔵年数の表示",
+    "attribute": "条件",
+    "value": "1年以上貯蔵したもの",
+    "page": 38,
+    "tags": ["表示", "任意"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "日本酒の表示",
+    "subject": "原酒",
+    "attribute": "定義",
+    "value": "製成後、加水調整しないもの（アルコール分1%未満の調整は可）",
+    "page": 38,
+    "tags": ["表示", "任意"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "日本酒の表示",
+    "subject": "生酒",
+    "attribute": "定義",
+    "value": "製成後、一切加熱処理しないもの",
+    "page": 38,
+    "tags": ["表示", "任意"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "日本酒の表示",
+    "subject": "生貯蔵酒",
+    "attribute": "定義",
+    "value": "製成後加熱処理せず貯蔵し、出荷時に加熱処理したもの",
+    "page": 38,
+    "tags": ["表示", "任意"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "日本酒の表示",
+    "subject": "生一本",
+    "attribute": "定義",
+    "value": "一つの製造場だけで醸造した純米酒",
+    "page": 38,
+    "tags": ["表示", "任意"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "日本酒の表示",
+    "subject": "樽酒",
+    "attribute": "定義",
+    "value": "木製の樽で貯蔵し、木香がついたもの",
+    "page": 38,
+    "tags": ["表示", "任意"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "日本酒の表示",
+    "subject": "清酒の表示禁止事項",
+    "attribute": "禁止例",
+    "value": "「最高」「第一」「代表」など最上級を意味する用語",
+    "page": 38,
+    "tags": ["表示", "禁止"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "日本酒の歴史",
+    "subject": "造酒司",
+    "attribute": "設置時期",
+    "value": "奈良時代後半",
+    "page": 40,
+    "tags": ["歴史"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "日本酒の歴史",
+    "subject": "火入れ技術の確立時代",
+    "attribute": "時代",
+    "value": "室町時代",
+    "page": 40,
+    "tags": ["歴史", "火入れ"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "日本酒の歴史",
+    "subject": "全国清酒品評会",
+    "attribute": "開始年",
+    "value": "1907年",
+    "page": 40,
+    "tags": ["歴史", "品評会"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "日本酒の歴史",
+    "subject": "柱焼酎",
+    "attribute": "現代の対応物",
+    "value": "醸造アルコール（の起源とされる）",
+    "page": 40,
+    "tags": ["歴史", "醸造アルコール"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "日本酒の歴史",
+    "subject": "日本のこうじ菌を使った酒造り技術",
+    "attribute": "国の無形文化財登録年",
+    "value": "2021年",
+    "page": 42,
+    "tags": ["歴史", "文化"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "日本酒の歴史",
+    "subject": "1980年代",
+    "attribute": "日本酒のブーム",
+    "value": "吟醸酒ブーム",
+    "page": 41,
+    "tags": ["歴史"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "日本酒の歴史",
+    "subject": "1970年代中頃",
+    "attribute": "日本酒のブーム",
+    "value": "地酒ブーム（特に新潟の淡麗辛口が人気）",
+    "page": 41,
+    "tags": ["歴史"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "日本酒の歴史",
+    "subject": "1996年頃",
+    "attribute": "日本酒の動向",
+    "value": "「冬の時代」突入（焼酎ブームの影響で消費量減少）",
+    "page": 41,
+    "tags": ["歴史"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "精米による米の成分変化",
+    "subject": "玄米",
+    "attribute": "でんぷん含有率",
+    "value": "70-75%",
+    "page": 46,
+    "tags": ["精米", "成分"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "精米による米の成分変化",
+    "subject": "玄米",
+    "attribute": "タンパク質含有率",
+    "value": "7-8%",
+    "page": 46,
+    "tags": ["精米", "成分"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "精米による米の成分変化",
+    "subject": "玄米",
+    "attribute": "脂肪含有率",
+    "value": "2-3%",
+    "page": 46,
+    "tags": ["精米", "成分"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "精米による米の成分変化",
+    "subject": "玄米",
+    "attribute": "灰分含有率",
+    "value": "1.5-2%",
+    "page": 46,
+    "tags": ["精米", "成分"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "精米による米の成分変化",
+    "subject": "50%精米の白米",
+    "attribute": "でんぷん含有率",
+    "value": "84-89%",
+    "page": 46,
+    "tags": ["精米", "成分"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "精米による米の成分変化",
+    "subject": "50%精米の白米",
+    "attribute": "タンパク質含有率",
+    "value": "2-4%",
+    "page": 46,
+    "tags": ["精米", "成分"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "精米による米の成分変化",
+    "subject": "精米歩合と成分の関係",
+    "attribute": "減少する成分",
+    "value": "タンパク質・脂肪・灰分（外層部に多く含まれるため）",
+    "page": 46,
+    "tags": ["精米", "成分"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "精米方法",
+    "subject": "球形精米（普通精米）",
+    "attribute": "削り方の特徴",
+    "value": "米粒を丸く削る（長さ方向の研削が優先）",
+    "page": 47,
+    "tags": ["精米"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "精米方法",
+    "subject": "原形精米",
+    "attribute": "削り方の特徴",
+    "value": "米の元の形を保ち、長さ・幅・厚みを均等な割合で削る",
+    "page": 47,
+    "tags": ["精米"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "精米方法",
+    "subject": "扁平精米（等厚精米）",
+    "attribute": "削り方の特徴",
+    "value": "米の表面からどの部分も等しい厚さで削る（不要成分を効率的に除去）",
+    "page": 47,
+    "tags": ["精米"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "精米方法",
+    "subject": "扁平精米（等厚精米）",
+    "attribute": "デメリット",
+    "value": "精米時間がかかり砕米が多くなる",
+    "page": 47,
+    "tags": ["精米"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "精米歩合の誤差",
+    "subject": "見掛精米歩合の計算式",
+    "attribute": "式",
+    "value": "（精米後の白米重量 ÷ 精米前の玄米重量）× 100",
+    "page": 48,
+    "tags": ["精米"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "精米歩合の誤差",
+    "subject": "真精米歩合の計算式",
+    "attribute": "式",
+    "value": "（精米後の白米千粒重 ÷ 元の玄米千粒重）× 100",
+    "page": 48,
+    "tags": ["精米"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "精米歩合の誤差",
+    "subject": "無効精米歩合",
+    "attribute": "式",
+    "value": "真精米歩合 - 見掛精米歩合（小さいほど上手な精米）",
+    "page": 48,
+    "tags": ["精米"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "精米後の処理",
+    "subject": "枯らし",
+    "attribute": "目的と期間",
+    "value": "精米後の米を2週間程度保管し、摩擦熱による乾燥状態から水分を均一化",
+    "page": 48,
+    "tags": ["精米"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "精米後の処理",
+    "subject": "赤糠・中糠の用途",
+    "attribute": "再利用",
+    "value": "肥料・飼料",
+    "page": 48,
+    "tags": ["精米"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "精米後の処理",
+    "subject": "白糠・特白糠の用途",
+    "attribute": "再利用",
+    "value": "米粉として米菓などに利用",
+    "page": 48,
+    "tags": ["精米"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造米の特性",
+    "subject": "酒造米の千粒重評価",
+    "attribute": "山田錦の千粒重",
+    "value": "26g以上",
+    "page": 47,
+    "tags": ["酒造米"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造米の特性",
+    "subject": "山田錦の心白形状",
+    "attribute": "形状",
+    "value": "線状心白（高精米向き）",
+    "page": 60,
+    "tags": ["酒造米", "心白"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造米の特性",
+    "subject": "理想の蒸米",
+    "attribute": "状態",
+    "value": "外硬内軟（がいこうないなん）でさばけのよい蒸米",
+    "page": 47,
+    "tags": ["酒造米", "蒸米"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米の品位等級",
+    "subject": "特上",
+    "attribute": "整粒歩合",
+    "value": "90%以上",
+    "page": 65,
+    "tags": ["酒造米", "等級"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米の品位等級",
+    "subject": "特等",
+    "attribute": "整粒歩合",
+    "value": "80%以上",
+    "page": 65,
+    "tags": ["酒造米", "等級"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米の品位等級",
+    "subject": "一等",
+    "attribute": "整粒歩合",
+    "value": "70%以上",
+    "page": 65,
+    "tags": ["酒造米", "等級"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米の品位等級",
+    "subject": "二等",
+    "attribute": "整粒歩合",
+    "value": "60%以上",
+    "page": 65,
+    "tags": ["酒造米", "等級"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米の品位等級",
+    "subject": "三等",
+    "attribute": "整粒歩合",
+    "value": "45%以上（特定名称酒使用可能最低等級）",
+    "page": 65,
+    "tags": ["酒造米", "等級"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米の品位等級",
+    "subject": "規格外",
+    "attribute": "整粒歩合",
+    "value": "45%未満（特定名称酒使用不可）",
+    "page": 65,
+    "tags": ["酒造米", "等級"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "醸造用水の条件",
+    "subject": "醸造用水の鉄基準",
+    "attribute": "上限濃度",
+    "value": "0.02ppm以下",
+    "page": 50,
+    "tags": ["水", "基準"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "醸造用水の条件",
+    "subject": "醸造用水のマンガン基準",
+    "attribute": "上限濃度",
+    "value": "0.02ppm以下",
+    "page": 50,
+    "tags": ["水", "基準"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "醸造用水の条件",
+    "subject": "水道水の鉄基準",
+    "attribute": "上限濃度",
+    "value": "0.3ppm以下",
+    "page": 50,
+    "tags": ["水", "基準"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "醸造用水の条件",
+    "subject": "水道水のマンガン基準",
+    "attribute": "上限濃度",
+    "value": "0.05ppm以下",
+    "page": 50,
+    "tags": ["水", "基準"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "醸造用水の条件",
+    "subject": "醸造用水の有機物基準",
+    "attribute": "上限濃度",
+    "value": "5ppm以下",
+    "page": 50,
+    "tags": ["水", "基準"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "醸造用水の条件",
+    "subject": "醸造用水の亜硝酸性窒素基準",
+    "attribute": "条件",
+    "value": "不検出",
+    "page": 50,
+    "tags": ["水", "基準"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "醸造用水の条件",
+    "subject": "醸造用水のpH基準",
+    "attribute": "範囲",
+    "value": "中性または微アルカリ性",
+    "page": 50,
+    "tags": ["水", "基準"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "醸造用水の有効成分",
+    "subject": "醸造用水の有効成分",
+    "attribute": "成分名",
+    "value": "カリウム・リン・マグネシウム・カルシウム",
+    "page": 50,
+    "tags": ["水"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "醸造用水の望ましくない成分",
+    "subject": "鉄が日本酒に与える影響",
+    "attribute": "影響",
+    "value": "褐色化、香味劣化（フェリクリシン生成）",
+    "page": 50,
+    "tags": ["水"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "灘の宮水",
+    "subject": "宮水のミネラル",
+    "attribute": "豊富な成分",
+    "value": "リン・カリウム・カルシウム",
+    "page": 51,
+    "tags": ["水"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "灘の宮水",
+    "subject": "宮水のミネラル供給源",
+    "attribute": "由来",
+    "value": "六甲山系の伏流水が貝殻層を通過",
+    "page": 51,
+    "tags": ["水"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "伏見の御香水",
+    "subject": "御香水",
+    "attribute": "由来",
+    "value": "平安時代、神社の境内から香りの良い水が湧き出たことによる",
+    "page": 52,
+    "tags": ["水"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "伏見の御香水",
+    "subject": "御香水",
+    "attribute": "硬度",
+    "value": "中硬水",
+    "page": 52,
+    "tags": ["水"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "割水",
+    "subject": "割水（わりみず）",
+    "attribute": "目的",
+    "value": "貯蔵中の原酒（高アルコール度数）に加水し、飲みやすいアルコール度数（通常15%程度）に調整",
+    "page": 52,
+    "tags": ["水"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "割水",
+    "subject": "割水に使う水の傾向",
+    "attribute": "好まれる水",
+    "value": "硬水より軟水、さらに蒸留水やRO水（逆浸透膜処理水）の方が味がソフト",
+    "page": 52,
+    "tags": ["水"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "山田錦",
+    "attribute": "酒造好適米生産量",
+    "value": "28,121t（または28,168t）",
+    "page": 60,
+    "tags": ["酒造米"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "山田錦",
+    "attribute": "通称",
+    "value": "酒米の王様",
+    "page": 60,
+    "tags": ["酒造米"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "山田錦",
+    "attribute": "酒造好適米全体に占める割合",
+    "value": "約35.4%",
+    "page": 60,
+    "tags": ["酒造米"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "山田錦",
+    "attribute": "成熟期",
+    "value": "晩生",
+    "page": 60,
+    "tags": ["酒造米"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "山田錦",
+    "attribute": "酒質特徴",
+    "value": "奥行きのある豊醇な味わい、絹のようななめらかな米の味",
+    "page": 60,
+    "tags": ["酒造米"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "五百万石",
+    "attribute": "酒造好適米生産量",
+    "value": "14,929t（または14,970t）",
+    "page": 61,
+    "tags": ["酒造米"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "五百万石",
+    "attribute": "酒造好適米全体に占める割合",
+    "value": "約18.8%",
+    "page": 61,
+    "tags": ["酒造米"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "五百万石",
+    "attribute": "交配親",
+    "value": "菊水（母）×新200号（父）",
+    "page": 61,
+    "tags": ["酒造米", "交配"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "五百万石",
+    "attribute": "交配年",
+    "value": "1938年",
+    "page": 61,
+    "tags": ["酒造米", "年代"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "五百万石",
+    "attribute": "成熟期",
+    "value": "中生（早生品種ともされる）",
+    "page": 61,
+    "tags": ["酒造米"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "五百万石",
+    "attribute": "酒質特徴",
+    "value": "淡麗で爽やかな酒質、「淡麗辛口」を実現した品種",
+    "page": 61,
+    "tags": ["酒造米"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "美山錦",
+    "attribute": "酒造好適米全体に占める割合",
+    "value": "約4.7%",
+    "page": 62,
+    "tags": ["酒造米"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "美山錦",
+    "attribute": "由来",
+    "value": "「たかね錦」にγ線照射による突然変異種",
+    "page": 62,
+    "tags": ["酒造米"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "美山錦",
+    "attribute": "登場年",
+    "value": "1978年",
+    "page": 62,
+    "tags": ["酒造米", "年代"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "美山錦",
+    "attribute": "開発機関",
+    "value": "長野県農事試験場",
+    "page": 62,
+    "tags": ["酒造米"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "美山錦",
+    "attribute": "米の特徴",
+    "value": "大粒で豊満、心白発現率がよい、耐冷性がある",
+    "page": 62,
+    "tags": ["酒造米"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "雄町",
+    "attribute": "発見年",
+    "value": "1859年",
+    "page": 63,
+    "tags": ["酒造米", "年代"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "雄町",
+    "attribute": "歴史的位置",
+    "value": "現存する酒造好適米で最も歴史がある（多くの品種の祖先）",
+    "page": 63,
+    "tags": ["酒造米"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "雄町",
+    "attribute": "酒質特徴",
+    "value": "適度な旨味、まろみがあり秋上がりする",
+    "page": 63,
+    "tags": ["酒造米"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "雄町",
+    "attribute": "心白の形状",
+    "value": "球状心白（大きい）",
+    "page": 63,
+    "tags": ["酒造米", "心白"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "出羽燦々",
+    "attribute": "交配親",
+    "value": "美山錦（母）×青系酒97号/華吹雪（父）",
+    "page": 64,
+    "tags": ["酒造米", "交配"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "出羽燦々",
+    "attribute": "交配年",
+    "value": "1985年",
+    "page": 64,
+    "tags": ["酒造米", "年代"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "出羽燦々",
+    "attribute": "認定制度",
+    "value": "DEWA33（山形県の純米吟醸酒の認証制度）",
+    "page": 64,
+    "tags": ["酒造米"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "夢の香",
+    "attribute": "交配親",
+    "value": "八反錦1号（母）×山形酒49号/出羽燦々（父）",
+    "page": 64,
+    "tags": ["酒造米", "交配"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "夢の香",
+    "attribute": "登録年",
+    "value": "2000年",
+    "page": 64,
+    "tags": ["酒造米", "年代"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "夢の香",
+    "attribute": "主産地",
+    "value": "福島県",
+    "page": 64,
+    "tags": ["酒造米", "産地"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "八反錦1号",
+    "attribute": "登録年",
+    "value": "1983年",
+    "page": 64,
+    "tags": ["酒造米", "年代"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "八反錦1号",
+    "attribute": "主産地",
+    "value": "広島県",
+    "page": 64,
+    "tags": ["酒造米", "産地"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "華吹雪",
+    "attribute": "主産地",
+    "value": "青森県",
+    "page": 64,
+    "tags": ["酒造米", "産地"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "ひとごこち",
+    "attribute": "交配親",
+    "value": "信交酒437号/白妙錦（母）×信交444号（父）",
+    "page": 64,
+    "tags": ["酒造米", "交配"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "ひとごこち",
+    "attribute": "交配年",
+    "value": "1987年",
+    "page": 64,
+    "tags": ["酒造米", "年代"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "ひとごこち",
+    "attribute": "主産地",
+    "value": "長野県",
+    "page": 64,
+    "tags": ["酒造米", "産地"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "蔵の華",
+    "attribute": "主産地",
+    "value": "宮城県",
+    "page": 64,
+    "tags": ["酒造米", "産地"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "蔵の華",
+    "attribute": "交配親",
+    "value": "山田錦（母）×東北140号（父）",
+    "page": 64,
+    "tags": ["酒造米", "交配"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "出羽の里",
+    "attribute": "主産地",
+    "value": "山形県",
+    "page": 64,
+    "tags": ["酒造米", "産地"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "雄山錦",
+    "attribute": "主産地",
+    "value": "富山県",
+    "page": 64,
+    "tags": ["酒造米", "産地"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "雄山錦",
+    "attribute": "交配親",
+    "value": "ひだほまれ（母）×秋田酒33号（父）",
+    "page": 64,
+    "tags": ["酒造米", "交配"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "祝（いわい）",
+    "attribute": "主産地",
+    "value": "京都府",
+    "page": 64,
+    "tags": ["酒造米", "産地"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "祝（いわい）",
+    "attribute": "由来",
+    "value": "野条穂から純系分離（1933年）",
+    "page": 64,
+    "tags": ["酒造米"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "雪女神",
+    "attribute": "主産地",
+    "value": "山形県",
+    "page": 64,
+    "tags": ["酒造米", "産地"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "雪女神",
+    "attribute": "主用途",
+    "value": "大吟醸酒向き",
+    "page": 64,
+    "tags": ["酒造米"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "金紋錦",
+    "attribute": "主産地",
+    "value": "長野県",
+    "page": 64,
+    "tags": ["酒造米", "産地"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "吟の夢",
+    "attribute": "主産地",
+    "value": "高知県",
+    "page": 64,
+    "tags": ["酒造米", "産地"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "吟の夢",
+    "attribute": "交配親",
+    "value": "山田錦（母）×ヒノヒカリ（父）",
+    "page": 64,
+    "tags": ["酒造米", "交配"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "誉富士",
+    "attribute": "主産地",
+    "value": "静岡県",
+    "page": 64,
+    "tags": ["酒造米", "産地"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "誉富士",
+    "attribute": "由来",
+    "value": "山田錦系。静岡県で育種",
+    "page": 64,
+    "tags": ["酒造米"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "美郷錦",
+    "attribute": "主産地",
+    "value": "秋田県",
+    "page": 64,
+    "tags": ["酒造米", "産地"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "美郷錦",
+    "attribute": "交配親",
+    "value": "山田錦（母）×美山錦（父）",
+    "page": 64,
+    "tags": ["酒造米", "交配"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "酒未来",
+    "attribute": "主産地",
+    "value": "山形県",
+    "page": 64,
+    "tags": ["酒造米", "産地"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "酒未来",
+    "attribute": "開発主体",
+    "value": "民間（酒蔵）開発",
+    "page": 64,
+    "tags": ["酒造米"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "西都の雫",
+    "attribute": "主産地",
+    "value": "山口県",
+    "page": 64,
+    "tags": ["酒造米", "産地"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "西都の雫",
+    "attribute": "交配親",
+    "value": "穀良都（母）×西海222号/山田錦系（父）",
+    "page": 64,
+    "tags": ["酒造米", "交配"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "華想い",
+    "attribute": "主産地",
+    "value": "青森県",
+    "page": 64,
+    "tags": ["酒造米", "産地"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "華想い",
+    "attribute": "交配親",
+    "value": "山田錦×華吹雪",
+    "page": 64,
+    "tags": ["酒造米", "交配"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "豊盃",
+    "attribute": "主産地",
+    "value": "青森県",
+    "page": 64,
+    "tags": ["酒造米", "産地"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "夢山水",
+    "attribute": "主産地",
+    "value": "愛知県",
+    "page": 64,
+    "tags": ["酒造米", "産地"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "夢山水",
+    "attribute": "交配親",
+    "value": "山田錦（母）×愛知県内栽培容易品種",
+    "page": 64,
+    "tags": ["酒造米", "交配"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "露葉風",
+    "attribute": "主産地",
+    "value": "奈良県",
+    "page": 64,
+    "tags": ["酒造米", "産地"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "夢ささら",
+    "attribute": "主産地",
+    "value": "栃木県",
+    "page": 64,
+    "tags": ["酒造米", "産地"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "夢ささら",
+    "attribute": "出願年",
+    "value": "2018年",
+    "page": 64,
+    "tags": ["酒造米", "年代"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "千本錦",
+    "attribute": "主産地",
+    "value": "広島県",
+    "page": 64,
+    "tags": ["酒造米", "産地"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "千本錦",
+    "attribute": "由来",
+    "value": "山田錦の改良種として広島県が開発",
+    "page": 64,
+    "tags": ["酒造米"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "夢吟香",
+    "attribute": "主産地",
+    "value": "愛知県",
+    "page": 64,
+    "tags": ["酒造米", "産地"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "若水",
+    "attribute": "主産地",
+    "value": "愛知県",
+    "page": 64,
+    "tags": ["酒造米", "産地"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "若水",
+    "attribute": "由来",
+    "value": "五百万石の耐倒伏性を強化、愛知県で育成",
+    "page": 64,
+    "tags": ["酒造米"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "八反",
+    "attribute": "主産地",
+    "value": "広島県",
+    "page": 64,
+    "tags": ["酒造米", "産地"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "強力",
+    "attribute": "主産地",
+    "value": "鳥取県",
+    "page": 64,
+    "tags": ["酒造米", "産地"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "たかね錦",
+    "attribute": "主産地",
+    "value": "新潟県",
+    "page": 64,
+    "tags": ["酒造米", "産地"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "たかね錦",
+    "attribute": "交配親",
+    "value": "北陸12号×東北25号/農林17号（1939年）",
+    "page": 64,
+    "tags": ["酒造米", "交配"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "たかね錦",
+    "attribute": "歴史的位置",
+    "value": "美山錦の親品種",
+    "page": 64,
+    "tags": ["酒造米"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "神の穂",
+    "attribute": "主産地",
+    "value": "三重県",
+    "page": 64,
+    "tags": ["酒造米", "産地"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "神の穂",
+    "attribute": "交配親",
+    "value": "越南165号（母）×中部酒97号/夢山水（父）",
+    "page": 64,
+    "tags": ["酒造米", "交配"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "神の穂",
+    "attribute": "認定年",
+    "value": "2008年",
+    "page": 64,
+    "tags": ["酒造米", "年代"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "石川門",
+    "attribute": "主産地",
+    "value": "石川県",
+    "page": 64,
+    "tags": ["酒造米", "産地"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "石川門",
+    "attribute": "交配親",
+    "value": "予236（母）×新潟酒28号/一本〆（父）",
+    "page": 64,
+    "tags": ["酒造米", "交配"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "玉栄",
+    "attribute": "主産地",
+    "value": "滋賀県ほか",
+    "page": 64,
+    "tags": ["酒造米", "産地"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "吟風",
+    "attribute": "主産地",
+    "value": "北海道",
+    "page": 64,
+    "tags": ["酒造米", "産地"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "吟風",
+    "attribute": "採用年",
+    "value": "2000年",
+    "page": 64,
+    "tags": ["酒造米", "年代"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "ひだほまれ",
+    "attribute": "主産地",
+    "value": "岐阜県",
+    "page": 64,
+    "tags": ["酒造米", "産地"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "ひだほまれ",
+    "attribute": "登録年",
+    "value": "1982年",
+    "page": 64,
+    "tags": ["酒造米", "年代"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "愛山",
+    "attribute": "主産地",
+    "value": "兵庫県",
+    "page": 64,
+    "tags": ["酒造米", "産地"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "愛山",
+    "attribute": "交配親",
+    "value": "愛船117（母）×山雄67（父）",
+    "page": 64,
+    "tags": ["酒造米", "交配"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "愛山",
+    "attribute": "交配年",
+    "value": "1941年",
+    "page": 64,
+    "tags": ["酒造米", "年代"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "亀ノ尾",
+    "attribute": "発見者",
+    "value": "阿部亀治",
+    "page": 64,
+    "tags": ["酒造米", "人物"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "亀ノ尾",
+    "attribute": "発見時期",
+    "value": "明治中期（冷害の中から発見・選抜、4年かけて完成）",
+    "page": 64,
+    "tags": ["酒造米", "歴史"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "亀ノ尾",
+    "attribute": "歴史的位置",
+    "value": "米の三大品種の一つ（歴史的品種）",
+    "page": 64,
+    "tags": ["酒造米"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "秋田酒こまち",
+    "attribute": "主産地",
+    "value": "秋田県",
+    "page": 64,
+    "tags": ["酒造米", "産地"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "秋田酒こまち",
+    "attribute": "交配親",
+    "value": "秋系酒251（母）×秋系酒306（父）",
+    "page": 64,
+    "tags": ["酒造米", "交配"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "秋田酒こまち",
+    "attribute": "登録年",
+    "value": "2004年",
+    "page": 64,
+    "tags": ["酒造米", "年代"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "越淡麗",
+    "attribute": "交配年",
+    "value": "1989年",
+    "page": 64,
+    "tags": ["酒造米", "年代"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "越淡麗",
+    "attribute": "育成完了年",
+    "value": "2004年",
+    "page": 64,
+    "tags": ["酒造米", "年代"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "百万石乃白",
+    "attribute": "主産地",
+    "value": "石川県",
+    "page": 64,
+    "tags": ["酒造米", "産地"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "百万石乃白",
+    "attribute": "交配親",
+    "value": "山田錦（母）×'05酒系83（父）",
+    "page": 64,
+    "tags": ["酒造米", "交配"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "百万石乃白",
+    "attribute": "育成年",
+    "value": "2015年（2005年交配）",
+    "page": 64,
+    "tags": ["酒造米", "年代"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米一覧",
+    "subject": "百万石乃白",
+    "attribute": "酒質特徴",
+    "value": "雑味が少なくすっきり、吟醸香が強くフルーティ",
+    "page": 64,
+    "tags": ["酒造米"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "兵庫県の村米制度",
+    "subject": "村米制度の発展背景",
+    "attribute": "歴史的経緯",
+    "value": "地租改正、米穀検査法施行など",
+    "page": 60,
+    "tags": ["村米制度", "歴史"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "兵庫県の村米制度",
+    "subject": "村米制度における仲介役",
+    "attribute": "呼称",
+    "value": "仲次（山仲次、浜仲次）",
+    "page": 60,
+    "tags": ["村米制度"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米概観",
+    "subject": "酒造好適米の主要産地",
+    "attribute": "生産量上位",
+    "value": "兵庫県・新潟県・岡山県",
+    "page": 60,
+    "tags": ["酒造米", "産地"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造好適米概観",
+    "subject": "酒造好適米生産量上位3品種の合計シェア",
+    "attribute": "比率",
+    "value": "約60%（山田錦・五百万石・美山錦）",
+    "page": 60,
+    "tags": ["酒造米"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "吟醸酒の歴史",
+    "subject": "香り酵母（セルレニン耐性酵母）の代表例",
+    "attribute": "代表例",
+    "value": "アルプス酵母、きょうかい1801号酵母",
+    "page": 42,
+    "tags": ["吟醸", "酵母"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "吟醸酒の歴史",
+    "subject": "吟醸の言葉の出現時期",
+    "attribute": "時期",
+    "value": "明治維新以降",
+    "page": 42,
+    "tags": ["吟醸", "歴史"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "原料米の品質と天候",
+    "subject": "登熟期の高温が米に与える影響",
+    "attribute": "影響",
+    "value": "β化が早くなり溶け残りが多くなる（アミロペクチンの鎖長に影響）",
+    "page": 47,
+    "tags": ["酒造米", "気候"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "原料米の品質と天候",
+    "subject": "猛暑が米に与える影響",
+    "attribute": "影響",
+    "value": "高温障害により未熟粒増加",
+    "page": 47,
+    "tags": ["酒造米", "気候"],
+    "verified": true
+  },
+  {
+    "category": "第1章 日本酒とは？",
+    "title": "酒造米の使用",
+    "subject": "麹米・酒母米と掛米の使い分け",
+    "attribute": "ケース",
+    "value": "麹米や酒母米に酒造好適米、掛米に飯米（ササニシキ、アキツホなど）",
+    "page": 60,
+    "tags": ["酒造米"],
+    "verified": true
+  }
+]

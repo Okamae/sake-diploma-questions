@@ -1,0 +1,2427 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>酒ディプロマ 演習問題生成・品質管理システム</title>
+<style>
+  :root {
+    --bg: #faf6ef;
+    --panel: #ffffff;
+    --border: #e8e0d0;
+    --accent: #8b1a1a;
+    --accent2: #1f6f3d;
+    --muted: #6b6357;
+    --type-year: #c4862a;
+    --type-number: #2a8db5;
+    --type-person: #884ea0;
+    --type-place: #2c8c4e;
+    --type-name: #b5562a;
+    --type-term: #555;
+    --src-notes: #2a6f9b;
+    --src-qdbexp: #8b4321;
+    --src-core: #2c8c4e;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, "Hiragino Sans", "Yu Gothic UI", "Noto Sans JP", system-ui, sans-serif;
+    margin: 0;
+    background: var(--bg);
+    color: #2a2620;
+    line-height: 1.55;
+    font-size: 14px;
+  }
+  header {
+    background: linear-gradient(180deg, #fff7e7 0%, #faf2dc 100%);
+    border-bottom: 2px solid var(--border);
+    padding: 14px 22px;
+    position: sticky; top: 0; z-index: 10;
+  }
+  .header-top {
+    display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+  }
+  header h1 {
+    font-size: 18px;
+    margin: 0 0 4px;
+    letter-spacing: 0.04em;
+    flex: 1 1 auto;
+  }
+  .header-stats {
+    display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+    margin-left: auto;
+  }
+  .stat-mini {
+    display: inline-flex; align-items: baseline; gap: 4px;
+    background: rgba(255,255,255,0.5); padding: 3px 10px;
+    border-radius: 999px; border: 1px solid var(--border);
+    font-size: 11px;
+  }
+  .stat-mini .v { font-size: 13px; font-weight: 700; color: var(--accent); }
+  .stat-mini .l { color: var(--muted); }
+  header .subtitle {
+    font-size: 12px;
+    color: var(--muted);
+  }
+  nav.tabs {
+    display: flex; gap: 0; border-bottom: 1px solid var(--border); margin-top: 8px;
+  }
+  nav.tabs button {
+    padding: 8px 18px; border: none; border-bottom: 3px solid transparent;
+    background: transparent; cursor: pointer; font-size: 14px; color: var(--muted);
+  }
+  nav.tabs button.active {
+    border-bottom-color: var(--accent); color: var(--accent); font-weight: 700;
+  }
+  .filters {
+    display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
+    padding: 10px 22px; background: #fff; border-bottom: 1px solid var(--border);
+  }
+  .filters label { font-size: 12px; color: var(--muted); margin-right: 4px; }
+  .filters select, .filters input[type=text] {
+    padding: 6px 8px; border: 1px solid var(--border); border-radius: 6px; background: #fff; font-size: 13px;
+  }
+  .filters input[type=text] { min-width: 240px; }
+  .filters button {
+    padding: 6px 12px; border: 1px solid var(--border); border-radius: 6px; background: var(--panel); cursor: pointer; font-size: 13px;
+  }
+  .filters button.btn-csv {
+    background: #2c8c4e; color: #fff; border-color: #1f6e3a;
+  }
+  .filters button.btn-csv:hover { background: #237040; }
+  .stats {
+    padding: 12px 22px; background: #fff; border-bottom: 1px solid var(--border);
+    display: flex; gap: 24px; flex-wrap: wrap; font-size: 12px;
+  }
+  .stats .stat { display: flex; gap: 6px; align-items: baseline; }
+  .stats .stat .v { font-size: 18px; font-weight: 700; color: var(--accent); }
+  .stats .stat .l { color: var(--muted); }
+
+  main { padding: 16px 22px 60px; }
+  .pager { display: flex; gap: 6px; align-items: center; margin: 8px 0 16px; font-size: 13px; color: var(--muted); }
+  .pager button { padding: 4px 10px; border: 1px solid var(--border); border-radius: 4px; background: #fff; cursor: pointer; }
+  .pager button:disabled { opacity: 0.4; cursor: default; }
+
+  .card {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 10px;
+    margin-bottom: 14px; overflow: hidden;
+  }
+  .card .meta {
+    display: flex; gap: 10px; align-items: center; padding: 8px 14px;
+    background: #fbf6e9; border-bottom: 1px solid var(--border);
+    font-size: 12px; color: var(--muted); flex-wrap: wrap;
+  }
+  .card .meta .num { font-weight: 700; color: var(--accent); }
+  .card .meta .cat, .card .meta .title-c {
+    background: #fff; border: 1px solid var(--border); padding: 2px 8px; border-radius: 999px;
+  }
+  .card .meta .diff {
+    padding: 2px 8px; border-radius: 999px; font-weight: 600;
+  }
+  .diff-EASY { background: #e7f4e1; color: #2c6a1d; }
+  .diff-NORMAL { background: #f1ecdc; color: #6b5a17; }
+  .diff-HARD { background: #f7dcdc; color: #8b1a1a; }
+  .badge {
+    padding: 2px 10px; border-radius: 999px; color: #fff; font-weight: 700; font-size: 11px;
+  }
+  .badge-year { background: var(--type-year); }
+  .badge-number { background: var(--type-number); }
+  .badge-person { background: var(--type-person); }
+  .badge-place { background: var(--type-place); }
+  .badge-name { background: var(--type-name); }
+  .badge-term { background: var(--type-term); }
+  .badge-notes { background: var(--src-notes); }
+  .badge-qdbexp { background: var(--src-qdbexp); }
+  .badge-core { background: var(--src-core); }
+
+  .card .body { padding: 14px; }
+  .q { font-weight: 600; font-size: 14px; margin: 0 0 10px; }
+  .choices { list-style: none; padding: 0; margin: 0 0 10px; }
+  .choices li {
+    padding: 6px 10px; border: 1px solid var(--border); border-radius: 6px;
+    margin-bottom: 4px; background: #fefcf6; font-size: 13px;
+  }
+  .choices li.correct {
+    background: #eaf3e2; border-color: #b9d6a4; color: #225017; font-weight: 600;
+  }
+  .choices li .choice-body::before { content: "・ "; color: #999; }
+  .choices li.correct .choice-body::before { content: "✓ "; color: #1f6f3d; }
+  .choices li:not(.correct) .choice-body::before { content: "✗ "; color: #b85020; }
+  .choice-reason {
+    margin-top: 6px; padding: 6px 8px; font-size: 11.5px; line-height: 1.5;
+    background: #fff; border-radius: 4px; font-weight: normal; color: #6b6357;
+  }
+  .reason-correct {
+    background: #f0f7ea; border-left: 3px solid #5b9b3c; color: #2c5316;
+  }
+  .reason-wrong {
+    background: #fdf3ec; border-left: 3px solid #c46a23; color: #6b4015;
+  }
+  .dm-badge {
+    display: inline-block; padding: 2px 8px; border-radius: 10px;
+    font-size: 11px; font-weight: 600; margin-left: 4px;
+  }
+  .dm-frame { background: #2c8c4e; color: #fff; }
+  .dm-mixed { background: #b8943e; color: #fff; }
+  .dm-fallback { background: #c46a23; color: #fff; }
+
+  /* 酒道場問題タブ：受験者目線の本試験形式 */
+  .dojo-card {
+    background: #fffdf6; border: 1px solid var(--border); border-radius: 8px;
+    padding: 18px 22px; margin: 14px 0; box-shadow: 0 1px 3px rgba(120,90,40,0.06);
+  }
+  .dojo-head {
+    display: flex; gap: 10px; align-items: center; margin-bottom: 10px;
+    font-size: 12px; color: var(--muted);
+  }
+  .dojo-num {
+    background: var(--accent); color: #fff; padding: 2px 10px;
+    border-radius: 12px; font-weight: 700; font-size: 12px;
+  }
+  .dojo-diff-EASY { background:#5b9b3c; color:#fff; padding:2px 8px; border-radius:10px; font-size:11px; }
+  .dojo-diff-NORMAL { background:#3a7dbf; color:#fff; padding:2px 8px; border-radius:10px; font-size:11px; }
+  .dojo-diff-HARD { background:#c46a23; color:#fff; padding:2px 8px; border-radius:10px; font-size:11px; }
+  .dojo-q { font-size: 15px; font-weight: 600; line-height: 1.7; margin: 8px 0 14px; }
+  .dojo-choices { list-style: none; padding: 0; margin: 0; counter-reset: dchoice; }
+  .dojo-choices li {
+    padding: 10px 14px; margin: 6px 0; border: 1px solid var(--border);
+    border-radius: 6px; background: #fff; font-size: 14px; line-height: 1.6;
+    display: flex; gap: 10px; align-items: flex-start;
+  }
+  .dojo-choices li::before {
+    counter-increment: dchoice; content: counter(dchoice, cjk-decimal);
+    flex-shrink: 0; width: 24px; height: 24px; border-radius: 50%;
+    background: #f1ecdc; color: var(--accent); font-weight: 700;
+    display: flex; align-items: center; justify-content: center; font-size: 13px;
+  }
+  .dojo-answer {
+    margin-top: 14px; border-top: 1px dashed var(--border); padding-top: 12px;
+  }
+  .dojo-answer summary {
+    cursor: pointer; font-weight: 600; color: var(--accent);
+    padding: 4px 0; user-select: none;
+  }
+  .dojo-answer summary:hover { color: var(--accent2); }
+  .dojo-answer .ans-correct {
+    background: #f0f7ea; border-left: 3px solid #5b9b3c;
+    padding: 8px 12px; margin: 8px 0; border-radius: 0 4px 4px 0;
+    font-size: 13.5px; line-height: 1.6;
+  }
+  .dojo-answer .ans-correct b { color: #2c5316; }
+  .dojo-answer .ans-expl {
+    margin-top: 8px; padding: 8px 12px; background: #fafaf3;
+    border-radius: 4px; font-size: 13px; line-height: 1.7; color: #4a4035;
+  }
+
+  /* v1↔v3 比較タブ */
+  .cmp-summary {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px; margin: 12px 0;
+  }
+  .cmp-stat {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 8px;
+    padding: 14px 16px; text-align: center;
+  }
+  .cmp-stat .v { display: block; font-size: 26px; font-weight: 700; color: var(--accent); }
+  .cmp-stat .l { display: block; font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .cmp-pair {
+    display: grid; grid-template-columns: 60px 1fr 100px 1fr; gap: 12px;
+    background: #fff; border: 1px solid var(--border); border-radius: 8px;
+    padding: 12px 14px; margin: 8px 0; align-items: stretch; font-size: 13px;
+  }
+  .cmp-num {
+    background: var(--accent); color: #fff; padding: 4px 0; border-radius: 6px;
+    text-align: center; font-weight: 700; align-self: flex-start;
+  }
+  .cmp-side {
+    background: #fafaf3; border-radius: 6px; padding: 10px 12px; line-height: 1.6;
+  }
+  .cmp-side.v1 { border-left: 3px solid #b8943e; }
+  .cmp-side.v3 { border-left: 3px solid #2c8c4e; }
+  .cmp-side .lbl {
+    font-size: 11px; color: var(--muted); font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px;
+  }
+  .cmp-side .qb { font-weight: 600; margin-bottom: 6px; }
+  .cmp-side .ca { color: #2c5316; font-size: 12px; }
+  .cmp-sim {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 4px; padding: 4px;
+  }
+  .cmp-sim .pct {
+    font-size: 22px; font-weight: 700;
+  }
+  .cmp-sim.high .pct { color: #2c8c4e; }
+  .cmp-sim.mid .pct { color: #b8943e; }
+  .cmp-sim.low .pct { color: #c46a23; }
+  .cmp-sim .label { font-size: 10px; color: var(--muted); }
+  .cmp-sim .bar {
+    width: 100%; height: 6px; background: #ebe3cd; border-radius: 3px; overflow: hidden;
+  }
+  .cmp-sim .bar-fill { height: 100%; }
+  .cmp-sim.high .bar-fill { background: #2c8c4e; }
+  .cmp-sim.mid .bar-fill { background: #b8943e; }
+  .cmp-sim.low .bar-fill { background: #c46a23; }
+  .cmp-meta { font-size: 11px; color: var(--muted); margin-top: 4px; }
+  .cmp-no-match {
+    color: #c46a23; font-style: italic; font-size: 12px;
+  }
+
+  /* 選択肢生成辞書タブ用 */
+  .dr-summary {
+    background: #f9f6ec; border-left: 4px solid var(--accent2);
+    padding: 12px 16px; border-radius: 0 6px 6px 0;
+    margin: 12px 0; font-size: 13.5px; line-height: 1.7;
+  }
+  .year-table-wrap, .entity-table-wrap {
+    max-height: 360px; overflow-y: auto; margin-top: 6px;
+    border: 1px solid var(--border); border-radius: 4px;
+  }
+  table.year-table, table.entity-table {
+    width: 100%; border-collapse: collapse; font-size: 12.5px;
+  }
+  table.year-table th, table.entity-table th {
+    background: #f1ecdc; color: var(--muted); position: sticky; top: 0;
+    padding: 6px 10px; text-align: left; border-bottom: 2px solid var(--border);
+    font-weight: 700;
+  }
+  table.year-table td, table.entity-table td {
+    padding: 5px 10px; border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  table.entity-table {
+    margin-top: 6px;
+    border: 1px solid var(--border); border-radius: 4px;
+  }
+  table.entity-table tr:hover, table.year-table tr:hover {
+    background: #fbf8ee;
+  }
+  .rule-detail code {
+    display: inline-block; padding: 1px 6px; margin: 1px 2px;
+    background: #f1ecdc; border-radius: 3px;
+    font-family: 'Menlo', 'Consolas', monospace; font-size: 11.5px;
+    color: #5a4d2e;
+  }
+  .explanation {
+    font-size: 12.5px; color: var(--muted); background: #f9f6ec;
+    border-left: 3px solid var(--border); padding: 8px 10px; border-radius: 0 6px 6px 0; margin-top: 6px;
+  }
+  .explanation summary { cursor: pointer; color: var(--accent); font-weight: 600; }
+  .empty { text-align: center; color: var(--muted); padding: 60px 20px; }
+
+  /* ファクトリスト用 */
+  .fact-row {
+    display: grid; grid-template-columns: 1fr 2fr 70px 80px 90px;
+    padding: 8px 12px; border-bottom: 1px solid var(--border); align-items: center; font-size: 13px;
+    gap: 8px;
+  }
+  .fact-row:hover { background: #fbf8ee; }
+  .fact-row .subject { font-weight: 600; }
+  .fact-row .value { color: var(--accent); }
+  .fact-row.header {
+    background: #f1ecdc; font-weight: 700; font-size: 12px; color: var(--muted);
+  }
+  .fact-row .pagelink a {
+    color: var(--accent2); text-decoration: none; font-weight: 600;
+  }
+  .fact-row .pagelink a:hover { text-decoration: underline; }
+  .fact-row .pagelink .verified {
+    display: inline-block; font-size: 10px; padding: 1px 4px; border-radius: 3px;
+    background: #2c8c4e; color: #fff; margin-left: 4px;
+  }
+
+  /* ルール表示 */
+  .rule-card {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 10px;
+    margin-bottom: 12px; overflow: hidden;
+  }
+  .rule-card .rule-meta {
+    display: flex; gap: 10px; align-items: center; padding: 10px 14px;
+    background: #fbf6e9; border-bottom: 1px solid var(--border); flex-wrap: wrap;
+  }
+
+  /* ルールタブの折りたたみ式UI */
+  .stage-block {
+    margin: 12px 0; background: var(--panel); border: 1px solid var(--border);
+    border-radius: 10px; overflow: hidden;
+  }
+  .stage-summary {
+    cursor: pointer; padding: 12px 16px; background: #f1ecdc; font-weight: 700;
+    display: flex; align-items: center; gap: 10px; user-select: none;
+    border-bottom: 1px solid var(--border);
+  }
+  .stage-block[open] .stage-summary { background: #ebe3cd; }
+  .stage-summary:hover { background: #e8e0c8; }
+  .stage-summary::-webkit-details-marker { display: none; }
+  .stage-summary::before {
+    content: '▶'; color: var(--muted); font-size: 11px; transition: transform 0.15s;
+  }
+  .stage-block[open] .stage-summary::before { transform: rotate(90deg); }
+  .stage-emoji { font-size: 16px; }
+  .stage-name { flex: 0 0 auto; }
+  .stage-count {
+    margin-left: auto; background: #fff; padding: 2px 10px; border-radius: 999px;
+    font-size: 11px; font-weight: 600; color: var(--muted); border: 1px solid var(--border);
+  }
+  .stage-pri {
+    background: #8b1a1a; color: #fff; padding: 2px 8px; border-radius: 4px;
+    font-size: 11px; font-weight: 600;
+  }
+  .stage-dep {
+    background: #d4d0c4; color: #6b6357; padding: 2px 8px; border-radius: 4px;
+    font-size: 11px; font-weight: 600;
+  }
+  .stage-content { padding: 12px 16px; }
+
+  .rule-card-collapsible {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 8px;
+    margin-bottom: 8px; overflow: hidden;
+  }
+  .rule-card-collapsible.deprecated {
+    opacity: 0.5; background: #f5f2e8;
+  }
+  .rule-card-collapsible.priority-most {
+    border-left: 4px solid #8b1a1a;
+  }
+  .rule-card-summary {
+    cursor: pointer; padding: 10px 14px; background: #fbf6e9;
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap; user-select: none;
+    font-size: 13px;
+  }
+  .rule-card-collapsible[open] .rule-card-summary {
+    border-bottom: 1px solid var(--border);
+  }
+  .rule-card-summary:hover { background: #f4ecd5; }
+  .rule-card-summary::-webkit-details-marker { display: none; }
+  .rule-card-summary::before {
+    content: '▶'; color: var(--muted); font-size: 10px; transition: transform 0.15s;
+    flex: 0 0 auto;
+  }
+  .rule-card-collapsible[open] .rule-card-summary::before { transform: rotate(90deg); }
+  .rule-text-summary {
+    flex: 1; min-width: 200px; color: var(--muted); font-size: 12px; line-height: 1.5;
+  }
+  .rule-text-summary.muted { font-style: italic; }
+  .rule-text.muted { color: #999; }
+
+  .btn-rule-toggle {
+    background: #fff; border: 1px solid var(--border); border-radius: 4px;
+    padding: 4px 10px; font-size: 12px; cursor: pointer; margin-right: 4px;
+    color: var(--muted);
+  }
+  .btn-rule-toggle:hover { background: #f0e8d0; color: var(--accent); }
+  .rule-card .rule-id {
+    font-weight: 800; color: var(--accent); padding: 3px 10px; background: #fff;
+    border-radius: 4px; border: 1px solid var(--border); font-family: ui-monospace, monospace;
+  }
+  .rule-card .rule-stage {
+    background: var(--accent2); color: #fff; padding: 3px 10px; border-radius: 999px; font-size: 12px;
+  }
+  .rule-card .rule-cat {
+    background: #fff; padding: 3px 10px; border-radius: 999px; border: 1px solid var(--border); font-size: 12px;
+  }
+  .rule-card .rule-priority {
+    margin-left: auto; padding: 3px 10px; border-radius: 4px; font-size: 12px;
+    font-weight: 700;
+  }
+  .rule-card .rule-priority.最重要 { background: #8b1a1a; color: #fff; }
+  .rule-card .rule-body { padding: 14px 18px; }
+  .rule-card .rule-text {
+    font-size: 14px; font-weight: 600; margin: 0 0 10px;
+  }
+  .rule-card .rule-detail {
+    font-size: 13px; color: var(--muted); padding: 8px 12px;
+    background: #f9f6ec; border-left: 3px solid var(--border); margin: 6px 0;
+    border-radius: 0 6px 6px 0;
+  }
+  .rule-card .rule-good {
+    border-left-color: var(--accent2); background: #eaf3e2; color: #225017;
+  }
+  .rule-card .rule-bad {
+    border-left-color: #8b1a1a; background: #f7dcdc; color: #6b1717;
+  }
+  .stage-section {
+    font-size: 16px; font-weight: 800; color: var(--accent);
+    margin: 24px 0 12px; padding-bottom: 6px; border-bottom: 2px solid var(--accent);
+  }
+  .stage-section.first { margin-top: 8px; }
+  .principle-box {
+    background: linear-gradient(180deg, #fff8dc 0%, #fff3c4 100%);
+    border: 2px solid #e8d8a8; padding: 14px 18px; border-radius: 8px;
+    margin-bottom: 20px; font-size: 14px; line-height: 1.7;
+  }
+  .principle-box strong { color: var(--accent); }
+
+  /* 教本タブ サブタブ */
+  .textbook-subtabs {
+    display: flex; gap: 4px; margin: 10px 0 16px;
+    border-bottom: 2px solid var(--border);
+  }
+  .tb-subtab {
+    background: #f5efdf; border: 1px solid var(--border); border-bottom: none;
+    border-radius: 8px 8px 0 0; padding: 10px 18px; cursor: pointer;
+    font-size: 13.5px; font-weight: 600; color: var(--muted);
+    margin-bottom: -2px; transition: all 0.15s;
+  }
+  .tb-subtab:hover { background: #ebe3cd; color: var(--accent); }
+  .tb-subtab.active {
+    background: var(--panel); color: var(--accent);
+    border-bottom: 2px solid var(--panel); position: relative; z-index: 1;
+  }
+
+  /* 教本ページ表示 */
+  .tb-page {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 10px;
+    margin-bottom: 16px; overflow: hidden;
+  }
+  .tb-page .tb-meta {
+    display: flex; gap: 10px; align-items: center; padding: 10px 14px;
+    background: linear-gradient(180deg, #fff7e7 0%, #faf2dc 100%);
+    border-bottom: 1px solid var(--border); flex-wrap: wrap;
+  }
+  .tb-page .tb-meta .tb-page-num {
+    font-size: 18px; font-weight: 800; color: var(--accent);
+    padding: 4px 12px; background: #fff; border-radius: 6px; border: 1px solid var(--border);
+  }
+  .tb-page .tb-meta .tb-chapter {
+    font-weight: 700; font-size: 14px;
+  }
+  .tb-page .tb-meta .tb-section {
+    background: #fff; padding: 3px 10px; border-radius: 999px; border: 1px solid var(--border); font-size: 12px;
+  }
+  .tb-page .tb-meta .tb-title {
+    color: var(--accent2); font-weight: 600; font-size: 14px;
+  }
+  .tb-page .tb-meta .tb-link {
+    margin-left: auto;
+  }
+  .tb-page .tb-meta .tb-link a {
+    color: var(--accent); text-decoration: none; font-size: 13px;
+    padding: 4px 10px; border: 1px solid var(--accent); border-radius: 4px;
+  }
+  .tb-page .tb-meta .tb-link a:hover { background: var(--accent); color: #fff; }
+  .tb-page .tb-body { padding: 14px 18px; }
+  .tb-page .tb-summary {
+    color: var(--muted); font-size: 13px; margin: 0 0 12px;
+    padding: 8px 12px; background: #f9f6ec; border-left: 3px solid var(--border); border-radius: 0 6px 6px 0;
+  }
+  .tb-page .tb-facts {
+    list-style: none; padding: 0; margin: 0;
+  }
+  .tb-page .tb-facts li {
+    padding: 8px 12px; border: 1px solid var(--border); border-radius: 6px;
+    margin-bottom: 6px; background: #fefcf6; font-size: 13.5px; line-height: 1.6;
+  }
+  .tb-page .tb-facts li::before {
+    content: "● "; color: var(--accent2); font-weight: bold;
+  }
+  .tb-page.cover .tb-body {
+    text-align: center; color: var(--muted); padding: 32px; font-style: italic;
+  }
+  .tb-progress {
+    background: #fff8dc; border: 1px solid #e8d8a8; padding: 10px 14px;
+    border-radius: 8px; margin-bottom: 16px; font-size: 13px; color: #6b5a17;
+  }
+  .tb-page.unread {
+    border-left: 4px solid #c46a23;
+  }
+  .tb-badge {
+    padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600;
+  }
+  .tb-badge-cover { background: #e8e0d0; color: var(--muted); }
+  .tb-badge-curated { background: #2c8c4e; color: #fff; }
+  .tb-badge-unread { background: #c46a23; color: #fff; }
+  .tb-badge-thin { background: #d4d0c4; color: #6b6357; }
+  .tb-badge-draft { background: #b8943e; color: #fff; }
+  .tb-section-label {
+    font-size: 12px; font-weight: 700; color: var(--accent2);
+    margin: 10px 0 6px; letter-spacing: 0.04em;
+  }
+  .ocr-block {
+    margin-top: 12px; background: #f4f0e3; border: 1px solid var(--border);
+    border-radius: 6px; padding: 6px 12px;
+  }
+  .ocr-block summary {
+    cursor: pointer; font-weight: 600; color: var(--accent); font-size: 12.5px;
+  }
+  .ocr-pre {
+    margin: 8px 0 0; font-family: -apple-system, "Hiragino Sans", "Yu Gothic UI", system-ui, sans-serif;
+    font-size: 12.5px; line-height: 1.7; white-space: pre-wrap; word-break: break-word;
+    background: #fff; padding: 10px 12px; border-radius: 4px; border: 1px solid var(--border);
+    max-height: 500px; overflow-y: auto;
+  }
+  .raw-text-detail {
+    margin-top: 6px; font-size: 12px; color: var(--muted);
+  }
+  .raw-text-detail summary { cursor: pointer; color: var(--accent2); }
+  .raw-text-detail > div { padding: 6px 10px; background: #f9f6ec; border-radius: 4px; margin-top: 4px; }
+  .tb-page .tb-facts li .fact-text {
+    font-weight: 500;
+  }
+
+  /* カバレッジ表 */
+  .cov-table { width: 100%; border-collapse: collapse; background: var(--panel); }
+  .cov-table th, .cov-table td { padding: 8px 12px; border-bottom: 1px solid var(--border); text-align: left; }
+  .cov-table th { background: #f1ecdc; font-size: 13px; }
+  .cov-bar { background: #e8e0d0; height: 12px; border-radius: 6px; overflow: hidden; max-width: 200px; }
+  .cov-bar-fill { background: var(--accent2); height: 100%; }
+
+  /* v1 vs v3 ペア */
+  .pair-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+  .pair-grid .col { padding: 14px; border-right: 1px solid var(--border); }
+  .pair-grid .col:last-child { border-right: none; }
+  .col h3 {
+    font-size: 12px; margin: 0 0 8px; color: var(--muted);
+    letter-spacing: 0.04em; text-transform: uppercase;
+  }
+  .col h3 .v1 { color: var(--accent); font-weight: 700; }
+  .col h3 .v3 { color: var(--accent2); font-weight: 700; }
+
+  @media (max-width: 720px) {
+    .pair-grid { grid-template-columns: 1fr; }
+    .pair-grid .col { border-right: none; border-bottom: 1px solid var(--border); }
+    .fact-row { grid-template-columns: 1fr 1fr; }
+    .fact-row > .source { display: none; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="header-top">
+    <h1>🍶 酒ディプロマ 演習問題（v3 ｜ 教本由来・辞書駆動）</h1>
+    <div class="header-stats" id="stats"></div>
+  </div>
+  <div class="subtitle">
+    教本全253ページのOCR原文から派生した知識ポイント（facts.json）を上流ソースに、選択肢生成辞書ルール（D-1〜D-19）と
+    解説生成ルール（E-1〜E-8）に従って自動生成する演習問題集。
+    LLM推論ではなく明示的辞書ルールで生成し、Q-1〜Q-8 の品質ルール（造語禁止・常識問題除外・重複排除）でフィルタリング。
+  </div>
+  <nav class="tabs">
+    <button class="active" data-tab="rules">📋 ルール</button>
+    <button data-tab="textbook">📖 教本の内容</button>
+    <button data-tab="facts">📚 知識ポイント一覧</button>
+    <button data-tab="distractors">🎯 選択肢生成辞書</button>
+    <button data-tab="questions">📝 演習問題</button>
+    <button data-tab="quality">🔍 日本語品質</button>
+    <button data-tab="coverage">📊 カバレッジ</button>
+    <button data-tab="dojo" data-local-only="true">🥋 酒道場問題</button>
+    <button data-tab="compare" data-local-only="true">🔀 演習↔酒道場 比較</button>
+  </nav>
+</header>
+
+<div class="filters" id="filters-rules" style="display:none">
+  <span style="color:var(--muted);font-size:12px;">これらのルールは全ての処理工程で必ず守られます。ルールに反する出力を見つけたら指摘してください。</span>
+</div>
+
+<div class="filters" id="filters-textbook" style="display:none">
+  <span style="color:var(--muted);font-size:11.5px;line-height:1.6;flex:1 0 100%;background:#eff5fb;border-left:3px solid #3a7dbf;padding:6px 10px;border-radius:0 4px 4px 0;margin-bottom:6px">
+    📖 <strong>このタブの役割</strong>: 教本の<strong>ページ単位</strong>で「OCR原文」と「ページ内の抽出ファクト」を並べて確認。
+    教本JPGとの照合・OCR誤読の発見・ページ精読状況のチェックに使用。
+    <strong>試験対象外（前付・参考文献等）も含めて全ページ表示</strong>。
+  </span>
+  <label>章</label>
+  <select id="tf-cat"><option value="">すべて</option></select>
+  <label>セクション</label>
+  <select id="tf-section"><option value="">すべて</option></select>
+  <label>検索</label>
+  <input type="text" id="tf-q" placeholder="ページ・タイトル・知識文で検索">
+  <button id="tf-reset">リセット</button>
+  <button id="tf-csv" class="btn-csv" title="現在のフィルタ条件で表示中のページをCSV出力">📥 CSV出力</button>
+</div>
+
+<div class="filters" id="filters-questions" style="display:none">
+  <span style="color:var(--muted);font-size:11.5px;line-height:1.6;flex:1 0 100%;background:#eff5fb;border-left:3px solid #3a7dbf;padding:6px 10px;border-radius:0 4px 4px 0;margin-bottom:6px">
+    📝 <strong>このタブの役割</strong>: 知識ポイント（facts.json）から自動生成された4択演習問題（v3）。
+    辞書ベース変異エンジン (D-1〜D-12) と解説生成ルール (E-1〜E-8) に従って生成。
+    試験対象外コンテンツ（K-5除外）は問題化されない。
+  </span>
+  <label>章</label>
+  <select id="qf-cat"><option value="">すべて</option></select>
+  <label>タイトル</label>
+  <select id="qf-title"><option value="">すべて</option></select>
+  <label>ファクト型</label>
+  <select id="qf-type">
+    <option value="">すべて</option>
+    <option value="year">年代</option>
+    <option value="number">数値</option>
+    <option value="person">人物</option>
+    <option value="place">地名</option>
+    <option value="name">名称</option>
+    <option value="term">用語</option>
+  </select>
+  <label>抽出元</label>
+  <select id="qf-src">
+    <option value="">すべて</option>
+    <option value="notes">まとめノート</option>
+    <option value="qdb-exp">既存問題の解説</option>
+  </select>
+  <label>検索</label>
+  <input type="text" id="qf-q" placeholder="問題文・選択肢・解説で検索">
+  <button id="qf-reset">リセット</button>
+  <button id="qf-csv" class="btn-csv" title="現在のフィルタ条件で表示中の問題をCSV出力">📥 CSV出力</button>
+</div>
+
+<div class="filters" id="filters-dojo" style="display:none">
+  <span style="color:var(--muted);font-size:11.5px;line-height:1.6;flex:1 0 100%;background:#fdf6e3;border-left:3px solid var(--accent);padding:6px 10px;border-radius:0 4px 4px 0;margin-bottom:6px">
+    🥋 <strong>このタブの役割</strong>: Q-1〜Q-10 の品質ルールを通過した最終問題集を、
+    受験者目線の<strong>本試験形式</strong>で表示。正答・解説は折りたたみ式。
+  </span>
+  <label>章</label>
+  <select id="df-cat"><option value="">すべて</option></select>
+  <label>難易度</label>
+  <select id="df-diff">
+    <option value="">すべて</option>
+    <option value="EASY">EASY</option>
+    <option value="NORMAL">NORMAL</option>
+    <option value="HARD">HARD</option>
+  </select>
+  <label>検索</label>
+  <input type="text" id="df-q" placeholder="問題文・選択肢で検索">
+  <button id="df-reset">リセット</button>
+  <button id="df-csv" class="btn-csv" title="現在のフィルタ条件で表示中の問題をCSV出力">📥 CSV出力</button>
+</div>
+
+<div class="filters" id="filters-compare" style="display:none">
+  <span style="color:var(--muted);font-size:11.5px;line-height:1.6;flex:1 0 100%;background:#fdf6e3;border-left:3px solid var(--accent);padding:6px 10px;border-radius:0 4px 4px 0;margin-bottom:6px">
+    🔀 <strong>このタブの役割</strong>: 📝 演習問題 (v3 自動生成) と 🥋 酒道場問題 (v1 既存) の類似度を比較。
+    各 v1 問題に対して最も近い v3 問題を 5-gram Jaccard 類似度で検索し、章別カバー率と類似度分布を集計。
+  </span>
+  <label>章</label>
+  <select id="cf-cat"><option value="">すべて</option></select>
+  <label>類似度</label>
+  <select id="cf-sim">
+    <option value="">すべて</option>
+    <option value="high">高 (≥0.6)</option>
+    <option value="mid">中 (0.3-0.6)</option>
+    <option value="low">低 (&lt;0.3)</option>
+  </select>
+  <label>検索</label>
+  <input type="text" id="cf-q" placeholder="問題文で検索">
+  <button id="cf-reset">リセット</button>
+  <button id="cf-csv" class="btn-csv" title="現在のフィルタ条件で表示中のペアをCSV出力">📥 CSV出力</button>
+</div>
+
+<div class="filters" id="filters-facts" style="display:none">
+  <span style="color:var(--muted);font-size:11.5px;line-height:1.6;flex:1 0 100%;background:#eff5fb;border-left:3px solid #3a7dbf;padding:6px 10px;border-radius:0 4px 4px 0;margin-bottom:6px">
+    📚 <strong>このタブの役割</strong>: 教本由来のファクトを<strong>ページ横断でフラット化</strong>した一覧。
+    問題生成の上流ソース（<code>facts.json</code>）。フィルタ・検索・型分類で使用。
+    <strong>試験対象外コンテンツ（前付・参考文献等）は K-5 ルールにより除外済み</strong>。
+  </span>
+  <label>章</label>
+  <select id="ff-cat"><option value="">すべて</option></select>
+  <label>ファクト型</label>
+  <select id="ff-type">
+    <option value="">すべて</option>
+    <option value="year">年代</option>
+    <option value="number">数値</option>
+    <option value="person">人物</option>
+    <option value="place">地名</option>
+    <option value="name">名称</option>
+    <option value="term">用語</option>
+  </select>
+  <label>抽出元</label>
+  <select id="ff-src">
+    <option value="">すべて</option>
+    <option value="notes">まとめノート</option>
+    <option value="qdb-exp">既存問題の解説</option>
+  </select>
+  <label>検索</label>
+  <input type="text" id="ff-q" placeholder="主題・属性・値で検索">
+  <button id="ff-reset">リセット</button>
+  <button id="ff-csv" class="btn-csv" title="現在のフィルタ条件で表示中のファクトをCSV出力">📥 CSV出力</button>
+</div>
+
+<main>
+  <div id="tab-rules"></div>
+
+  <div id="tab-textbook" style="display:none">
+    <div id="tlist"></div>
+  </div>
+
+  <div id="tab-questions" style="display:none">
+    <div class="pager" id="qpager-top"></div>
+    <div id="qlist"></div>
+    <div class="pager" id="qpager-bot"></div>
+  </div>
+
+  <div id="tab-facts" style="display:none">
+    <div class="pager" id="fpager-top"></div>
+    <div id="flist"></div>
+    <div class="pager" id="fpager-bot"></div>
+  </div>
+
+  <div id="tab-distractors" style="display:none">
+    <div id="distractors-content"></div>
+  </div>
+
+  <div id="tab-quality" style="display:none">
+    <div id="quality-content"></div>
+  </div>
+
+  <div id="tab-coverage" style="display:none">
+    <div id="coverage-content"></div>
+  </div>
+
+  <div id="tab-dojo" style="display:none">
+    <div class="pager" id="dpager-top"></div>
+    <div id="dlist"></div>
+    <div class="pager" id="dpager-bot"></div>
+  </div>
+
+  <div id="tab-compare" style="display:none">
+    <div id="compare-content"></div>
+  </div>
+</main>
+
+<script>
+const PAGE_SIZE = 100000;  // 全件1ページ表示
+let v1 = [], v3 = [], facts = [], textbook = null, rules = null, distractorRules = null, qualityReport = null, qPage = 0, fPage = 0, dPage = 0, cPage = 0;
+let compareIndex = null; // {pairs: [{v1q, bestV3, sim}], byCat: {...}}
+let curTab = 'rules';
+
+let rawTextbook = {};
+async function load() {
+  const [r1, r3, rf, rt, rr, rrt, rd, rq] = await Promise.all([
+    fetch('data/all_questions.json').then(r => r.json()).catch(() => []),
+    fetch('data/v3/all_questions_v3.json').then(r => r.json()),
+    fetch('data/v3/facts.json').then(r => r.json()),
+    fetch('data/v3/textbook_content.json').then(r => r.json()),
+    fetch('data/v3/rules.json').then(r => r.json()),
+    fetch('data/v3/raw_textbook_text.json').then(r => r.json()).catch(() => ({})),
+    fetch('data/v3/distractor_rules.json').then(r => r.json()).catch(() => null),
+    fetch('data/v3/japanese_quality_report.json').then(r => r.json()).catch(() => null),
+  ]);
+  v1 = r1; v3 = r3; facts = rf; textbook = rt; rules = rr; rawTextbook = rrt; distractorRules = rd; qualityReport = rq;
+  initFilters();
+  renderStats();
+  apply();
+}
+
+function initFilters() {
+  const cats = [...new Set(v3.map(q => q.category))].sort();
+  const titlesByCat = {};
+  for (const q of v3) {
+    if (!titlesByCat[q.category]) titlesByCat[q.category] = new Set();
+    titlesByCat[q.category].add(q.title);
+  }
+  for (const id of ['qf-cat', 'ff-cat']) {
+    const sel = document.getElementById(id);
+    cats.forEach(c => {
+      const o = document.createElement('option'); o.value = c; o.textContent = c; sel.appendChild(o);
+    });
+  }
+  // 酒道場（v1）のカテゴリ
+  const v1Cats = [...new Set(v1.map(q => q.category).filter(Boolean))].sort();
+  const dfCat = document.getElementById('df-cat');
+  v1Cats.forEach(c => {
+    const o = document.createElement('option'); o.value = c; o.textContent = c; dfCat.appendChild(o);
+  });
+  const qfTitle = document.getElementById('qf-title');
+  for (const c of cats) {
+    for (const t of [...titlesByCat[c]].sort()) {
+      const o = document.createElement('option'); o.value = t; o.textContent = t; qfTitle.appendChild(o);
+    }
+  }
+  document.getElementById('qf-cat').addEventListener('change', () => {
+    const cat = document.getElementById('qf-cat').value;
+    const t = document.getElementById('qf-title');
+    t.innerHTML = '<option value="">すべて</option>';
+    const titles = cat
+      ? [...titlesByCat[cat] || []].sort()
+      : [...new Set(v3.map(q => q.title))].sort();
+    titles.forEach(x => {
+      const o = document.createElement('option'); o.value = x; o.textContent = x; t.appendChild(o);
+    });
+    qPage = 0; apply();
+  });
+  ['qf-title', 'qf-type', 'qf-src'].forEach(id => {
+    document.getElementById(id).addEventListener('change', () => { qPage = 0; apply(); });
+  });
+  document.getElementById('qf-q').addEventListener('input', () => { qPage = 0; apply(); });
+  document.getElementById('qf-reset').addEventListener('click', () => {
+    document.querySelectorAll('#filters-questions select').forEach(s => s.value = '');
+    document.getElementById('qf-q').value = '';
+    qPage = 0; apply();
+  });
+
+  ['ff-cat', 'ff-type', 'ff-src'].forEach(id => {
+    document.getElementById(id).addEventListener('change', () => { fPage = 0; apply(); });
+  });
+  document.getElementById('ff-q').addEventListener('input', () => { fPage = 0; apply(); });
+  document.getElementById('ff-reset').addEventListener('click', () => {
+    document.querySelectorAll('#filters-facts select').forEach(s => s.value = '');
+    document.getElementById('ff-q').value = '';
+    fPage = 0; apply();
+  });
+
+  ['df-cat', 'df-diff'].forEach(id => {
+    document.getElementById(id).addEventListener('change', () => { dPage = 0; apply(); });
+  });
+  document.getElementById('df-q').addEventListener('input', () => { dPage = 0; apply(); });
+  document.getElementById('df-reset').addEventListener('click', () => {
+    document.querySelectorAll('#filters-dojo select').forEach(s => s.value = '');
+    document.getElementById('df-q').value = '';
+    dPage = 0; apply();
+  });
+
+  // 比較タブのフィルタ：v1 のカテゴリで絞り込み
+  const cfCat = document.getElementById('cf-cat');
+  v1Cats.forEach(c => {
+    const o = document.createElement('option'); o.value = c; o.textContent = c; cfCat.appendChild(o);
+  });
+  ['cf-cat', 'cf-sim'].forEach(id => {
+    document.getElementById(id).addEventListener('change', () => { cPage = 0; apply(); });
+  });
+  document.getElementById('cf-q').addEventListener('input', () => { cPage = 0; apply(); });
+  document.getElementById('cf-reset').addEventListener('click', () => {
+    document.querySelectorAll('#filters-compare select').forEach(s => s.value = '');
+    document.getElementById('cf-q').value = '';
+    cPage = 0; apply();
+  });
+
+  // CSV出力ボタン
+  document.getElementById('qf-csv').addEventListener('click', exportQuestionsCsv);
+  document.getElementById('df-csv').addEventListener('click', exportDojoCsv);
+  document.getElementById('ff-csv').addEventListener('click', exportFactsCsv);
+  document.getElementById('cf-csv').addEventListener('click', exportCompareCsv);
+  document.getElementById('tf-csv').addEventListener('click', exportTextbookCsv);
+
+  // ローカル限定タブ（公開URLでは非表示）
+  const isLocal = ['localhost', '127.0.0.1', '0.0.0.0', ''].includes(location.hostname)
+    || location.protocol === 'file:';
+  if (!isLocal) {
+    document.querySelectorAll('nav.tabs button[data-local-only="true"]').forEach(b => {
+      b.style.display = 'none';
+    });
+  }
+
+  // タブ切替（URL ハッシュ #tabname と連動）
+  const VALID_TABS = ['rules', 'textbook', 'facts', 'distractors', 'questions', 'quality', 'coverage']
+    .concat(isLocal ? ['dojo', 'compare'] : []);
+
+  function switchTab(tabName, opts = {}) {
+    if (!VALID_TABS.includes(tabName)) tabName = 'rules';
+    curTab = tabName;
+    document.querySelectorAll('nav.tabs button').forEach(x => {
+      x.classList.toggle('active', x.dataset.tab === tabName);
+    });
+    for (const t of VALID_TABS) {
+      const el = document.getElementById('tab-' + t);
+      if (el) el.style.display = (curTab === t) ? '' : 'none';
+      const flt = document.getElementById('filters-' + t);
+      if (flt) flt.style.display = (curTab === t) ? '' : 'none';
+    }
+    if (opts.updateHash !== false) {
+      const newHash = '#' + tabName;
+      if (location.hash !== newHash) {
+        // pushState で履歴に積む（戻るボタンで前のタブに戻れる）
+        history.pushState({ tab: tabName }, '', newHash);
+      }
+    }
+    // ページタイトルにタブ名を反映
+    const tabLabels = {
+      rules: 'ルール', textbook: '教本の内容', facts: '知識ポイント一覧',
+      distractors: '選択肢生成辞書', questions: '演習問題', quality: '日本語品質',
+      coverage: 'カバレッジ', dojo: '酒道場問題', compare: '演習↔酒道場 比較',
+    };
+    document.title = `酒学道場 - ${tabLabels[tabName] || ''}`;
+    apply();
+  }
+
+  document.querySelectorAll('nav.tabs button').forEach(b => {
+    b.addEventListener('click', () => switchTab(b.dataset.tab));
+  });
+
+  // 初期タブを URL ハッシュから決定
+  const initialTab = (location.hash || '').replace(/^#/, '');
+  switchTab(VALID_TABS.includes(initialTab) ? initialTab : 'rules', { updateHash: false });
+
+  // ブラウザの戻る/進むに対応
+  window.addEventListener('hashchange', () => {
+    const tab = (location.hash || '').replace(/^#/, '');
+    if (VALID_TABS.includes(tab) && tab !== curTab) {
+      switchTab(tab, { updateHash: false });
+    }
+  });
+  window.addEventListener('popstate', (e) => {
+    const tab = (location.hash || '').replace(/^#/, '');
+    if (VALID_TABS.includes(tab) && tab !== curTab) {
+      switchTab(tab, { updateHash: false });
+    }
+  });
+
+  // 教本タブのフィルタ
+  if (textbook && textbook.pages) {
+    const chapters = [...new Set(Object.values(textbook.pages).map(p => p.chapter))].sort();
+    const tfCat = document.getElementById('tf-cat');
+    chapters.forEach(c => {
+      const o = document.createElement('option'); o.value = c; o.textContent = c; tfCat.appendChild(o);
+    });
+    const tfSection = document.getElementById('tf-section');
+    function updateSectionOptions() {
+      const cat = tfCat.value;
+      const sections = [...new Set(Object.values(textbook.pages)
+        .filter(p => !cat || p.chapter === cat)
+        .map(p => p.section))].sort();
+      tfSection.innerHTML = '<option value="">すべて</option>';
+      sections.forEach(s => {
+        const o = document.createElement('option'); o.value = s; o.textContent = s; tfSection.appendChild(o);
+      });
+    }
+    updateSectionOptions();
+    tfCat.addEventListener('change', () => { updateSectionOptions(); apply(); });
+    tfSection.addEventListener('change', apply);
+    document.getElementById('tf-q').addEventListener('input', apply);
+    document.getElementById('tf-reset').addEventListener('click', () => {
+      tfCat.value = ''; tfSection.value = '';
+      document.getElementById('tf-q').value = '';
+      updateSectionOptions(); apply();
+    });
+  }
+}
+
+function apply() {
+  if (curTab === 'rules') renderRules();
+  else if (curTab === 'textbook') renderTextbook();
+  else if (curTab === 'questions') renderQuestions();
+  else if (curTab === 'facts') renderFacts();
+  else if (curTab === 'distractors') renderDistractorRules();
+  else if (curTab === 'quality') renderQualityReport();
+  else if (curTab === 'coverage') renderCoverage();
+  else if (curTab === 'dojo') renderDojo();
+  else if (curTab === 'compare') renderCompare();
+}
+
+function renderQualityReport() {
+  const tab = document.getElementById('quality-content');
+  if (!qualityReport) {
+    tab.innerHTML = '<div class="empty">日本語品質レポートを読み込めませんでした。<br>node scripts/check_japanese_quality.js を実行してください。</div>';
+    return;
+  }
+  const r = qualityReport;
+  const total = r.totalFacts;
+  const violCount = r.violations.length;
+  const summary = r.summary || {};
+  const critical = (summary['L-1_鉤括弧不整合']||0) + (summary['L-2_subject長さ違反']||0) + (summary['L-3_未完文']||0) + (summary['L-4_汎用語subject']||0) + (summary['L-5_全角半角混在']||0);
+  const warning = summary['L-2_subject長さ警告'] || 0;
+
+  // 重大違反 vs 警告 の判定（subject廃止後の新スキーマ）
+  //   - severity === 'warning' は警告（rawText の鉤括弧不整合等、教本由来）
+  //   - target === 'rawText' は教本由来なので警告扱い
+  //   - target === 'value' で L-1/L-3/L-5 は重大
+  function isCriticalIssue(issue) {
+    if (issue.severity === 'warning') return false;
+    if (issue.target === 'rawText') return false;
+    return ['L-1', 'L-3', 'L-5'].includes(issue.rule);
+  }
+  function isCritical(v) {
+    return v.issues.some(isCriticalIssue);
+  }
+  const criticalViolations = r.violations.filter(isCritical);
+  const warningViolations = r.violations.filter(v => !isCritical(v));
+
+  // サマリーから重大違反/警告の集計を再計算（新キー: _value/_rawText）
+  let critical2 = 0, warning2 = 0;
+  for (const [k, v] of Object.entries(summary)) {
+    if (v === 0) continue;
+    if (k.endsWith('_rawText')) warning2 += v;
+    else if (k.endsWith('_value')) critical2 += v;
+  }
+
+  const ruleColors = {
+    'L-1': '#c46a23', 'L-2': '#b8943e', 'L-3': '#c46a23',
+    'L-4': '#c46a23', 'L-5': '#c46a23',
+  };
+
+  let html = `
+    <div class="principle-box">
+      <strong>🔍 日本語品質チェック（L-1〜L-6）</strong><br>
+      <span style="font-size:12px;color:var(--muted)">最終チェック: ${escapeHtml(r.generatedAt || '')}</span>
+    </div>
+    <div class="dr-summary" style="background:#eff5fb;border-left-color:#3a7dbf">
+      <strong>📌 このタブが見ているもの</strong><br>
+      <span style="font-size:12px;line-height:1.7">
+        対象は <code>data/v3/facts.json</code>（教本から派生した知識ポイント）の
+        <strong>value（教本由来の値）</strong>と<strong>rawText（教本本文の引用）</strong>。subject フィールドは2026-05-05に廃止。<br>
+        <strong>重大違反</strong>: value 側の鉤括弧不整合・未完文・全角半角混在 → 派生コードまたは教本データに修正が必要。<br>
+        <strong>警告</strong>: rawText 側の鉤括弧不整合等 → <strong>教本本文は書き換えない方針</strong>のため警告止まり。OCR補正辞書 ocr_corrections.js で対応。
+      </span>
+    </div>
+    <div class="dr-summary">
+      <strong>📊 ステータス：</strong>
+      総ファクト <strong>${total}</strong>／
+      重大違反 <strong style="color:${critical2 === 0 ? '#2c8c4e' : '#c46a23'}">${critical2}</strong>件／
+      警告 <strong style="color:#b8943e">${warning2}</strong>件
+      ${critical2 === 0 ? '<span style="margin-left:10px;color:#2c8c4e;font-weight:700">✓ 重大違反ゼロ</span>' : '<span style="margin-left:10px;color:#c46a23;font-weight:700">⚠ 修正が必要</span>'}
+      <br>
+      <strong>内訳：</strong>
+      ${Object.entries(summary).map(([k, v]) => {
+        const isRaw = k.endsWith('_rawText');
+        const bg = v === 0 ? '#eaf3e2' : (isRaw ? '#fdf6e3' : '#fdf3ec');
+        const fg = v === 0 ? '#225017' : (isRaw ? '#7a5a15' : '#6b4015');
+        return `<span style="display:inline-block;margin:3px 6px 3px 0;padding:2px 8px;border-radius:10px;font-size:11px;background:${bg};color:${fg}">${escapeHtml(k)}: ${v}</span>`;
+      }).join('')}
+    </div>
+    <div style="margin:8px 0;font-size:13px;color:var(--muted)">
+      ルール詳細は <a href="#rules">📋 ルールタブ</a> の言語品質セクション（L-1〜L-7）を参照
+    </div>
+  `;
+
+  function renderViolation(v) {
+    const rules = [...new Set(v.issues.map(i => i.rule))];
+    const ruleBadges = rules.map(rid => `<span style="background:${ruleColors[rid]||'#999'};color:#fff;padding:1px 6px;border-radius:8px;font-size:10px;font-weight:600;margin-right:3px">${rid}</span>`).join('');
+    return `<div class="rule-card">
+      <div class="rule-meta">
+        <span class="rule-id">${escapeHtml(v.id)}</span>
+        <span class="rule-cat">教本p${v.page}</span>
+        ${ruleBadges}
+      </div>
+      <div class="rule-body">
+        ${v.title || v.category ? `<div class="rule-detail"><strong>セクション：</strong>${escapeHtml(v.title || v.category)}</div>` : ''}
+        <div class="rule-detail"><strong>value（教本由来）：</strong>${escapeHtml(v.value)}…</div>
+        <div class="rule-detail rule-bad">
+          <strong>指摘：</strong>
+          <ul style="margin:4px 0 0;padding-left:20px">
+            ${v.issues.map(i => {
+              const detail = Array.isArray(i.detail) ? i.detail.join(' / ') : escapeHtml(i.detail);
+              const sev = (i.severity === 'warning' || i.target === 'rawText') ? ' <span style="color:#b8943e;font-weight:600">[警告・教本由来]</span>' : '';
+              return `<li><strong>${i.rule}</strong> (${i.target}): ${detail}${sev}</li>`;
+            }).join('')}
+          </ul>
+        </div>
+      </div>
+    </div>`;
+  }
+
+  // 重大違反セクション
+  if (criticalViolations.length === 0) {
+    html += `<div class="stage-section first">重大違反</div>`;
+    html += `<div class="empty" style="color:#2c8c4e;padding:20px">✓ 重大違反ゼロ — value 側の L-1（鉤括弧）／L-3（未完文）／L-5（全角半角）すべてクリア</div>`;
+  } else {
+    html += `<div class="stage-section first">重大違反（${criticalViolations.length}件・要修正）</div>`;
+    html += criticalViolations.map(renderViolation).join('');
+  }
+
+  // 警告セクション（rawText 由来・教本本文は書き換えないため折りたたみ）
+  if (warningViolations.length > 0) {
+    html += `<div class="stage-section">警告（${warningViolations.length}件・教本由来のため書き換え不要）</div>`;
+    html += `<details style="margin:0 0 12px"><summary style="cursor:pointer;padding:10px 14px;background:#fdf6e3;border-radius:6px;font-weight:600;color:#7a5a15;border-left:4px solid #b8943e">
+      rawText（教本本文の引用）の鉤括弧不整合（${warningViolations.length}件）— 教本本文を書き換える方針ではないため警告止まり。OCR補正辞書 ocr_corrections.js で対応。クリックして展開
+    </summary><div style="margin-top:8px">`;
+    html += warningViolations.slice(0, 200).map(renderViolation).join('');
+    if (warningViolations.length > 200) {
+      html += `<div style="text-align:center;color:var(--muted);padding:8px">…ほか ${warningViolations.length - 200} 件</div>`;
+    }
+    html += `</div></details>`;
+  }
+
+  tab.innerHTML = html;
+}
+
+function renderRules() {
+  const tab = document.getElementById('tab-rules');
+  if (!rules) {
+    tab.innerHTML = '<div class="empty">ルールデータを読み込めませんでした。</div>';
+    return;
+  }
+  const stages = {};
+  for (const r of rules.rules) {
+    if (!stages[r.stage]) stages[r.stage] = [];
+    stages[r.stage].push(r);
+  }
+  const stageOrder = ['教本精読', '知識ポイント生成', '言語品質', '演習問題生成', '選択肢生成', '解説生成', 'カバレッジ判定', 'UI'];
+  const totalRules = rules.rules.length;
+
+  // 各ステージの主要情報を集計
+  const stageEmojis = {
+    '教本精読': '📖', '知識ポイント生成': '📚', '言語品質': '🔤',
+    '演習問題生成': '📝', '選択肢生成': '🎯', '解説生成': '💡',
+    'カバレッジ判定': '📊', 'UI': '🖥️',
+  };
+
+  let html = `
+    <div class="principle-box">
+      <strong>📐 設計原則：</strong>${escapeHtml(rules._principle || '')}<br>
+      <span style="font-size:12px;color:var(--muted)">全 ${totalRules} ルール／${stageOrder.filter(s => stages[s]?.length).length} ステージ。各ステージをクリックで展開。</span>
+    </div>
+    <div style="margin:8px 0;font-size:12px;color:var(--muted)">
+      <button class="btn-rule-toggle" data-action="expand-all">全て展開</button>
+      <button class="btn-rule-toggle" data-action="collapse-all">全て折りたたむ</button>
+      <button class="btn-rule-toggle" data-action="expand-priority">最重要のみ展開</button>
+    </div>
+  `;
+
+  // ステージごとに折りたたみブロック
+  for (const stage of stageOrder) {
+    const stageRules = stages[stage];
+    if (!stageRules || !stageRules.length) continue;
+    const priorityCount = stageRules.filter(r => r.priority === '最重要').length;
+    const deprecatedCount = stageRules.filter(r => r.deprecated).length;
+    const emoji = stageEmojis[stage] || '🔹';
+    html += `
+      <details class="stage-block" open data-stage="${escapeHtml(stage)}">
+        <summary class="stage-summary">
+          <span class="stage-emoji">${emoji}</span>
+          <span class="stage-name">${escapeHtml(stage)}</span>
+          <span class="stage-count">${stageRules.length} ルール</span>
+          ${priorityCount > 0 ? `<span class="stage-pri">最重要 ${priorityCount}</span>` : ''}
+          ${deprecatedCount > 0 ? `<span class="stage-dep">廃止 ${deprecatedCount}</span>` : ''}
+        </summary>
+        <div class="stage-content">
+          ${stageRules.map(r => renderRuleCard(r)).join('')}
+        </div>
+      </details>
+    `;
+  }
+
+  // チェックリスト
+  if (rules.checklists) {
+    html += `
+      <details class="stage-block" data-stage="checklists">
+        <summary class="stage-summary">
+          <span class="stage-emoji">✅</span>
+          <span class="stage-name">チェックリスト</span>
+          <span class="stage-count">${Object.keys(rules.checklists).length} 項目</span>
+        </summary>
+        <div class="stage-content">
+    `;
+    for (const [name, items] of Object.entries(rules.checklists)) {
+      html += `
+        <details class="rule-card-collapsible">
+          <summary class="rule-card-summary">
+            <span class="rule-id">CHECK</span>
+            <span class="rule-cat">${escapeHtml(name)}</span>
+            <span class="rule-text-summary">${items.length} 項目</span>
+          </summary>
+          <div class="rule-body">
+            <ul style="margin:0;padding-left:20px;font-size:13px;line-height:1.7">
+              ${items.map(i => `<li>${escapeHtml(i)}</li>`).join('')}
+            </ul>
+          </div>
+        </details>
+      `;
+    }
+    html += `</div></details>`;
+  }
+  tab.innerHTML = html;
+
+  // ボタンのイベント
+  tab.querySelectorAll('.btn-rule-toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const action = btn.dataset.action;
+      if (action === 'expand-all') {
+        tab.querySelectorAll('details').forEach(d => d.open = true);
+      } else if (action === 'collapse-all') {
+        tab.querySelectorAll('details').forEach(d => d.open = false);
+      } else if (action === 'expand-priority') {
+        // ステージブロックは展開、優先度の高いカードのみ展開
+        tab.querySelectorAll('.stage-block').forEach(d => d.open = true);
+        tab.querySelectorAll('.rule-card-collapsible').forEach(d => {
+          d.open = d.classList.contains('priority-most');
+        });
+      }
+    });
+  });
+}
+
+function renderRuleCard(r) {
+  // 廃止ルールはミュート表示
+  if (r.deprecated) {
+    return `<details class="rule-card-collapsible deprecated">
+      <summary class="rule-card-summary">
+        <span class="rule-id">${escapeHtml(r.id)}</span>
+        <span class="rule-cat">${escapeHtml(r.category)}</span>
+        <span class="rule-text-summary muted">${escapeHtml(r.deprecationReason || '廃止')}</span>
+      </summary>
+      <div class="rule-body">
+        <p class="rule-text muted">${escapeHtml(r.rule)}</p>
+        ${r.deprecationReason ? `<div class="rule-detail"><strong>廃止理由：</strong>${escapeHtml(r.deprecationReason)}</div>` : ''}
+      </div>
+    </details>`;
+  }
+
+  const priorityClass = r.priority === '最重要' ? 'priority-most' : '';
+  const priorityBadge = r.priority ? `<span class="rule-priority ${escapeHtml(r.priority)}">${escapeHtml(r.priority)}</span>` : '';
+
+  // 折りたたみ済みカードの表示（サマリー部分）
+  let body = '';
+  body += `<p class="rule-text">${escapeHtml(r.rule)}</p>`;
+  if (r.reason) body += `<div class="rule-detail"><strong>理由：</strong>${escapeHtml(r.reason)}</div>`;
+  if (r.antiExample) body += `<div class="rule-detail rule-bad"><strong>❌ NG例：</strong>${escapeHtml(r.antiExample)}</div>`;
+  if (r.goodExample) body += `<div class="rule-detail rule-good"><strong>✅ OK例：</strong>${escapeHtml(r.goodExample)}</div>`;
+  if (r.checks) {
+    body += `<div class="rule-detail"><strong>具体ルール：</strong><ul style="margin:4px 0 0;padding-left:20px">${r.checks.map(c => `<li>${escapeHtml(c)}</li>`).join('')}</ul></div>`;
+  }
+  if (r.test) body += `<div class="rule-detail"><strong>テスト：</strong>${escapeHtml(r.test)}</div>`;
+  if (r.examples) {
+    body += `<div class="rule-detail"><strong>例：</strong><ul style="margin:4px 0 0;padding-left:20px">${r.examples.map(c => `<li>${escapeHtml(c)}</li>`).join('')}</ul></div>`;
+  }
+  if (r.antiSubjects) {
+    body += `<div class="rule-detail rule-bad"><strong>❌ subjectに使わない語：</strong>${r.antiSubjects.map(s => `<code>${escapeHtml(s)}</code>`).join(' ')}</div>`;
+  }
+  if (r.antiAttributes) {
+    body += `<div class="rule-detail rule-bad"><strong>❌ attributeに使わない語：</strong>${r.antiAttributes.map(s => `<code>${escapeHtml(s)}</code>`).join(' ')}</div>`;
+  }
+  if (r.antiValues) {
+    body += `<div class="rule-detail rule-bad"><strong>❌ valueに使わない：</strong>${r.antiValues.map(s => `<code>${escapeHtml(s)}</code>`).join(' ')}</div>`;
+  }
+  if (r.fields) {
+    body += `<div class="rule-detail"><strong>フィールド：</strong><ul style="margin:4px 0 0;padding-left:20px">${Object.entries(r.fields).map(([k,v]) => `<li><code>${escapeHtml(k)}</code>: ${typeof v === 'string' ? escapeHtml(v) : escapeHtml(JSON.stringify(v))}</li>`).join('')}</ul></div>`;
+  }
+  if (r.metrics) {
+    body += `<div class="rule-detail"><strong>測定項目：</strong><ul style="margin:4px 0 0;padding-left:20px">${r.metrics.map(c => `<li>${escapeHtml(c)}</li>`).join('')}</ul></div>`;
+  }
+  if (r.command) {
+    body += `<div class="rule-detail"><strong>コマンド：</strong><code>${escapeHtml(r.command)}</code></div>`;
+  }
+  if (r.achievement) {
+    body += `<div class="rule-detail rule-good"><strong>達成状況：</strong>${escapeHtml(r.achievement)}</div>`;
+  }
+
+  // ルール本文の最初40字をサマリーに表示
+  const ruleSummary = (r.rule || '').slice(0, 80) + (r.rule && r.rule.length > 80 ? '…' : '');
+
+  return `<details class="rule-card-collapsible ${priorityClass}">
+    <summary class="rule-card-summary">
+      <span class="rule-id">${escapeHtml(r.id)}</span>
+      <span class="rule-cat">${escapeHtml(r.category)}</span>
+      ${priorityBadge}
+      <span class="rule-text-summary">${escapeHtml(ruleSummary)}</span>
+    </summary>
+    <div class="rule-body">${body}</div>
+  </details>`;
+}
+
+// 教本タブ内のサブタブモード（'facts' = 抽出された知識ポイント, 'ocr' = 原文, 'both' = 両方）
+let textbookViewMode = 'facts';
+
+function renderTextbook() {
+  const list = document.getElementById('tlist');
+  if (!textbook || !textbook.pages) {
+    list.innerHTML = '<div class="empty">教本データを読み込めませんでした。</div>';
+    return;
+  }
+  const cat = document.getElementById('tf-cat').value;
+  const section = document.getElementById('tf-section').value;
+  const q = document.getElementById('tf-q').value.trim();
+
+  // OCR + 精読データを統合：OCR にある全ページを基準とし、精読データがあれば併記
+  const allPages = [];
+  for (const [pageStr, ocrText] of Object.entries(rawTextbook)) {
+    if (pageStr === 'cover') continue;
+    const pageNum = parseInt(pageStr, 10);
+    if (!Number.isFinite(pageNum)) continue;
+    const curated = textbook.pages[pageStr];
+    allPages.push({
+      page: pageNum,
+      ocrText,
+      ...(curated || {}),
+      curated: !!curated,
+    });
+  }
+  allPages.sort((a, b) => a.page - b.page);
+
+  const filtered = allPages.filter(p => {
+    if (cat && p.chapter !== cat) return false;
+    if (section && p.section !== section) return false;
+    if (q) {
+      const blob = [
+        p.title || '', p.summary || '', p.ocrText || '',
+        ...((p.facts || []).map(f => f.fact))
+      ].join(' ');
+      if (!blob.includes(q) && !String(p.page).includes(q)) return false;
+    }
+    return true;
+  });
+
+  // 進捗バー
+  const totalPages = 252;
+  const ocrPages = Object.keys(rawTextbook).filter(k => k !== 'cover').length;
+  const allCurated = Object.values(textbook.pages);
+  const curatedPages = allCurated.filter(p => !p.draft).length;
+  const draftPages = allCurated.filter(p => p.draft).length;
+  const unread = allPages.filter(p => !p.curated && (p.ocrText || '').length > 200).length;
+  const progressHtml = `
+    <div class="tb-progress">
+      <strong>📊 教本データの状況：</strong>
+      OCR完了 <strong>${ocrPages}/${totalPages}</strong> ページ／精読済 <strong>${curatedPages}</strong> ページ／下書き（OCR自動抽出） <strong>${draftPages}</strong> ページ／未登録 <strong>${unread}</strong> ページ。<br>
+      <span style="font-size:12px">「精読済」＝整形済ファクト／「下書き」＝OCRから自動抽出した校正前候補。緑＝精読済、橙＝下書き、灰＝図表・扉。</span>
+    </div>
+  `;
+
+  // サブタブUI
+  const subTabHtml = `
+    <div class="textbook-subtabs">
+      <button class="tb-subtab ${textbookViewMode === 'facts' ? 'active' : ''}" data-mode="facts">✏️ 抽出された知識ポイント</button>
+      <button class="tb-subtab ${textbookViewMode === 'ocr' ? 'active' : ''}" data-mode="ocr">📜 原文（OCR）</button>
+      <button class="tb-subtab ${textbookViewMode === 'both' ? 'active' : ''}" data-mode="both">🔄 両方並記</button>
+    </div>
+  `;
+
+  if (!filtered.length) {
+    list.innerHTML = progressHtml + subTabHtml + '<div class="empty">該当するページがありません。</div>';
+    return;
+  }
+
+  list.innerHTML = progressHtml + subTabHtml + filtered.map(p => renderPageCard(p, textbookViewMode)).join('');
+
+  // サブタブイベント
+  list.querySelectorAll('.tb-subtab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      textbookViewMode = btn.dataset.mode;
+      renderTextbook();
+    });
+  });
+}
+
+function renderPageCard(p, viewMode) {
+  const padded = String(p.page).padStart(4, '0');
+  const url = `textbook/sake_diploma_p${padded}.jpg`;
+  const hasFacts = (p.facts || []).length > 0;
+  const isCover = p.type === 'cover';
+  const factsHtml = (p.facts || []).map((f, idx) =>
+    `<li>
+      <div class="fact-text">${escapeHtml(f.fact)}</div>
+      ${f.rawText ? `<details class="raw-text-detail"><summary>原文（rawText）</summary><div>${escapeHtml(f.rawText)}</div></details>` : ''}
+    </li>`
+  ).join('');
+
+  // OCRテキストパネル
+  const ocr = (p.ocrText || '').trim();
+
+  // ステータスバッジ
+  let statusBadge = '';
+  const isDraftPage = p.draft === true;
+  if (isCover) statusBadge = '<span class="tb-badge tb-badge-cover">扉/図表</span>';
+  else if (p.type === '図表' || p.type === '巻末') statusBadge = `<span class="tb-badge tb-badge-cover">${escapeHtml(p.type)}</span>`;
+  else if (isDraftPage && hasFacts) statusBadge = `<span class="tb-badge tb-badge-draft">下書き (${p.facts.length}件・要校正)</span>`;
+  else if (hasFacts) statusBadge = `<span class="tb-badge tb-badge-curated">精読済 (${p.facts.length}件)</span>`;
+  else if (ocr.length > 200) statusBadge = '<span class="tb-badge tb-badge-unread">本文ありで未精読</span>';
+  else statusBadge = '<span class="tb-badge tb-badge-thin">写真/図表中心</span>';
+
+  // view mode により表示内容を切り替え
+  // 'ocr' = 原文のみ / 'facts' = 抽出された知識ポイントのみ / 'both' = 両方（デフォルト）
+  let bodyContent = '';
+  if (viewMode === 'ocr') {
+    if (ocr) {
+      bodyContent = `<pre class="ocr-pre" style="margin-top:0">${escapeHtml(ocr)}</pre>`;
+    } else {
+      bodyContent = `<div class="empty" style="padding:20px">OCR原文がありません</div>`;
+    }
+  } else if (viewMode === 'facts') {
+    if (hasFacts) {
+      bodyContent = `${p.summary ? `<div class="tb-summary">${escapeHtml(p.summary)}</div>` : ''}
+        <ul class="tb-facts" style="margin-top:8px">${factsHtml}</ul>`;
+    } else {
+      bodyContent = `<div class="empty" style="padding:20px">このページには抽出された知識ポイントがありません</div>`;
+    }
+  } else {
+    // 両方表示（旧デフォルト）
+    const ocrHtml = ocr ? `
+      <details class="ocr-block" ${!hasFacts && !isCover ? 'open' : ''}>
+        <summary>📜 教本原文（OCR ${ocr.length}文字）</summary>
+        <pre class="ocr-pre">${escapeHtml(ocr)}</pre>
+      </details>
+    ` : '';
+    bodyContent = `
+      ${p.summary ? `<div class="tb-summary">${escapeHtml(p.summary)}</div>` : ''}
+      ${hasFacts ? `<div class="tb-section-label">✏️ 抽出された知識ポイント</div><ul class="tb-facts">${factsHtml}</ul>` : ''}
+      ${ocrHtml}
+    `;
+  }
+
+  return `
+    <div class="tb-page${!hasFacts && !isCover ? ' unread' : ''}">
+      <div class="tb-meta">
+        <span class="tb-page-num">P.${p.page}</span>
+        ${p.chapter ? `<span class="tb-chapter">${escapeHtml(p.chapter)}</span>` : ''}
+        ${p.section ? `<span class="tb-section">${escapeHtml(p.section)}</span>` : ''}
+        ${p.title ? `<span class="tb-title">${escapeHtml(p.title)}</span>` : ''}
+        ${statusBadge}
+        <span class="tb-link"><a href="${url}" target="_blank">📖 教本JPG</a></span>
+      </div>
+      <div class="tb-body">
+        ${bodyContent}
+      </div>
+    </div>
+  `;
+}
+
+function renderStats() {
+  // 教本ページ数（OCR完了 / 精読済 / draft）
+  const ocrPages = rawTextbook ? Object.keys(rawTextbook).filter(k => k !== 'cover').length : 0;
+  const allCurated = textbook && textbook.pages ? Object.values(textbook.pages) : [];
+  const curatedPages = allCurated.filter(p => !p.draft).length;
+
+  // 演習問題の品質統計
+  const dictBased = v3.filter(q => q.distractorMethod !== 'fallback-category').length;
+  const dictPct = v3.length ? Math.round(dictBased / v3.length * 100) : 0;
+
+  const html = `
+    <div class="stat-mini"><span class="v">${v3.length.toLocaleString()}</span><span class="l">演習問題</span></div>
+    <div class="stat-mini"><span class="v">${facts.length.toLocaleString()}</span><span class="l">知識ファクト</span></div>
+    <div class="stat-mini"><span class="v">${curatedPages}/${ocrPages}</span><span class="l">教本精読/OCR</span></div>
+    <div class="stat-mini"><span class="v">${dictPct}%</span><span class="l">辞書ベース</span></div>
+  `;
+  const target = document.getElementById('stats');
+  if (target) target.innerHTML = html;
+}
+
+function escapeHtml(s) {
+  return String(s ?? '').replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+}
+
+// 教本ページ番号からJPGファイルのリンクを生成（4桁ゼロパディング）
+function pageLink(page, verified) {
+  if (!page || page < 1) return '-';
+  const padded = String(page).padStart(4, '0');
+  const url = `textbook/sake_diploma_p${padded}.jpg`;
+  const badge = verified ? '<span class="verified">検証済</span>' : '';
+  return `<a href="${url}" target="_blank">P.${page}</a>${badge}`;
+}
+
+// ===== CSV 出力 =====
+function csvEscape(v) {
+  if (v == null) return '';
+  const s = String(v).replace(/\r\n|\r/g, '\n');
+  return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+}
+function downloadCsv(filename, header, rows) {
+  if (!rows.length) {
+    alert('該当データが0件です。フィルタ条件を変更してください。');
+    return;
+  }
+  const lines = [header.map(csvEscape).join(',')];
+  for (const r of rows) lines.push(r.map(csvEscape).join(','));
+  // Excel互換のBOM付きUTF-8
+  const blob = new Blob(['﻿' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename;
+  document.body.appendChild(a); a.click();
+  setTimeout(() => { document.body.removeChild(a); URL.revokeObjectURL(url); }, 0);
+}
+function timestamp() {
+  const d = new Date();
+  const z = n => String(n).padStart(2, '0');
+  return `${d.getFullYear()}${z(d.getMonth() + 1)}${z(d.getDate())}_${z(d.getHours())}${z(d.getMinutes())}`;
+}
+
+function filteredV3() {
+  const cat = document.getElementById('qf-cat').value;
+  const title = document.getElementById('qf-title').value;
+  const type = document.getElementById('qf-type').value;
+  const src = document.getElementById('qf-src').value;
+  const q = document.getElementById('qf-q').value.trim();
+  return v3.filter(x => {
+    if (cat && x.category !== cat) return false;
+    if (title && x.title !== title) return false;
+    if (type && x.factType !== type) return false;
+    if (src && x.factSource !== src) return false;
+    if (q) {
+      const blob = [x.questionBody, x.explanation, x.choices.map(c => c.body).join(' ')].join(' ');
+      if (!blob.includes(q)) return false;
+    }
+    return true;
+  });
+}
+function exportQuestionsCsv() {
+  const rows = filteredV3().map((x, i) => {
+    const correctIdx = x.choices.findIndex(c => c.isCorrect);
+    const correct = x.choices[correctIdx];
+    return [
+      i + 1,
+      x.category || '',
+      x.title || '',
+      x.factType || '',
+      x.factSource || '',
+      x.questionBody || '',
+      x.choices[0]?.body || '',
+      x.choices[1]?.body || '',
+      x.choices[2]?.body || '',
+      x.choices[3]?.body || '',
+      correctIdx >= 0 ? correctIdx + 1 : '',
+      correct?.body || '',
+      x.explanation || '',
+      x.referencePage || '',
+      x.distractorMethod || '',
+      x.id || '',
+    ];
+  });
+  downloadCsv(`questions_v3_${timestamp()}.csv`,
+    ['No', 'category', 'title', 'factType', 'factSource', 'questionBody',
+     'choice1', 'choice2', 'choice3', 'choice4', 'correctIndex', 'correctAnswer',
+     'explanation', 'referencePage', 'distractorMethod', 'id'],
+    rows);
+}
+
+function filteredV1() {
+  const cat = document.getElementById('df-cat').value;
+  const diff = document.getElementById('df-diff').value;
+  const q = document.getElementById('df-q').value.trim();
+  return v1.filter(x => {
+    if (cat && x.category !== cat) return false;
+    if (diff && x.difficulty !== diff) return false;
+    if (q) {
+      const blob = [x.questionBody, (x.choices || []).map(c => c.body || c.fullBody || '').join(' ')].join(' ');
+      if (!blob.includes(q)) return false;
+    }
+    return true;
+  });
+}
+function exportDojoCsv() {
+  const rows = filteredV1().map((x, i) => {
+    const choices = x.choices || [];
+    const correctIdx = choices.findIndex(c => c.isCorrect);
+    const correct = choices[correctIdx];
+    const correctText = x.correctAnswer || (correct && (correct.body || correct.fullBody)) || '';
+    const text = (c) => c ? (c.body || c.fullBody || '') : '';
+    return [
+      i + 1,
+      x.category || '',
+      x.title || '',
+      x.difficulty || '',
+      x.questionBody || '',
+      text(choices[0]), text(choices[1]), text(choices[2]), text(choices[3]),
+      correctIdx >= 0 ? correctIdx + 1 : '',
+      correctText,
+      x.explanation || '',
+      x.referencePage || '',
+      x.id || '',
+    ];
+  });
+  downloadCsv(`dojo_v1_${timestamp()}.csv`,
+    ['No', 'category', 'title', 'difficulty', 'questionBody',
+     'choice1', 'choice2', 'choice3', 'choice4', 'correctIndex', 'correctAnswer',
+     'explanation', 'referencePage', 'id'],
+    rows);
+}
+
+function filteredFactsList() {
+  const cat = document.getElementById('ff-cat').value;
+  const type = document.getElementById('ff-type').value;
+  const src = document.getElementById('ff-src').value;
+  const q = document.getElementById('ff-q').value.trim();
+  return facts.filter(f => {
+    if (cat && f.category !== cat) return false;
+    if (type && f.fact.type !== type) return false;
+    if (src && f.source !== src) return false;
+    if (q) {
+      const blob = [f.title, f.category, f.fact.value].join(' ');
+      if (!blob.includes(q)) return false;
+    }
+    return true;
+  });
+}
+function exportFactsCsv() {
+  const rows = filteredFactsList().map((f, i) => [
+    i + 1,
+    f.category || '',
+    f.title || '',
+    f.fact?.type || '',
+    f.fact?.value || '',
+    f.source || '',
+    f.referencePage || '',
+    f.verified ? 'true' : 'false',
+  ]);
+  downloadCsv(`facts_${timestamp()}.csv`,
+    ['No', 'category', 'title', 'factType', 'factValue', 'source', 'referencePage', 'verified'],
+    rows);
+}
+
+function exportCompareCsv() {
+  const idx = buildCompareIndex();
+  const cat = document.getElementById('cf-cat').value;
+  const simBucket = document.getElementById('cf-sim').value;
+  const q = document.getElementById('cf-q').value.trim();
+  let pairs = idx.pairs;
+  if (cat) pairs = pairs.filter(p => p.v1q.category === cat);
+  if (simBucket === 'high') pairs = pairs.filter(p => p.sim >= 0.6);
+  else if (simBucket === 'mid') pairs = pairs.filter(p => p.sim >= 0.3 && p.sim < 0.6);
+  else if (simBucket === 'low') pairs = pairs.filter(p => p.sim < 0.3);
+  if (q) pairs = pairs.filter(p => {
+    const blob = (p.v1q.questionBody || '') + ' ' + (p.bestV3 ? p.bestV3.questionBody : '');
+    return blob.includes(q);
+  });
+  pairs = pairs.slice().sort((a, b) => b.sim - a.sim);
+  const rows = pairs.map((p, i) => {
+    const v1q = p.v1q;
+    const v3q = p.bestV3;
+    const v1Correct = (v1q.choices || []).find(c => c.isCorrect);
+    const v1CorrectText = v1q.correctAnswer || (v1Correct && (v1Correct.body || v1Correct.fullBody)) || '';
+    const v3Correct = v3q ? (v3q.choices || []).find(c => c.isCorrect) : null;
+    const v3CorrectText = v3q ? (v3q.correctAnswer || (v3Correct && (v3Correct.fullBody || v3Correct.body)) || '') : '';
+    const bucket = p.sim >= 0.6 ? 'high' : p.sim >= 0.3 ? 'mid' : 'low';
+    return [
+      i + 1,
+      v1q.category || '',
+      (p.sim).toFixed(4),
+      bucket,
+      v1q.questionBody || '',
+      v1CorrectText,
+      v1q.referencePage || '',
+      v3q ? (v3q.questionBody || '') : '',
+      v3CorrectText,
+      v3q ? (v3q.referencePage || '') : '',
+    ];
+  });
+  downloadCsv(`compare_v1_v3_${timestamp()}.csv`,
+    ['No', 'category', 'similarity', 'bucket',
+     'v1_questionBody', 'v1_correctAnswer', 'v1_referencePage',
+     'v3_questionBody', 'v3_correctAnswer', 'v3_referencePage'],
+    rows);
+}
+
+function exportTextbookCsv() {
+  if (!textbook || !textbook.pages) {
+    alert('教本データを読み込めていません。');
+    return;
+  }
+  const cat = document.getElementById('tf-cat').value;
+  const section = document.getElementById('tf-section').value;
+  const q = document.getElementById('tf-q').value.trim();
+  const allPages = [];
+  for (const [pageStr, ocrText] of Object.entries(rawTextbook)) {
+    if (pageStr === 'cover') continue;
+    const pageNum = parseInt(pageStr, 10);
+    if (!Number.isFinite(pageNum)) continue;
+    const curated = textbook.pages[pageStr];
+    allPages.push({ page: pageNum, ocrText, ...(curated || {}), curated: !!curated });
+  }
+  allPages.sort((a, b) => a.page - b.page);
+  const filtered = allPages.filter(p => {
+    if (cat && p.chapter !== cat) return false;
+    if (section && p.section !== section) return false;
+    if (q) {
+      const blob = [p.title || '', p.summary || '', p.ocrText || '',
+        ...((p.facts || []).map(f => f.fact))].join(' ');
+      if (!blob.includes(q) && !String(p.page).includes(q)) return false;
+    }
+    return true;
+  });
+  const rows = filtered.map(p => [
+    p.page,
+    p.chapter || '',
+    p.section || '',
+    p.title || '',
+    p.summary || '',
+    (p.facts || []).length,
+    p.curated ? 'true' : 'false',
+    p.draft ? 'true' : 'false',
+    p.ocrText || '',
+  ]);
+  downloadCsv(`textbook_pages_${timestamp()}.csv`,
+    ['page', 'chapter', 'section', 'title', 'summary', 'factCount', 'curated', 'draft', 'ocrText'],
+    rows);
+}
+
+function renderQuestions() {
+  const cat = document.getElementById('qf-cat').value;
+  const title = document.getElementById('qf-title').value;
+  const type = document.getElementById('qf-type').value;
+  const src = document.getElementById('qf-src').value;
+  const q = document.getElementById('qf-q').value.trim();
+
+  const filtered = v3.filter(x => {
+    if (cat && x.category !== cat) return false;
+    if (title && x.title !== title) return false;
+    if (type && x.factType !== type) return false;
+    if (src && x.factSource !== src) return false;
+    if (q) {
+      const blob = [x.questionBody, x.explanation, x.choices.map(c => c.body).join(' ')].join(' ');
+      if (!blob.includes(q)) return false;
+    }
+    return true;
+  });
+
+  const total = filtered.length;
+  const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+  if (qPage >= totalPages) qPage = totalPages - 1;
+  const slice = filtered.slice(qPage * PAGE_SIZE, qPage * PAGE_SIZE + PAGE_SIZE);
+  const list = document.getElementById('qlist');
+  if (!slice.length) {
+    list.innerHTML = `<div class="empty">該当する問題がありません。</div>`;
+  } else {
+    list.innerHTML = slice.map((q, i) => renderQuestion(q, qPage * PAGE_SIZE + i + 1)).join('');
+  }
+  const pager = makePager(qPage, totalPages, total, n => { qPage = n; renderQuestions(); });
+  document.getElementById('qpager-top').innerHTML = pager;
+  document.getElementById('qpager-bot').innerHTML = pager;
+}
+
+function renderQuestion(q, num) {
+  const choices = q.choices.map(c => {
+    const reasonHtml = c.reason
+      ? `<div class="choice-reason ${c.isCorrect ? 'reason-correct' : 'reason-wrong'}">${escapeHtml(c.reason)}</div>`
+      : '';
+    return `<li class="${c.isCorrect ? 'correct' : ''}">
+      <div class="choice-body">${escapeHtml(c.body)}</div>
+      ${reasonHtml}
+    </li>`;
+  }).join('');
+  // 解説本文を改行込みで表示
+  const explHtml = (q.explanation || '').split('\n').map(line => {
+    if (!line.trim()) return '<br>';
+    return '<div>' + escapeHtml(line) + '</div>';
+  }).join('');
+  return `
+    <div class="card">
+      <div class="meta">
+        <span class="num">#${num}</span>
+        <span class="cat">${escapeHtml(q.category)}</span>
+        ${q.title ? `<span class="title-c">${escapeHtml(q.title)}</span>` : ''}
+        <span style="color:var(--muted);margin-left:auto">${pageLink(q.referencePage, false)}</span>
+      </div>
+      <div class="body">
+        <p class="q">${escapeHtml(q.questionBody)}</p>
+        <ul class="choices">${choices}</ul>
+        <details class="explanation">
+          <summary>解説を表示</summary>
+          <div class="body">${explHtml}</div>
+        </details>
+      </div>
+    </div>
+  `;
+}
+
+function renderFacts() {
+  const cat = document.getElementById('ff-cat').value;
+  const type = document.getElementById('ff-type').value;
+  const src = document.getElementById('ff-src').value;
+  const q = document.getElementById('ff-q').value.trim();
+  const filtered = facts.filter(f => {
+    if (cat && f.category !== cat) return false;
+    if (type && f.fact.type !== type) return false;
+    if (src && f.source !== src) return false;
+    if (q) {
+      const blob = [f.title, f.category, f.fact.value].join(' ');
+      if (!blob.includes(q)) return false;
+    }
+    return true;
+  });
+  const total = filtered.length;
+  const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+  if (fPage >= totalPages) fPage = totalPages - 1;
+  const slice = filtered.slice(fPage * PAGE_SIZE, fPage * PAGE_SIZE + PAGE_SIZE);
+  const list = document.getElementById('flist');
+  list.innerHTML = `
+    <div class="card">
+      <div class="fact-row header">
+        <div>タイトル (title)</div>
+        <div>値 (value)</div>
+        <div>型</div>
+        <div class="source">抽出元</div>
+        <div class="pagelink">教本ページ</div>
+      </div>
+      ${slice.map(f => `
+        <div class="fact-row">
+          <div class="subject">${escapeHtml(f.title || f.category || '-')}</div>
+          <div class="value">${escapeHtml(f.fact.value)}</div>
+          <div><span class="badge badge-${f.fact.type}">${f.fact.type}</span></div>
+          <div class="source">${escapeHtml(f.source)}</div>
+          <div class="pagelink">${pageLink(f.referencePage, f.verified)}</div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+  const pager = makePager(fPage, totalPages, total, n => { fPage = n; renderFacts(); });
+  document.getElementById('fpager-top').innerHTML = pager;
+  document.getElementById('fpager-bot').innerHTML = pager;
+}
+
+function renderDistractorRules() {
+  const tab = document.getElementById('distractors-content');
+  if (!distractorRules) {
+    tab.innerHTML = '<div class="empty">選択肢生成辞書（distractor_rules.json）を読み込めませんでした。</div>';
+    return;
+  }
+  const d = distractorRules;
+  const totalEntries = countAllEntries(d);
+
+  // distractorMethod別の問題数
+  const methods = { 'frame-mutation': 0, 'mixed': 0, 'fallback-category': 0 };
+  for (const q of v3) methods[q.distractorMethod] = (methods[q.distractorMethod] || 0) + 1;
+
+  const fbPct = v3.length ? (methods['fallback-category'] / v3.length * 100).toFixed(1) : '-';
+  const dictPct = v3.length ? ((methods['frame-mutation'] + methods['mixed']) / v3.length * 100).toFixed(1) : '-';
+
+  let html = `
+    <div class="principle-box">
+      <strong>🎯 設計原則：</strong>${escapeHtml(d._principle || '')}<br>
+      <span style="font-size:12px;color:var(--muted)">最終レビュー: ${escapeHtml(d._lastReview || '')}</span>
+    </div>
+    <div class="dr-summary">
+      <strong>📊 辞書統計：</strong>
+      数値ルール <strong>${Object.keys(d.numericRules || {}).length}</strong>辞書／
+      年代イベント <strong>${(d.yearRules?.events || []).length}</strong>件／
+      固有名詞カテゴリ <strong>${Object.keys(d.entityRules || {}).length}</strong>／
+      対比語ペア <strong>${(d.antonymRules?.pairs || []).length}</strong>／
+      順序リスト <strong>${Object.keys(d.sequenceRules || {}).filter(k => !k.startsWith('_') && k !== 'distractorPolicy').length}</strong>／
+      表ルール <strong>${Object.keys(d.tableRules || {}).filter(k => !k.startsWith('_') && k !== 'distractorPolicy').length}</strong>
+      <br>
+      <strong>📝 v3問題への適用率（全${v3.length}問）：</strong>
+      <span class="dm-badge dm-frame">辞書変異 ${methods['frame-mutation']}問</span>
+      <span class="dm-badge dm-mixed">辞書+補充 ${methods['mixed']}問</span>
+      <span class="dm-badge dm-fallback">要辞書拡張 ${methods['fallback-category']}問</span>
+      &nbsp;<strong style="color:#2c8c4e">辞書ベース ${dictPct}%</strong>
+    </div>
+    <div style="margin:8px 0;font-size:12px;color:var(--muted)">
+      <button onclick="document.querySelectorAll('.rule-card details').forEach(d=>d.open=true)" style="margin-right:6px">全て展開</button>
+      <button onclick="document.querySelectorAll('.rule-card details').forEach(d=>d.open=false)">全て折りたたむ</button>
+    </div>
+  `;
+
+  // 数値ルール
+  if (d.numericRules) {
+    html += `<div class="stage-section first">数値ルール（numericRules・${Object.keys(d.numericRules).length}辞書）</div>`;
+    for (const [name, rule] of Object.entries(d.numericRules)) {
+      html += renderNumericRule(name, rule);
+    }
+  }
+  // 年代ルール
+  if (d.yearRules) {
+    html += `<div class="stage-section">年代ルール（yearRules・${d.yearRules.events.length}イベント）</div>`;
+    html += renderYearRules(d.yearRules);
+  }
+  // 固有名詞ルール
+  if (d.entityRules) {
+    html += `<div class="stage-section">固有名詞ルール（entityRules・${Object.keys(d.entityRules).length}カテゴリ）</div>`;
+    for (const [name, rule] of Object.entries(d.entityRules)) {
+      html += renderEntityRule(name, rule);
+    }
+  }
+  // 対比語ペア
+  if (d.antonymRules) {
+    html += `<div class="stage-section">対比語ペア（antonymRules）</div>`;
+    html += renderAntonymRules(d.antonymRules);
+  }
+  // 順序ルール
+  if (d.sequenceRules) {
+    html += `<div class="stage-section">順序ルール（sequenceRules）</div>`;
+    for (const [name, rule] of Object.entries(d.sequenceRules)) {
+      if (name.startsWith('_') || name === 'distractorPolicy') continue;
+      html += renderSequenceRule(name, rule, d.sequenceRules.distractorPolicy);
+    }
+  }
+  // 表ルール
+  if (d.tableRules) {
+    html += `<div class="stage-section">表ルール（tableRules）</div>`;
+    for (const [name, rule] of Object.entries(d.tableRules)) {
+      if (name.startsWith('_') || name === 'distractorPolicy') continue;
+      html += renderTableRule(name, rule, d.tableRules.distractorPolicy);
+    }
+  }
+  // 実装メモ
+  if (d._implementationNotes) {
+    html += `<div class="stage-section">実装メモ</div>`;
+    html += `
+      <div class="rule-card">
+        <div class="rule-meta"><span class="rule-id">NOTE</span><span class="rule-cat">エンジン仕様</span></div>
+        <div class="rule-body">
+          <div class="rule-detail"><strong>エンジン必須要件：</strong>
+            <ul style="margin:4px 0 0;padding-left:20px">
+              ${(d._implementationNotes.engine_must || []).map(s => `<li>${escapeHtml(s)}</li>`).join('')}
+            </ul>
+          </div>
+          <div class="rule-detail rule-good"><strong>品質チェック：</strong>
+            <ul style="margin:4px 0 0;padding-left:20px">
+              ${(d._implementationNotes.qualityChecks || []).map(s => `<li>${escapeHtml(s)}</li>`).join('')}
+            </ul>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  tab.innerHTML = html;
+}
+
+function countAllEntries(d) {
+  let n = 0;
+  if (d.numericRules) n += Object.keys(d.numericRules).length;
+  if (d.entityRules) n += Object.keys(d.entityRules).length;
+  if (d.antonymRules?.pairs) n += d.antonymRules.pairs.length;
+  if (d.yearRules?.events) n += d.yearRules.events.length;
+  return n;
+}
+
+function renderNumericRule(name, rule) {
+  let body = '';
+  if (rule._doc) body += `<div class="rule-detail"><strong>説明：</strong>${escapeHtml(rule._doc)}</div>`;
+  if (rule.values) {
+    body += `<div class="rule-detail"><strong>登録値（${rule.domain || ''}）：</strong>${rule.values.map(v => `<code>${escapeHtml(String(v))}${escapeHtml(rule.domain || '')}</code>`).join(' ')}</div>`;
+  }
+  if (rule.definitions) {
+    body += `<div class="rule-detail"><strong>各値の定義：</strong><ul style="margin:4px 0 0;padding-left:20px">${
+      Object.entries(rule.definitions).map(([k, v]) => `<li><code>${escapeHtml(k)}${escapeHtml(rule.domain || '')}</code>: ${(Array.isArray(v) ? v : [v]).map(x => escapeHtml(x)).join(' / ')}</li>`).join('')
+    }</ul></div>`;
+  }
+  // 数値構造（非標準フィールド）
+  for (const [k, v] of Object.entries(rule)) {
+    if (['_doc', 'values', 'domain', 'definitions', 'distractorPolicy'].includes(k)) continue;
+    if (Array.isArray(v)) {
+      body += `<div class="rule-detail"><strong>${escapeHtml(k)}：</strong>${v.map(x => `<code>${escapeHtml(String(x))}</code>`).join(' ')}</div>`;
+    } else if (typeof v === 'object' && v) {
+      body += `<div class="rule-detail"><strong>${escapeHtml(k)}：</strong><ul style="margin:4px 0 0;padding-left:20px">${
+        Object.entries(v).map(([kk, vv]) => `<li><code>${escapeHtml(kk)}</code>: ${escapeHtml(JSON.stringify(vv))}</li>`).join('')
+      }</ul></div>`;
+    } else if (typeof v === 'number' || typeof v === 'string') {
+      body += `<div class="rule-detail"><strong>${escapeHtml(k)}：</strong><code>${escapeHtml(String(v))}</code></div>`;
+    }
+  }
+  if (rule.distractorPolicy) {
+    body += `<div class="rule-detail rule-good"><strong>不正答ポリシー：</strong>${escapeHtml(rule.distractorPolicy)}</div>`;
+  }
+  return `<div class="rule-card">
+    <div class="rule-meta"><span class="rule-id">NUM</span><span class="rule-cat">${escapeHtml(name)}</span></div>
+    <div class="rule-body">${body}</div>
+  </div>`;
+}
+
+function renderYearRules(rule) {
+  let body = '';
+  if (rule._doc) body += `<div class="rule-detail"><strong>説明：</strong>${escapeHtml(rule._doc)}</div>`;
+  // 年代テーブル
+  body += `<div class="rule-detail"><strong>登録イベント（${rule.events.length}件）：</strong>
+    <div class="year-table-wrap">
+      <table class="year-table">
+        <thead><tr><th>西暦</th><th>和暦</th><th>関連事象</th></tr></thead>
+        <tbody>
+          ${rule.events.map(e => `<tr><td><strong>${e.year}年</strong></td><td>${escapeHtml(e.wareki || '')}</td><td>${escapeHtml(e.event)}</td></tr>`).join('')}
+        </tbody>
+      </table>
+    </div>
+  </div>`;
+  if (rule.distractorPolicy) {
+    body += `<div class="rule-detail rule-good"><strong>不正答ポリシー：</strong>${escapeHtml(rule.distractorPolicy)}</div>`;
+  }
+  return `<div class="rule-card">
+    <div class="rule-meta"><span class="rule-id">YEAR</span><span class="rule-cat">教本登場の主要年代</span></div>
+    <div class="rule-body">${body}</div>
+  </div>`;
+}
+
+function renderEntityRule(name, rule) {
+  let body = '';
+  if (rule._doc) body += `<div class="rule-detail"><strong>説明：</strong>${escapeHtml(rule._doc)}</div>`;
+  for (const [k, v] of Object.entries(rule)) {
+    if (k === '_doc' || k === 'distractorPolicy') continue;
+    if (Array.isArray(v)) {
+      const isItems = v.length > 0 && typeof v[0] === 'object';
+      if (isItems) {
+        // オブジェクト配列（例：火入れ_出荷形態）
+        body += `<div class="rule-detail"><strong>${escapeHtml(k)}：</strong>
+          <table class="entity-table">
+            <thead><tr>${Object.keys(v[0]).map(h => `<th>${escapeHtml(h)}</th>`).join('')}</tr></thead>
+            <tbody>${v.map(row => `<tr>${Object.values(row).map(c => `<td>${escapeHtml(String(c))}</td>`).join('')}</tr>`).join('')}</tbody>
+          </table>
+        </div>`;
+      } else {
+        body += `<div class="rule-detail"><strong>${escapeHtml(k)}（${v.length}件）：</strong>${v.map(x => `<code>${escapeHtml(String(x))}</code>`).join(' ')}</div>`;
+      }
+    } else if (typeof v === 'object' && v !== null) {
+      body += `<div class="rule-detail"><strong>${escapeHtml(k)}：</strong>
+        <ul style="margin:4px 0 0;padding-left:20px">
+          ${Object.entries(v).map(([kk, vv]) => `<li><strong>${escapeHtml(kk)}</strong>: ${Array.isArray(vv) ? vv.map(x => `<code>${escapeHtml(String(x))}</code>`).join(' ') : escapeHtml(JSON.stringify(vv))}</li>`).join('')}
+        </ul>
+      </div>`;
+    } else {
+      body += `<div class="rule-detail"><strong>${escapeHtml(k)}：</strong>${escapeHtml(String(v))}</div>`;
+    }
+  }
+  if (rule.distractorPolicy) {
+    body += `<div class="rule-detail rule-good"><strong>不正答ポリシー：</strong>${escapeHtml(rule.distractorPolicy)}</div>`;
+  }
+  return `<div class="rule-card">
+    <div class="rule-meta"><span class="rule-id">ENT</span><span class="rule-cat">${escapeHtml(name)}</span></div>
+    <div class="rule-body">${body}</div>
+  </div>`;
+}
+
+function renderAntonymRules(rule) {
+  let body = '';
+  if (rule._doc) body += `<div class="rule-detail"><strong>説明：</strong>${escapeHtml(rule._doc)}</div>`;
+  body += `<div class="rule-detail">
+    <table class="entity-table">
+      <thead><tr><th>A</th><th>↔</th><th>B</th><th>文脈</th></tr></thead>
+      <tbody>
+        ${rule.pairs.map(p => `<tr><td><code>${escapeHtml(p.a)}</code></td><td>↔</td><td><code>${escapeHtml(p.b)}</code></td><td>${escapeHtml(p.context || '')}</td></tr>`).join('')}
+      </tbody>
+    </table>
+  </div>`;
+  if (rule.distractorPolicy) {
+    body += `<div class="rule-detail rule-good"><strong>不正答ポリシー：</strong>${escapeHtml(rule.distractorPolicy)}</div>`;
+  }
+  return `<div class="rule-card">
+    <div class="rule-meta"><span class="rule-id">ANT</span><span class="rule-cat">教本登場の対比語ペア（${rule.pairs.length}組）</span></div>
+    <div class="rule-body">${body}</div>
+  </div>`;
+}
+
+function renderSequenceRule(name, rule, policy) {
+  if (!Array.isArray(rule)) return '';
+  let body = `<div class="rule-detail"><strong>順序：</strong>${rule.map((x, i) => `<code>${i+1}. ${escapeHtml(x)}</code>`).join(' → ')}</div>`;
+  if (policy) {
+    body += `<div class="rule-detail rule-good"><strong>共通ポリシー：</strong>${escapeHtml(policy)}</div>`;
+  }
+  return `<div class="rule-card">
+    <div class="rule-meta"><span class="rule-id">SEQ</span><span class="rule-cat">${escapeHtml(name)}</span></div>
+    <div class="rule-body">${body}</div>
+  </div>`;
+}
+
+function renderTableRule(name, rule, policy) {
+  if (!Array.isArray(rule)) return '';
+  if (rule.length === 0) return '';
+  const cols = Object.keys(rule[0]);
+  let body = `<div class="rule-detail">
+    <table class="entity-table">
+      <thead><tr>${cols.map(c => `<th>${escapeHtml(c)}</th>`).join('')}</tr></thead>
+      <tbody>${rule.map(row => `<tr>${cols.map(c => `<td>${escapeHtml(String(row[c] || ''))}</td>`).join('')}</tr>`).join('')}</tbody>
+    </table>
+  </div>`;
+  if (policy) {
+    body += `<div class="rule-detail rule-good"><strong>共通ポリシー：</strong>${escapeHtml(policy)}</div>`;
+  }
+  return `<div class="rule-card">
+    <div class="rule-meta"><span class="rule-id">TBL</span><span class="rule-cat">${escapeHtml(name)}</span></div>
+    <div class="rule-body">${body}</div>
+  </div>`;
+}
+
+function renderCoverage() {
+  const byCat = {};
+  for (const f of facts) {
+    if (!byCat[f.category]) byCat[f.category] = { total: 0, covered: 0 };
+    byCat[f.category].total++;
+  }
+  const coveredFactIds = new Set(v3.map(q => q.factId));
+  for (const f of facts) {
+    if (coveredFactIds.has(f.id)) byCat[f.category].covered++;
+  }
+  const totalFacts = facts.length;
+  const totalCovered = coveredFactIds.size;
+
+  const rows = Object.entries(byCat).sort().map(([k, v]) => {
+    const pct = (v.covered / v.total * 100).toFixed(1);
+    return `
+      <tr>
+        <td>${escapeHtml(k)}</td>
+        <td>${v.total}</td>
+        <td>${v.covered}</td>
+        <td>
+          <div style="display:flex;gap:8px;align-items:center">
+            <div class="cov-bar"><div class="cov-bar-fill" style="width:${pct}%"></div></div>
+            <span>${pct}%</span>
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join('');
+
+  const uncovered = facts.filter(f => !coveredFactIds.has(f.id));
+  const sampleUncovered = uncovered.slice(0, 50).map(f => `
+    <div class="fact-row">
+      <div class="subject">${escapeHtml(f.title || f.category || '-')}</div>
+      <div class="value">${escapeHtml(f.fact.value)}</div>
+      <div><span class="badge badge-${f.fact.type}">${f.fact.type}</span></div>
+      <div class="source">${escapeHtml(f.source)}</div>
+      <div class="pagelink">${pageLink(f.referencePage, f.verified)}</div>
+    </div>
+  `).join('');
+
+  document.getElementById('coverage-content').innerHTML = `
+    <div class="card">
+      <div class="meta"><strong>総合カバレッジ</strong></div>
+      <div class="body">
+        <div class="stats" style="padding:0;border:none">
+          <div class="stat"><span class="v">${totalFacts}</span><span class="l">ファクト総数</span></div>
+          <div class="stat"><span class="v" style="color:var(--accent2)">${totalCovered}</span><span class="l">問題化済み</span></div>
+          <div class="stat"><span class="v" style="color:var(--accent2)">${(totalCovered/totalFacts*100).toFixed(1)}%</span><span class="l">カバー率</span></div>
+          <div class="stat"><span class="v" style="color:var(--muted)">${uncovered.length}</span><span class="l">未カバー</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="meta"><strong>章別カバレッジ</strong></div>
+      <table class="cov-table">
+        <thead><tr><th>章</th><th>ファクト数</th><th>問題化数</th><th>カバー率</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <div class="meta"><strong>未カバーファクトのサンプル（先頭50件）</strong></div>
+      <div class="fact-row header">
+        <div>タイトル</div>
+        <div>値</div>
+        <div>型</div>
+        <div class="source">抽出元</div>
+      </div>
+      ${sampleUncovered}
+    </div>
+  `;
+}
+
+// === v1↔v3 比較ロジック ===
+function ngramSet(text, n = 5) {
+  const t = (text || '').replace(/\s+/g, '');
+  const s = new Set();
+  if (t.length < n) { if (t) s.add(t); return s; }
+  for (let i = 0; i <= t.length - n; i++) s.add(t.slice(i, i + n));
+  return s;
+}
+function jaccardSet(a, b) {
+  if (!a.size || !b.size) return 0;
+  let inter = 0;
+  for (const x of a) if (b.has(x)) inter++;
+  const uni = a.size + b.size - inter;
+  return uni > 0 ? inter / uni : 0;
+}
+function questionSignature(q) {
+  // 問題文 + 正答テキストを連結（選択肢順序の影響を受けない）
+  const correct = (q.choices || []).find(c => c.isCorrect);
+  const ca = q.correctAnswer || (correct && (correct.fullBody || correct.body)) || '';
+  return (q.questionBody || '') + '|' + ca;
+}
+function buildCompareIndex() {
+  if (compareIndex) return compareIndex;
+  // v3 を 5-gram で前計算
+  const v3Sigs = v3.map(q => ({ q, sig: ngramSet(questionSignature(q), 5) }));
+  // v1 ごとに最も近い v3 を探す（章で軽く絞り込んで高速化）
+  const v3ByCat = new Map();
+  for (const x of v3Sigs) {
+    const c = x.q.category || '';
+    if (!v3ByCat.has(c)) v3ByCat.set(c, []);
+    v3ByCat.get(c).push(x);
+  }
+  const pairs = [];
+  for (const v1q of v1) {
+    const v1sig = ngramSet(questionSignature(v1q), 5);
+    const candidates = v3ByCat.get(v1q.category) || v3Sigs;
+    let best = null, bestSim = 0;
+    for (const cand of candidates) {
+      const s = jaccardSet(v1sig, cand.sig);
+      if (s > bestSim) { bestSim = s; best = cand.q; }
+    }
+    // 章絞り込みでヒットなしの場合は全件スキャン
+    if (bestSim < 0.05 && candidates !== v3Sigs) {
+      for (const cand of v3Sigs) {
+        const s = jaccardSet(v1sig, cand.sig);
+        if (s > bestSim) { bestSim = s; best = cand.q; }
+      }
+    }
+    pairs.push({ v1q, bestV3: best, sim: bestSim });
+  }
+  compareIndex = { pairs };
+  return compareIndex;
+}
+
+function renderCompare() {
+  const idx = buildCompareIndex();
+  const cat = document.getElementById('cf-cat').value;
+  const simBucket = document.getElementById('cf-sim').value;
+  const q = document.getElementById('cf-q').value.trim();
+
+  // 全体統計
+  const total = idx.pairs.length;
+  const high = idx.pairs.filter(p => p.sim >= 0.6).length;
+  const mid = idx.pairs.filter(p => p.sim >= 0.3 && p.sim < 0.6).length;
+  const low = idx.pairs.filter(p => p.sim < 0.3).length;
+  const avgSim = total > 0 ? idx.pairs.reduce((s, p) => s + p.sim, 0) / total : 0;
+
+  // 章別集計
+  const byCat = {};
+  for (const p of idx.pairs) {
+    const c = p.v1q.category || '(未分類)';
+    if (!byCat[c]) byCat[c] = { total: 0, sum: 0, high: 0 };
+    byCat[c].total++;
+    byCat[c].sum += p.sim;
+    if (p.sim >= 0.6) byCat[c].high++;
+  }
+  const catRows = Object.entries(byCat).sort().map(([k, v]) => {
+    const avg = v.sum / v.total;
+    const hpct = v.high / v.total * 100;
+    const avgPct = (avg * 100).toFixed(1);
+    return `<tr>
+      <td>${escapeHtml(k)}</td>
+      <td>${v.total}</td>
+      <td>${v.high} (${hpct.toFixed(1)}%)</td>
+      <td>
+        <div style="display:flex;gap:8px;align-items:center">
+          <div class="cov-bar"><div class="cov-bar-fill" style="width:${avg * 100}%"></div></div>
+          <span>${avgPct}%</span>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+
+  // フィルタ済みペア
+  let filtered = idx.pairs;
+  if (cat) filtered = filtered.filter(p => p.v1q.category === cat);
+  if (simBucket === 'high') filtered = filtered.filter(p => p.sim >= 0.6);
+  else if (simBucket === 'mid') filtered = filtered.filter(p => p.sim >= 0.3 && p.sim < 0.6);
+  else if (simBucket === 'low') filtered = filtered.filter(p => p.sim < 0.3);
+  if (q) filtered = filtered.filter(p => {
+    const blob = (p.v1q.questionBody || '') + ' ' + (p.bestV3 ? p.bestV3.questionBody : '');
+    return blob.includes(q);
+  });
+  // 類似度高い順
+  filtered = filtered.slice().sort((a, b) => b.sim - a.sim);
+
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  if (cPage >= totalPages) cPage = totalPages - 1;
+  const slice = filtered.slice(cPage * PAGE_SIZE, cPage * PAGE_SIZE + PAGE_SIZE);
+
+  const pairRows = slice.map((p, i) => renderComparePair(p, cPage * PAGE_SIZE + i + 1)).join('');
+
+  document.getElementById('compare-content').innerHTML = `
+    <div class="card">
+      <div class="meta"><strong>📊 全体サマリー</strong></div>
+      <div class="body">
+        <div class="cmp-summary">
+          <div class="cmp-stat"><span class="v">${v1.length}</span><span class="l">v1（酒道場・既存）</span></div>
+          <div class="cmp-stat"><span class="v">${v3.length}</span><span class="l">v3（演習・自動生成）</span></div>
+          <div class="cmp-stat"><span class="v" style="color:#2c8c4e">${high}</span><span class="l">高類似 ≥0.6</span></div>
+          <div class="cmp-stat"><span class="v" style="color:#b8943e">${mid}</span><span class="l">中類似 0.3-0.6</span></div>
+          <div class="cmp-stat"><span class="v" style="color:#c46a23">${low}</span><span class="l">低類似 &lt;0.3</span></div>
+          <div class="cmp-stat"><span class="v">${(avgSim * 100).toFixed(1)}%</span><span class="l">平均類似度</span></div>
+        </div>
+        <div style="font-size:12px;color:var(--muted);margin-top:8px;line-height:1.6">
+          類似度は v1 各問について「問題文 + 正答」の 5-gram Jaccard で v3 の中から最近傍を検索した値。
+          <strong>高類似（≥0.6）</strong>＝v3 がほぼ同等の問題を生成できている、
+          <strong>低類似（&lt;0.3）</strong>＝v3 にカウンターパートが無い／v1 独自の問題。
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="meta"><strong>📚 章別 平均類似度・高類似率</strong></div>
+      <table class="cov-table">
+        <thead><tr><th>章</th><th>v1問題数</th><th>高類似（≥0.6）</th><th>平均類似度</th></tr></thead>
+        <tbody>${catRows}</tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <div class="meta"><strong>🔍 ペア表示（v1 → 最近傍 v3）</strong>
+        <span style="margin-left:auto;font-size:12px;color:var(--muted)">${filtered.length}件 / ${total}件中</span>
+      </div>
+      <div class="body">
+        ${pairRows || '<div class="empty">該当ペアがありません。</div>'}
+      </div>
+    </div>
+  `;
+}
+
+function renderComparePair(p, num) {
+  const v1q = p.v1q;
+  const v3q = p.bestV3;
+  const sim = p.sim;
+  const simPct = (sim * 100).toFixed(1);
+  const cls = sim >= 0.6 ? 'high' : sim >= 0.3 ? 'mid' : 'low';
+  const v1Correct = (v1q.choices || []).find(c => c.isCorrect);
+  const v1CorrectText = v1q.correctAnswer || (v1Correct && (v1Correct.body || v1Correct.fullBody)) || '';
+  const v3Correct = v3q ? (v3q.choices || []).find(c => c.isCorrect) : null;
+  const v3CorrectText = v3q ? (v3q.correctAnswer || (v3Correct && (v3Correct.fullBody || v3Correct.body)) || '') : '';
+  return `
+    <div class="cmp-pair">
+      <div class="cmp-num">#${num}</div>
+      <div class="cmp-side v1">
+        <div class="lbl">🥋 v1（酒道場）</div>
+        <div class="qb">${escapeHtml(v1q.questionBody || '')}</div>
+        <div class="ca"><b>正答:</b> ${escapeHtml(v1CorrectText)}</div>
+        <div class="cmp-meta">${escapeHtml(v1q.category || '')}${v1q.title ? ' / ' + escapeHtml(v1q.title) : ''} ${pageLink(v1q.referencePage, false)}</div>
+      </div>
+      <div class="cmp-sim ${cls}">
+        <span class="pct">${simPct}%</span>
+        <div class="bar"><div class="bar-fill" style="width:${simPct}%"></div></div>
+        <span class="label">${cls === 'high' ? '高類似' : cls === 'mid' ? '中類似' : '低類似'}</span>
+      </div>
+      <div class="cmp-side v3">
+        <div class="lbl">📝 v3（演習・最近傍）</div>
+        ${v3q ? `
+          <div class="qb">${escapeHtml(v3q.questionBody || '')}</div>
+          <div class="ca"><b>正答:</b> ${escapeHtml(v3CorrectText)}</div>
+          <div class="cmp-meta">${escapeHtml(v3q.category || '')}${v3q.title ? ' / ' + escapeHtml(v3q.title) : ''} ${pageLink(v3q.referencePage, false)}</div>
+        ` : '<div class="cmp-no-match">v3 にカウンターパートが見つかりません</div>'}
+      </div>
+    </div>
+  `;
+}
+
+function renderDojo() {
+  const cat = document.getElementById('df-cat').value;
+  const diff = document.getElementById('df-diff').value;
+  const q = document.getElementById('df-q').value.trim();
+
+  // 酒道場問題 = v1 = data/all_questions.json（実際に酒道場アプリに投入されている問題）
+  const filtered = v1.filter(x => {
+    if (cat && x.category !== cat) return false;
+    if (diff && x.difficulty !== diff) return false;
+    if (q) {
+      const blob = [x.questionBody, (x.choices || []).map(c => c.body || c.fullBody || '').join(' ')].join(' ');
+      if (!blob.includes(q)) return false;
+    }
+    return true;
+  });
+
+  const total = filtered.length;
+  const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+  if (dPage >= totalPages) dPage = totalPages - 1;
+  const slice = filtered.slice(dPage * PAGE_SIZE, dPage * PAGE_SIZE + PAGE_SIZE);
+  const list = document.getElementById('dlist');
+  if (!slice.length) {
+    list.innerHTML = `<div class="empty">該当する問題がありません。</div>`;
+  } else {
+    list.innerHTML = slice.map((x, i) => renderDojoQuestion(x, dPage * PAGE_SIZE + i + 1)).join('');
+  }
+  const pager = makePager(dPage, totalPages, total, n => { dPage = n; renderDojo(); });
+  document.getElementById('dpager-top').innerHTML = pager;
+  document.getElementById('dpager-bot').innerHTML = pager;
+}
+
+function renderDojoQuestion(q, num) {
+  const choices = (q.choices || []).map(c => {
+    const text = c.body || c.fullBody || '';
+    return `<li><div>${escapeHtml(text)}</div></li>`;
+  }).join('');
+  const correct = (q.choices || []).find(c => c.isCorrect) || {};
+  const correctText = correct.fullBody || correct.body || '';
+  const correctReason = correct.reason || '';
+  const explHtml = (q.explanation || '').split('\n').map(line => {
+    if (!line.trim()) return '<br>';
+    return '<div>' + escapeHtml(line) + '</div>';
+  }).join('');
+  const diffClass = q.difficulty ? `dojo-diff-${q.difficulty}` : '';
+  return `
+    <div class="dojo-card">
+      <div class="dojo-head">
+        <span class="dojo-num">第${num}問</span>
+        ${q.difficulty ? `<span class="${diffClass}">${escapeHtml(q.difficulty)}</span>` : ''}
+        <span>${escapeHtml(q.category || '')}</span>
+        ${q.title ? `<span>／ ${escapeHtml(q.title)}</span>` : ''}
+        <span style="margin-left:auto">${pageLink(q.referencePage, false)}</span>
+      </div>
+      <div class="dojo-q">${escapeHtml(q.questionBody)}</div>
+      <ol class="dojo-choices">${choices}</ol>
+      <details class="dojo-answer">
+        <summary>正答・解説を表示</summary>
+        <div class="ans-correct"><b>正答：</b>${escapeHtml(correctText)}</div>
+        ${correctReason ? `<div class="ans-correct"><b>理由：</b>${escapeHtml(correctReason)}</div>` : ''}
+        ${q.explanation ? `<div class="ans-expl">${explHtml}</div>` : ''}
+      </details>
+    </div>
+  `;
+}
+
+function makePager(page, totalPages, total, jump) {
+  return `<span>表示 ${total} 件</span>`;
+}
+
+load().catch(err => {
+  document.getElementById('qlist').innerHTML = `<div class="empty">読み込みエラー: ${err.message}<br>ローカルHTTPサーバー経由で開いてください。<br><code>python3 -m http.server 8000</code></div>`;
+  console.error(err);
+});
+</script>
+</body>
+</html>

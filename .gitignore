@@ -1,0 +1,65 @@
+# OS / IDE
+.DS_Store
+.vscode/
+.idea/
+*.swp
+
+# Node
+node_modules/
+npm-debug.log*
+
+# 教本JPG画像（著作権、164MB）
+textbook/
+
+# スクレイピング系スクリプト（認証情報ハードコードあり）
+scrape_all.js
+scrape_other.js
+scrape_session.js
+
+# 実験用スクリプト・出力（旧バージョン、git管理対象外）
+a.txt
+inspect.js
+inspect2.js
+inspect3.js
+inspect4.js
+inspect5.js
+inspect_other.js
+inspect_other2.js
+inspect_out/
+
+# 個人ファイル（公開リポジトリに含めない）
+data/*.docx
+data/*.pdf
+data/*.xlsx
+data/*.zip
+
+# セッションログ・進捗ログ
+data/session_*
+data/progress.log
+data/run.log
+
+# 認証セッションでスクレイプしたユーザー固有データ
+data/essays.csv
+data/essays.json
+data/flashcards.csv
+data/flashcards.json
+
+# Claude/エージェント設定
+.claude/
+
+# 旧バージョン data
+data/v2/
+
+# JSON のログ・中間ファイル
+data/v3/*_log.json
+data/v3/facts_log.md
+data/v3/rawtext_fix_log.json
+data/v3/cleanup_facts_log.json
+data/v3/promote_drafts_log.json
+data/v3/ocr_correction_log.json
+
+# CSV/JSONL は JSON と重複（git管理は JSON のみ）
+data/all_questions.csv
+data/all_questions.jsonl
+data/v3/all_questions_v3.csv
+data/v3/all_questions_v3.jsonl
