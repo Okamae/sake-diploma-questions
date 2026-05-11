@@ -888,6 +888,16 @@ function extractCommonStem(choices, originalValue) {
     } else break;
   }
 
+  // 差分が空になる選択肢がある場合（例：正答「1%」が誤答「15%」のプレフィックスで、
+  //   共通prefixが "1" を吸収して正答の差分が空になる）→ prefix を1文字ずつ短くして回避
+  while (prefix.length > 0 && bodies.some(b => b.length <= prefix.length + suffix.length)) {
+    prefix = prefix.slice(0, -1);
+  }
+  // それでも空がある場合は suffix も短くする
+  while (suffix.length > 0 && bodies.some(b => b.length <= prefix.length + suffix.length)) {
+    suffix = suffix.slice(0, -1);
+  }
+
   // 差分部分
   const differents = bodies.map(b => b.slice(prefix.length, b.length - suffix.length));
 

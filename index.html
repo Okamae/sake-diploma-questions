@@ -165,19 +165,22 @@
   .q-table td { padding: 7px 8px; border-bottom: 1px solid var(--border); vertical-align: top; }
   .q-table tbody tr:nth-child(even) { background: #faf7ef; }
   .q-table tbody tr:hover { background: #f3eedb; }
-  .q-table .c-num { width: 44px; text-align: right; color: var(--muted); font-size: 12px; }
-  .q-table .c-lesson { width: 150px; }
-  .q-table .c-body { width: auto; line-height: 1.5; }
-  .q-table .c-choices { width: 230px; }
-  .q-table .c-expl { width: 90px; }
+  .q-table .c-num { width: 38px; text-align: right; color: var(--muted); font-size: 12px; }
+  .q-table .c-lesson { width: 124px; }
+  .q-table .c-body { width: 28%; line-height: 1.5; }
+  .q-table .c-choices { width: 52%; }
+  .q-table .c-expl { width: 56px; }
   .lesson-chap { display: block; font-size: 10px; color: var(--muted); margin-bottom: 1px; }
   .lesson-title { display: block; font-weight: 600; font-size: 12px; line-height: 1.35; }
   .lesson-page { display: block; font-size: 10px; color: var(--muted); margin-top: 2px; }
+  .q-table .ch-list { display: block; }
+  .q-table .ch-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3px 5px; }
   .q-table .ch {
     padding: 2px 6px; margin: 2px 0; border-radius: 4px; background: #fff;
     border: 1px solid var(--border); line-height: 1.4; font-size: 12.5px;
     word-break: break-word;
   }
+  .q-table .ch-grid .ch { margin: 0; }
   .q-table .ch-no { display: inline-block; min-width: 15px; color: var(--muted); font-size: 11px; margin-right: 3px; }
   .q-table .ch-correct { background: #eef7e9; border-color: #8bbf6d; font-weight: 600; color: #2c5316; }
   .q-table .ch-correct .ch-no { color: #2c8c4e; font-weight: 700; }
@@ -1795,6 +1798,9 @@ function renderQuestionRow(q, num) {
     const mark = c.isCorrect ? '✓' : (i + 1);
     return `<div class="ch ${c.isCorrect ? 'ch-correct' : ''}"><span class="ch-no">${mark}</span>${escapeHtml(c.body || '')}</div>`;
   }).join('');
+  // 選択肢が長い場合は2列グリッドで縦幅を圧縮
+  const maxChLen = Math.max(...q.choices.map(c => (c.body || '').length));
+  const choicesClass = maxChLen > 22 ? 'ch-grid' : 'ch-list';
   const explHtml = (q.explanation || '').split('\n').map(line => {
     if (!line.trim()) return '';
     return '<div>' + escapeHtml(line) + '</div>';
@@ -1809,7 +1815,7 @@ function renderQuestionRow(q, num) {
         <span class="lesson-page">${pageLink(q.referencePage, false)}</span>
       </td>
       <td class="c-body">${qbody}</td>
-      <td class="c-choices">${choices}</td>
+      <td class="c-choices"><div class="${choicesClass}">${choices}</div></td>
       <td class="c-expl"><details><summary>解説</summary><div class="expl-box">${explHtml}</div></details></td>
     </tr>`;
 }
