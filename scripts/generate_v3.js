@@ -306,6 +306,28 @@ function isQualityFact(f, value) {
 }
 
 // ===========================================================================
+// 変異の「変更範囲」計算（Q-5/Q-12: 同じ箇所だけ違う選択肢を優先するため）
+// ===========================================================================
+//   original と mutated の最長共通前置・後置から、変更された範囲 [start, end) を求める。
+//   start = end の場合（差が無い）は { start: 0, end: 0 } を返す。
+function changeRegion(original, mutated) {
+  if (original === mutated) return { start: 0, end: 0 };
+  const oLen = original.length, mLen = mutated.length;
+  const minL = Math.min(oLen, mLen);
+  let p = 0;
+  while (p < minL && original[p] === mutated[p]) p++;
+  let s = 0;
+  while (s < minL - p && original[oLen - 1 - s] === mutated[mLen - 1 - s]) s++;
+  return { start: p, end: oLen - s };
+}
+function regionsOverlap(a, b) {
+  // 点（start===end）同士は「同じ位置」を同一視するため、点は幅1とみなす
+  const aStart = a.start, aEnd = Math.max(a.end, a.start + 1);
+  const bStart = b.start, bEnd = Math.max(b.end, b.start + 1);
+  return aStart < bEnd && bStart < aEnd;
+}
+
+// ===========================================================================
 // Q-11: 問題文テンプレート（多様化）
 // ===========================================================================
 // 設計：
@@ -618,12 +640,12 @@ function buildQuestion(fact, idx, valueToFact, neighborIndex, allFacts, fallback
   let body = pickGeneralBody(fact, value, r);
 
   // ★★ 同フレーム不正答生成 (D-1〜D-9) ★★
-  // まず変異エンジンで「正答と同じ文型・核心点だけ違う」3つを生成
+  // まず変異エンジンで「正答と同じ文型・核心点だけ違う」候補を全部生成
   // 合成された誤答（教本に存在しない）は isSynthesized=true で区別
   const valNorm = normalizeText(value);
   const seen = new Set([valNorm]);
-  // mutationCandidates は { text, strategy, diff, isSynthesized:true } の配列
-  let mutationCandidates = [];
+  // 全候補を収集（最初の3つで止めず、同じ箇所だけ変える3つを優先選択するため）
+  let allCandidates = [];
   if (neighborIndex && allFacts) {
     const muts = generateDistractors(fact, allFacts, neighborIndex);
     for (const m of muts) {
@@ -631,13 +653,38 @@ function buildQuestion(fact, idx, valueToFact, neighborIndex, allFacts, fallback
       const n = normalizeText(m.text);
       if (seen.has(n)) continue;
       seen.add(n);
-      mutationCandidates.push({ text: m.text, strategy: m.strategy, diff: m.diff, isSynthesized: true });
-      if (mutationCandidates.length >= 3) break;
+      allCandidates.push({
+        text: m.text, strategy: m.strategy, diff: m.diff, isSynthesized: true,
+        region: changeRegion(value, m.text),
+      });
     }
   }
 
   // Q-9: 合成誤答3つで揃わない問題は生成しない（真事実誤答の流用禁止）
-  if (mutationCandidates.length < 3) return null;
+  if (allCandidates.length < 3) return null;
+
+  // Q-5/Q-12 強化：選択肢を短くするため「value の同じ範囲を変える候補」を優先。
+  //   変更範囲が重なる候補をグループ化し、3つ以上揃うグループのうち
+  //   変更範囲が最も狭い（=選択肢が最も短くなる）ものを採用する。
+  //   3つ揃うグループが無ければ従来通り先頭3つ（変異エンジンの優先順）を使う。
+  let mutationCandidates;
+  {
+    const groups = [];
+    for (const c of allCandidates) {
+      let placed = false;
+      for (const g of groups) {
+        if (g.some(x => regionsOverlap(x.region, c.region))) { g.push(c); placed = true; break; }
+      }
+      if (!placed) groups.push([c]);
+    }
+    const widthOf = g => Math.max(...g.map(x => Math.max(1, x.region.end - x.region.start)));
+    const validGroups = groups.filter(g => g.length >= 3).sort((a, b) => widthOf(a) - widthOf(b));
+    if (validGroups.length > 0) {
+      mutationCandidates = validGroups[0];
+    } else {
+      mutationCandidates = allCandidates.slice(0, 3);
+    }
+  }
 
   // 同フレーム変異3つを採用（すべて合成誤答）
   const pickedObjs = shuffleDeterministic(mutationCandidates, seed + ':d').slice(0, 3);
@@ -857,17 +904,36 @@ function extractCommonStem(choices, originalValue) {
   const uniqueDiff = new Set(differents);
   if (uniqueDiff.size < bodies.length) return null;
 
-  // Q-5 強化: 差分の長さの最大/最小比 ≤ 3（D-15 と整合）
-  if (maxDiffLen > 0 && minDiffLen > 0 && maxDiffLen / minDiffLen > 3) return null;
+  // 差分が括弧で囲まれているか（prefix末尾が開き括弧、suffix先頭が閉じ括弧）
+  //   → 引用語句が選択肢になっているケース（「○○」とは…）。文字種チェックを緩和。
+  const diffIsQuoted = /[「『]$/.test(prefix) && /^[」』]/.test(suffix);
+  // 差分がすべて「単語/語句」レベル（読点・句点を含まず短く、文末表現でない）か
+  //   → 全て単語なら長さ比の制限を緩和（"米"(1字) と "醸造アルコール"(6字) のような自然な語長差を許容）
+  const allDiffsAreWordLike = differents.every(d =>
+    d.length <= 14 && !/[、，。．]/.test(d) && !/(?:である|します|となる|と呼ばれる|を指す|に限られる|と規定される|と定められ)/.test(d));
 
-  // Q-5 強化: 差分の文字種が揃っていること
+  // Q-5 強化: 差分の長さの最大/最小比制限（引用語句または全単語なら緩和）
+  const ratioLimit = (diffIsQuoted || allDiffsAreWordLike) ? 8 : 4;
+  if (maxDiffLen > 0 && minDiffLen > 0 && maxDiffLen / minDiffLen > ratioLimit) return null;
+
+  // Q-5 強化: 差分の文字種チェック（artifact 防止）
   const types = differents.map(classifyCharType);
   const uniqueTypes = new Set(types);
   const numberLike = new Set(['number', 'numberWithUnit', 'unitOnly', 'year']);
   const allNumberLike = types.every(t => numberLike.has(t));
-  // 短い差分（3文字以下）の場合は厳格に
-  if (maxDiffLen <= 3 && uniqueTypes.size > 1 && !allNumberLike) return null;
-  // 文字種が極端に違う（kanji と numberWithUnit が混ざる等）はNG
+  // (a) 1文字のひらがな差分が混在し、文字種も混在 → 活用語尾等の artifact の可能性 → 拒否
+  //     （『搾り/圧搾/上槽/こす』のような2文字以上の意味語の組み合わせは許容する）
+  const hasSingleHiragana = differents.some(d => d.length === 1 && /^[ぁ-ん]$/.test(d));
+  if (hasSingleHiragana && uniqueTypes.size > 1 && !allNumberLike) return null;
+  // (b) 数値・単位系と純粋な語句系が混在 → 曖昧（"50%" と "麹米使用割合" 等）→ 拒否
+  //     ただし「規定なし/なし/不要」等の特殊語のみが非数値の場合は許容
+  const numLikeCount = types.filter(t => numberLike.has(t)).length;
+  if (numLikeCount > 0 && numLikeCount < types.length) {
+    const allNumOrSpecial = differents.every(d =>
+      numberLike.has(classifyCharType(d)) || /^(?:規定なし|なし|無し?|不要|該当なし|特になし)/.test(d));
+    if (!allNumOrSpecial) return null;
+  }
+  // (c) kanji と unitOnly の混在は依然NG（"米" と "%" 等）
   if (uniqueTypes.has('kanji') && uniqueTypes.has('unitOnly')) return null;
   if (uniqueTypes.has('hiragana') && uniqueTypes.has('numberWithUnit')) return null;
 
@@ -887,17 +953,29 @@ function extractCommonStem(choices, originalValue) {
   }
 
   // L-1強化: 鉤括弧の整合性
-  function bracketBalance(s, open, close) {
-    let o = 0, c = 0;
-    for (const ch of s) { if (ch === open) o++; if (ch === close) c++; }
-    return o - c;
+  //   従来は prefix・suffix が各々独立にバランスしている必要があったが、
+  //   「…のものを「○○」と呼ぶ」のように差分が括弧の中身になるケース
+  //   （prefix が「で終わり suffix が」で始まる）を許容するため、
+  //   「prefix+suffix の連結がバランス（深さが負にならず最終0）」かつ
+  //   「各差分が単体でバランス（深さが負にならず最終0）」を条件とする。
+  //   差分が括弧の中身になる場合、prefix の開き括弧と suffix の閉じ括弧は補完関係にあるのでOK。
+  function depthOk(s, open, close, startDepth) {
+    let d = startDepth;
+    for (const ch of s) {
+      if (ch === open) d++;
+      else if (ch === close) { d--; if (d < 0) return null; }
+    }
+    return d;
   }
   const checkPairs = [['「', '」'], ['『', '』'], ['（', '）'], ['(', ')']];
   for (const [op, cl] of checkPairs) {
-    if (bracketBalance(prefix, op, cl) !== 0) return null;
-    if (bracketBalance(suffix, op, cl) !== 0) return null;
+    const afterPrefix = depthOk(prefix, op, cl, 0);
+    if (afterPrefix === null) return null;          // prefix 内で閉じが先行 → NG
+    const afterSuffix = depthOk(suffix, op, cl, afterPrefix);
+    if (afterSuffix === null || afterSuffix !== 0) return null;  // 連結で負 or 最終非0 → NG
     for (const d of differents) {
-      if (bracketBalance(d, op, cl) !== 0) return null;
+      // 差分は単体でバランスしていること（括弧をまたがない）
+      if (depthOk(d, op, cl, 0) !== 0) return null;
     }
   }
 
@@ -1309,24 +1387,6 @@ function buildExplanation(fact, choices) {
     parts.push('');
     parts.push(`▼ 教本 p${fact.referencePage} の内容`);
     parts.push(valueText);
-  }
-
-  // 各選択肢のポイント
-  if (choices && choices.length) {
-    parts.push('');
-    parts.push('▼ 各選択肢のポイント');
-    for (const c of choices) {
-      const label = c.body || c.fullBody || '';
-      if (c.isCorrect) {
-        parts.push(`○ 「${label}」が正解。`);
-      } else {
-        // 解説リスト内ではラベルが直前に表示されるので、reason 冒頭の「[label]」は誤り。を除去
-        let reason = c.reason || '';
-        const escLabel = label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        reason = reason.replace(new RegExp(`^「${escLabel}」は誤り。\\s*`), '');
-        parts.push(`× 「${label}」… ${reason}`);
-      }
-    }
   }
 
   // E-10: 一歩踏み込んだ解説（教本知識を補強するキュレーション）

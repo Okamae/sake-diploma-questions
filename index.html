@@ -155,6 +155,43 @@
   .reason-wrong {
     background: #fdf3ec; border-left: 3px solid #c46a23; color: #6b4015;
   }
+
+  /* 演習問題タブ：表形式（CSV風コンパクト表示） */
+  .q-table { width: 100%; border-collapse: collapse; font-size: 13px; background: var(--panel); table-layout: fixed; }
+  .q-table th {
+    background: #f1ecdc; padding: 7px 8px; text-align: left; font-size: 12px;
+    border-bottom: 2px solid var(--border); position: sticky; top: 0; z-index: 2;
+  }
+  .q-table td { padding: 7px 8px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .q-table tbody tr:nth-child(even) { background: #faf7ef; }
+  .q-table tbody tr:hover { background: #f3eedb; }
+  .q-table .c-num { width: 44px; text-align: right; color: var(--muted); font-size: 12px; }
+  .q-table .c-lesson { width: 150px; }
+  .q-table .c-body { width: auto; line-height: 1.5; }
+  .q-table .c-choices { width: 230px; }
+  .q-table .c-expl { width: 90px; }
+  .lesson-chap { display: block; font-size: 10px; color: var(--muted); margin-bottom: 1px; }
+  .lesson-title { display: block; font-weight: 600; font-size: 12px; line-height: 1.35; }
+  .lesson-page { display: block; font-size: 10px; color: var(--muted); margin-top: 2px; }
+  .q-table .ch {
+    padding: 2px 6px; margin: 2px 0; border-radius: 4px; background: #fff;
+    border: 1px solid var(--border); line-height: 1.4; font-size: 12.5px;
+    word-break: break-word;
+  }
+  .q-table .ch-no { display: inline-block; min-width: 15px; color: var(--muted); font-size: 11px; margin-right: 3px; }
+  .q-table .ch-correct { background: #eef7e9; border-color: #8bbf6d; font-weight: 600; color: #2c5316; }
+  .q-table .ch-correct .ch-no { color: #2c8c4e; font-weight: 700; }
+  .q-table .c-expl details > summary {
+    cursor: pointer; color: var(--accent2); font-size: 12px; user-select: none; white-space: nowrap;
+  }
+  .q-table .c-expl details > summary:hover { text-decoration: underline; }
+  .q-table .expl-box {
+    font-size: 11.5px; line-height: 1.55; margin-top: 5px; padding: 6px 8px;
+    background: #fafaf3; border-radius: 4px; color: #4a4035;
+    /* セル幅を超えて広がるように（解説は長め） */
+    width: 360px; max-width: 60vw;
+  }
+  .q-table .expl-box > div { margin-bottom: 2px; }
   .dm-badge {
     display: inline-block; padding: 2px 8px; border-radius: 10px;
     font-size: 11px; font-weight: 600; margin-left: 4px;
@@ -1735,46 +1772,46 @@ function renderQuestions() {
   if (!slice.length) {
     list.innerHTML = `<div class="empty">該当する問題がありません。</div>`;
   } else {
-    list.innerHTML = slice.map((q, i) => renderQuestion(q, qPage * PAGE_SIZE + i + 1)).join('');
+    const rows = slice.map((q, i) => renderQuestionRow(q, qPage * PAGE_SIZE + i + 1)).join('');
+    list.innerHTML = `
+      <table class="q-table">
+        <thead><tr>
+          <th class="c-num">#</th>
+          <th class="c-lesson">章 / レッスン</th>
+          <th class="c-body">問題文</th>
+          <th class="c-choices">選択肢（✓=正答）</th>
+          <th class="c-expl">解説</th>
+        </tr></thead>
+        <tbody>${rows}</tbody>
+      </table>`;
   }
   const pager = makePager(qPage, totalPages, total, n => { qPage = n; renderQuestions(); });
   document.getElementById('qpager-top').innerHTML = pager;
   document.getElementById('qpager-bot').innerHTML = pager;
 }
 
-function renderQuestion(q, num) {
-  const choices = q.choices.map(c => {
-    const reasonHtml = c.reason
-      ? `<div class="choice-reason ${c.isCorrect ? 'reason-correct' : 'reason-wrong'}">${escapeHtml(c.reason)}</div>`
-      : '';
-    return `<li class="${c.isCorrect ? 'correct' : ''}">
-      <div class="choice-body">${escapeHtml(c.body)}</div>
-      ${reasonHtml}
-    </li>`;
+function renderQuestionRow(q, num) {
+  const choices = q.choices.map((c, i) => {
+    const mark = c.isCorrect ? '✓' : (i + 1);
+    return `<div class="ch ${c.isCorrect ? 'ch-correct' : ''}"><span class="ch-no">${mark}</span>${escapeHtml(c.body || '')}</div>`;
   }).join('');
-  // 解説本文を改行込みで表示
   const explHtml = (q.explanation || '').split('\n').map(line => {
-    if (!line.trim()) return '<br>';
+    if (!line.trim()) return '';
     return '<div>' + escapeHtml(line) + '</div>';
   }).join('');
+  const qbody = escapeHtml(q.questionBody || '').replace(/\n/g, '<br>');
   return `
-    <div class="card">
-      <div class="meta">
-        <span class="num">#${num}</span>
-        <span class="cat">${escapeHtml(q.category)}</span>
-        ${q.title ? `<span class="title-c">${escapeHtml(q.title)}</span>` : ''}
-        <span style="color:var(--muted);margin-left:auto">${pageLink(q.referencePage, false)}</span>
-      </div>
-      <div class="body">
-        <p class="q">${escapeHtml(q.questionBody)}</p>
-        <ul class="choices">${choices}</ul>
-        <details class="explanation">
-          <summary>解説を表示</summary>
-          <div class="body">${explHtml}</div>
-        </details>
-      </div>
-    </div>
-  `;
+    <tr>
+      <td class="c-num">${num}</td>
+      <td class="c-lesson">
+        <span class="lesson-chap">${escapeHtml(q.category || '')}</span>
+        <span class="lesson-title">${escapeHtml(q.title || '')}</span>
+        <span class="lesson-page">${pageLink(q.referencePage, false)}</span>
+      </td>
+      <td class="c-body">${qbody}</td>
+      <td class="c-choices">${choices}</td>
+      <td class="c-expl"><details><summary>解説</summary><div class="expl-box">${explHtml}</div></details></td>
+    </tr>`;
 }
 
 function renderFacts() {
