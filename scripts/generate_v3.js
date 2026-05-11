@@ -306,6 +306,296 @@ function isQualityFact(f, value) {
 }
 
 // ===========================================================================
+// Q-11: 問題文テンプレート（多様化）
+// ===========================================================================
+// 設計：
+//   STEM_ENDINGS : クローズ問題の終端句（fact.type別、4-6種類）
+//   GENERAL_*    : 完全文比較問題の汎用テンプレ（fact.type別、4-6種類）
+//   TOPIC_*      : 文脈特化テンプレ（米品種/GI/料理相性/杜氏/酵母/都道府県）
+//
+// プレースホルダ：
+//   {title}  : fact.title（レッスン名）
+//   {topic}  : 検出された具体トピック（"雄町", "灘五郷", "南部杜氏" 等）
+//   {cloze}  : STEM のクローズ文（"...の○○である。"）
+const STEM_ENDINGS = {
+  year: [
+    '○○ に入る年代として正しいものはどれか。',
+    '○○ に当てはまる年代を次の中から1つ選んでください。',
+    '次の中から○○ に入る年代として正しいものを1つ選んでください。',
+    '○○ に入る年（または年月）として最も適切なものを次から選択してください。',
+  ],
+  number: [
+    '○○ に入る数値として正しいものはどれか。',
+    '○○ に当てはまる数値を次の中から1つ選んでください。',
+    '次の中から○○ に入る数値として正しいものを1つ選んでください。',
+    '○○ に入る値として最も適切なものを次から選択してください。',
+  ],
+  person: [
+    '○○ に入る人物として正しいものはどれか。',
+    '○○ に当てはまる人物を次の中から1つ選んでください。',
+    '次の中から○○ に入る人物として正しいものを1つ選んでください。',
+  ],
+  place: [
+    '○○ に入る地域・産地として正しいものはどれか。',
+    '○○ に当てはまる地域を次の中から1つ選んでください。',
+    '次の中から○○ に入る地域・産地として正しいものを1つ選んでください。',
+  ],
+  name: [
+    '○○ に入る名称として正しいものはどれか。',
+    '○○ に当てはまる名称を次の中から1つ選んでください。',
+    '次の中から○○ に入る名称として正しいものを1つ選んでください。',
+  ],
+  term: [
+    '○○ に入る語句として正しいものはどれか。',
+    '○○ に当てはまる語句を次の中から1つ選んでください。',
+    '次の中から○○ に入る適切な語句を1つ選んでください。',
+    '○○ に入る適切な語句を次から選択してください。',
+  ],
+};
+
+const GENERAL_TEMPLATES = {
+  year: [
+    '「{title}」に関する年代として正しいものを次から選んでください。',
+    '次の中から「{title}」の年代として正しいものを1つ選んでください。',
+    '「{title}」が起こった年として最も適切なものを次から選択してください。',
+    '次の中から「{title}」に関する年代を選んでください。',
+  ],
+  number: [
+    '「{title}」に関する数値として正しいものを次から選んでください。',
+    '次の中から「{title}」の値として最も適切なものを1つ選んでください。',
+    '次の中から「{title}」に該当する数値を選択してください。',
+  ],
+  person: [
+    '「{title}」に関わった人物として正しいものを次から選んでください。',
+    '次の中から「{title}」に該当する人物を1つ選んでください。',
+    '次の中から「{title}」に関わった人物として正しいものを選択してください。',
+  ],
+  place: [
+    '「{title}」に該当する地域・産地として正しいものを次から選んでください。',
+    '次の中から「{title}」に関連する地域を1つ選んでください。',
+    '次の中から「{title}」に該当する産地を選択してください。',
+  ],
+  name: [
+    '「{title}」に該当する名称として正しいものを次から選んでください。',
+    '次の中から「{title}」に該当する名称を1つ選んでください。',
+  ],
+  term: [
+    '「{title}」に関する記述として正しいものを次から選んでください。',
+    '次の中から「{title}」について正しい記述を1つ選んでください。',
+    '次の中から「{title}」に該当する内容として最もふさわしいものを1つ選んでください。',
+    '次の中から「{title}」について正しい説明を選択してください。',
+    '「{title}」について最も適切な説明を次から選んでください。',
+  ],
+};
+
+// 文脈特化テンプレート（topic 検出時に優先）
+const TOPIC_TEMPLATES = {
+  rice_variety: [
+    '次の中から「{topic}」の特徴として最もふさわしいものを選択してください。',
+    '次の中から米の品種「{topic}」について正しい記述を1つ選んでください。',
+    '「{topic}」に関する記述として正しいものを次の中から選んでください。',
+    '次の中から酒造好適米「{topic}」の特徴を1つ選んでください。',
+  ],
+  rice_variety_crossbreed: [
+    '次の中から米の品種「{topic}」の交配（親品種）として正しいものを選択してください。',
+    '次の中から「{topic}」の交配親として正しいものを1つ選んでください。',
+    '「{topic}」の交配について次の中から正しいものを選択してください。',
+  ],
+  rice_variety_origin: [
+    '次の中から米の品種「{topic}」が誕生した年を選択してください。',
+    '次の中から「{topic}」の発祥地として正しいものを1つ選んでください。',
+  ],
+  prefecture: [
+    '次の中から「{topic}」の日本酒の特徴として最もふさわしいものを1つ選んでください。',
+    '次の中から「{topic}」の酒造りに関する記述として正しいものを選択してください。',
+    '次の中から「{topic}」産の日本酒について正しい記述を1つ選んでください。',
+  ],
+  gi: [
+    '次の中から地理的表示「{topic}」について正しい記述を選択してください。',
+    '次の中から「{topic}」が地理的表示として指定された年月を選択してください。',
+    '次の中から地理的表示「{topic}」の要件として正しいものを1つ選んでください。',
+  ],
+  pairing: [
+    '次の中から「{topic}」と最も相性がよいと思われる日本酒のタイプを1つ選んでください。',
+    '次の中から「{topic}」に合う日本酒として最も適切なものを1つ選んでください。',
+    '次の中から「{topic}」と日本酒の組み合わせとして正しいものを1つ選んでください。',
+  ],
+  pairing_general: [
+    '次の中から日本酒と料理の相性に関する記述として正しいものを1つ選んでください。',
+    '次の中から料理と日本酒のペアリングについて正しい説明を選択してください。',
+  ],
+  toji_school: [
+    '次の中から「{topic}」について正しい記述を1つ選んでください。',
+    '「{topic}」の特徴として最もふさわしいものを次から選んでください。',
+    '次の中から「{topic}」の活躍地として正しいものを1つ選んでください。',
+  ],
+  yeast: [
+    '次の中から「{topic}」の特徴として正しいものを1つ選んでください。',
+    '次の中から協会酵母「{topic}」に関する記述として正しいものを選択してください。',
+    '「{topic}」について最も適切な説明を次から選んでください。',
+  ],
+  specific_meisho: [
+    '次の中から特定名称酒「{topic}」の規定として正しいものを1つ選んでください。',
+    '次の中から「{topic}」の要件として最もふさわしいものを選択してください。',
+  ],
+  temperature: [
+    '次の中から日本酒の温度区分「{topic}」について正しい記述を1つ選んでください。',
+    '次の中から「{topic}」（飲用温度）として正しい温度を選択してください。',
+  ],
+  shochu_type: [
+    '次の中から焼酎「{topic}」について正しい記述を1つ選んでください。',
+    '次の中から「{topic}」の特徴として最もふさわしいものを選択してください。',
+  ],
+};
+
+// value から topic を検出（最初にヒットしたもの一つを返す）
+const RICE_VARIETIES = [
+  '山田錦', '五百万石', '美山錦', '雄町', '愛山', '八反錦2号', '八反錦', '秋田酒こまち',
+  '出羽燦々', '越淡麗', '玉栄', '彗星', '吟風', 'きたしずく', '短稈渡船', '山田穂',
+  '千本錦', '楽風舞', '華吹雪', '華想い', '華さやか', '百万石乃白', '酒未来',
+  '改良信交', '改良八反流', 'たかね錦', '金紋錦', '北錦', 'ひだほまれ',
+  'ササシグレ', 'フクノハナ', 'ひとごこち', 'たまさかえ', '若水', '夢山水', 'こいおまち',
+];
+const PREFECTURES = [
+  '北海道', '青森県', '岩手県', '宮城県', '秋田県', '山形県', '福島県',
+  '茨城県', '栃木県', '群馬県', '埼玉県', '千葉県', '東京都', '神奈川県',
+  '新潟県', '富山県', '石川県', '福井県', '山梨県', '長野県',
+  '岐阜県', '静岡県', '愛知県', '三重県', '滋賀県', '京都府', '大阪府',
+  '兵庫県', '奈良県', '和歌山県', '鳥取県', '島根県', '岡山県', '広島県', '山口県',
+  '徳島県', '香川県', '愛媛県', '高知県',
+  '福岡県', '佐賀県', '長崎県', '熊本県', '大分県', '宮崎県', '鹿児島県', '沖縄県',
+];
+const TOJI_SCHOOLS = ['南部杜氏', '越後杜氏', '丹波杜氏', '能登杜氏', '但馬杜氏', '出雲杜氏', '備中杜氏', '三津杜氏', '津軽杜氏', '山内杜氏'];
+const FOOD_NAMES = [
+  // 和食料理ジャンル
+  '刺身', 'お造り', '寿司', '寿し', 'すし', '天ぷら', 'すき焼き', 'しゃぶしゃぶ',
+  '焼鳥', '焼き鳥', 'なます', '酢の物', '煮物', '焼魚', '焼き魚', '焼き物',
+  '揚げ物', '蒸し物', '鍋', '鍋料理', 'おでん', '湯豆腐', '茶碗蒸し', '卵焼き',
+  '和食', '前菜', '出汁', '味噌汁', 'お吸い物', '漬物', '納豆', '蕎麦', 'うどん',
+  '丼', 'とんかつ', '牛丼', '親子丼', '冷奴', '冷ややっこ',
+  // 魚介類
+  'マグロ大トロ', 'マグロ', 'カツオ', 'ブリ', 'ヒラメ', 'マダイ', 'タイ', 'サバ',
+  'イワシ', 'サワラ', 'アマダイ', 'アナゴ', 'ホッキ', 'スズキ', 'サーモン',
+  'うなぎ', '鰻', 'うに', 'ウニ', 'タコ', 'イカ', 'イセエビ', 'エビ', '海老',
+  'ホタテ', 'カニ', 'サザエ', 'アワビ', '貝',
+  // 肉類
+  '鴨', '鶏', '豚', '牛', 'ハム', 'ステーキ', 'ロースト', '生ハム',
+  // 西洋料理・海外
+  'チーズ', 'フォアグラ', 'フォワグラ', 'キャビア', 'パテ', 'スモークサーモン',
+  'カルパッチョ', 'カレー', 'パスタ', 'ピザ', 'リゾット', 'グラタン', 'カツレツ',
+  '餃子', 'ラーメン', 'エスカルゴ', 'ジャンボン', '中華', 'フレンチ', '韓国料理',
+  // 調理ベース
+  'ポン酢', '塩レモン', 'クリームソース', 'ワサビ',
+];
+const SPECIFIC_MEISHO = [
+  '純米大吟醸酒', '大吟醸酒', '純米吟醸酒', '吟醸酒',
+  '特別純米酒', '純米酒', '特別本醸造酒', '本醸造酒',
+];
+const TEMPERATURE_NAMES = [
+  '雪冷え', '花冷え', '涼冷え', '冷や', '日向燗', '人肌燗', 'ぬる燗', '上燗', '熱燗', '飛び切り燗',
+];
+
+function detectTopic(fact, value) {
+  // 1. 米品種（最優先・最長一致）
+  const riceSort = RICE_VARIETIES.slice().sort((a, b) => b.length - a.length);
+  for (const name of riceSort) {
+    if (value.includes(name)) {
+      if (/(?:交配|親品種|配合|×|を交配)/.test(value)) {
+        return { type: 'rice_variety_crossbreed', topic: name };
+      }
+      if (/(?:誕生|命名された|発祥|起源|品種登録|年に開発)/.test(value)) {
+        return { type: 'rice_variety_origin', topic: name };
+      }
+      return { type: 'rice_variety', topic: name };
+    }
+  }
+
+  // 2. 地理的表示
+  const giMatch = value.match(/地理的表示「([^」]+)」/) || value.match(/地理的表示\s*(灘五郷|伏見|山形|萩|はりま|白山|日本酒)/);
+  if (giMatch) {
+    return { type: 'gi', topic: giMatch[1] };
+  }
+
+  // 3. 杜氏流派
+  const tojiSort = TOJI_SCHOOLS.slice().sort((a, b) => b.length - a.length);
+  for (const name of tojiSort) {
+    if (value.includes(name)) return { type: 'toji_school', topic: name };
+  }
+
+  // 4. 協会酵母
+  const yeastMatch = value.match(/協会\s*(\d+)\s*号|きょうかい\s*(\d+)\s*号|\b(\d+)\s*号酵母/);
+  if (yeastMatch) {
+    const num = yeastMatch[1] || yeastMatch[2] || yeastMatch[3];
+    return { type: 'yeast', topic: `協会${num}号` };
+  }
+
+  // 5. 特定名称酒
+  for (const name of SPECIFIC_MEISHO) {
+    if (value.includes(`「${name}」`) || value.includes(`特定名称酒${name}`)) {
+      return { type: 'specific_meisho', topic: name };
+    }
+  }
+
+  // 6. 温度区分
+  for (const name of TEMPERATURE_NAMES) {
+    if (value.includes(`「${name}」`) || value.includes(`${name}（`)) {
+      return { type: 'temperature', topic: name };
+    }
+  }
+
+  // 7. 料理ペアリング（カテゴリで判定 + value から食材検出）
+  const isPairing = /料理の相性/.test(fact.category || '') || /料理の相性/.test(fact.title || '');
+  if (isPairing) {
+    const foodSort = FOOD_NAMES.slice().sort((a, b) => b.length - a.length);
+    for (const f of foodSort) {
+      if (value.includes(f)) return { type: 'pairing', topic: f };
+    }
+    return { type: 'pairing_general', topic: '' };
+  }
+
+  // 8. 都道府県（第3章のみ）
+  if (/第3章/.test(fact.category || '')) {
+    const prefSort = PREFECTURES.slice().sort((a, b) => b.length - a.length);
+    for (const name of prefSort) {
+      if (value.includes(name)) {
+        return { type: 'prefecture', topic: name.replace(/[県府都道]$/, '') };
+      }
+    }
+  }
+
+  return null;
+}
+
+function fillTemplate(tpl, replacements) {
+  let out = tpl;
+  for (const [k, v] of Object.entries(replacements)) {
+    out = out.replaceAll(`{${k}}`, v);
+  }
+  return out;
+}
+
+// Q-11: 完全文比較問題の body を多様化
+function pickGeneralBody(fact, value, r) {
+  const topic = detectTopic(fact, value);
+  if (topic && TOPIC_TEMPLATES[topic.type]) {
+    const tpl = pickFromR(r, TOPIC_TEMPLATES[topic.type]);
+    return fillTemplate(tpl, { topic: topic.topic, title: fact.title || '' });
+  }
+  const type = fact.fact.type || 'term';
+  const templates = GENERAL_TEMPLATES[type] || GENERAL_TEMPLATES.term;
+  const tpl = pickFromR(r, templates);
+  return fillTemplate(tpl, { title: fact.title || '' });
+}
+
+// Q-11: STEM 問題の終端句を多様化
+function pickStemEnding(fact, value, factType, r) {
+  // topic 検出によって終端句に「topic」情報を含めることもできるが、
+  // STEM では既に値が文の中に出ているので、まずは終端句のバリエーションだけ。
+  const arr = STEM_ENDINGS[factType] || STEM_ENDINGS.term;
+  return pickFromR(r, arr);
+}
+
+// ===========================================================================
 // ファクトを問題化（タイプ別テンプレ）
 // ===========================================================================
 function buildQuestion(fact, idx, valueToFact, neighborIndex, allFacts, fallbackMap) {
@@ -320,49 +610,12 @@ function buildQuestion(fact, idx, valueToFact, neighborIndex, allFacts, fallback
   // 教本のどこの話かを明示する
   const topicHint = pickTopicHint(fact);
 
-  // 問題文テンプレ（subject 廃止 → カテゴリ／タイトルで文脈提供）
+  // 問題文テンプレ（Q-11: 多様化）
+  //   - topic 検出（米品種/GI/料理相性/杜氏/酵母/都道府県等）で文脈特化テンプレを優先
+  //   - 該当なしならファクトタイプ別の汎用テンプレ（3-5種類）から seeded random で選択
   const seed = fact.id + ':' + idx;
   const r = seededRand(seed + ':qtmpl');
-  let body = '';
-  switch (f.type) {
-    case 'year':
-      body = pickFromR(r, [
-        `${topicHint}に関する年代として正しいものを次から選べ。`,
-        `${topicHint}の年代として正しいものはどれか。`,
-      ]);
-      break;
-    case 'number':
-      body = pickFromR(r, [
-        `${topicHint}に関する数値として正しいものを次から選べ。`,
-        `${topicHint}の値として最も適切なものはどれか。`,
-      ]);
-      break;
-    case 'person':
-      body = pickFromR(r, [
-        `${topicHint}に関わった人物として正しいものを次から選べ。`,
-        `${topicHint}に該当する人物はどれか。`,
-      ]);
-      break;
-    case 'place':
-      body = pickFromR(r, [
-        `${topicHint}に該当する地域・産地として正しいものを次から選べ。`,
-        `${topicHint}に関連する地域はどれか。`,
-      ]);
-      break;
-    case 'name':
-      body = pickFromR(r, [
-        `${topicHint}に該当する名称として正しいものを次から選べ。`,
-      ]);
-      break;
-    case 'term':
-    default:
-      body = pickFromR(r, [
-        `${topicHint}に関する記述として正しいものを次から選べ。`,
-        `${topicHint}について正しい説明を次から選べ。`,
-        `${topicHint}に該当する内容として最も妥当なものはどれか。`,
-      ]);
-      break;
-  }
+  let body = pickGeneralBody(fact, value, r);
 
   // ★★ 同フレーム不正答生成 (D-1〜D-9) ★★
   // まず変異エンジンで「正答と同じ文型・核心点だけ違う」3つを生成
@@ -753,16 +1006,9 @@ function buildStemmedQuestionBody(originalBody, prefix, suffix, factType, fact) 
     stemQuote = stemQuote.replace(/[、，,\s]+$/, '') + '。';
   }
 
-  const ending = (() => {
-    switch (factType) {
-      case 'year': return `${blank} に入る年代として正しいものはどれか。`;
-      case 'number': return `${blank} に入る数値として正しいものはどれか。`;
-      case 'person': return `${blank} に入る人物として正しいものはどれか。`;
-      case 'place': return `${blank} に入る地域・産地として正しいものはどれか。`;
-      case 'name': return `${blank} に入る名称として正しいものはどれか。`;
-      default: return `${blank} に入る語句として正しいものはどれか。`;
-    }
-  })();
+  // Q-11: STEM 終端句のバリエーション（fact.type 別に4種類前後から seeded random で選択）
+  const r = seededRand(fact.id + ':stem-ending');
+  const ending = pickStemEnding(fact, '', factType, r);
 
   // Q-5適用時は冗長なプレフィックスは省略。
   // 引用文（穴埋め部分を含む）と問いだけで自己完結させる。
@@ -1119,34 +1365,32 @@ function toCsvField(v) {
   if (v == null) return '""';
   return '"' + String(v).replace(/"/g, '""') + '"';
 }
+// 問題を解くアプリ向け CSV import スキーマ（名前指定方式）
+//   lessonTitle: 教本セクション名 / chapterTitle: 章名（同名 lesson が複数章にある場合の絞込み用）
+//   questionSentence, questionType, options.0..N, correctAnswers.0, explanation, referencedPage
 function buildCsv(rows) {
   const header = [
-    '#','カテゴリ','タイトル','問題文','難易度','正答',
-    '選択肢1','選択肢1正誤','選択肢1理由','選択肢1フル文',
-    '選択肢2','選択肢2正誤','選択肢2理由','選択肢2フル文',
-    '選択肢3','選択肢3正誤','選択肢3理由','選択肢3フル文',
-    '選択肢4','選択肢4正誤','選択肢4理由','選択肢4フル文',
-    '解説','教本ページ','factId','factType','factSource','questionId','distractorMethod','Q5_stem抽出',
+    'lessonTitle', 'chapterTitle', 'questionSentence', 'questionType',
+    'options.0', 'options.1', 'options.2', 'options.3',
+    'correctAnswers.0', 'explanation', 'referencedPage',
   ];
   const lines = [header.map(toCsvField).join(',')];
-  rows.forEach((q, i) => {
+  for (const q of rows) {
     const choices = q.choices || [];
-    const flat = [];
-    for (let k = 0; k < 4; k++) {
-      const c = choices[k] || { body: '', isCorrect: false, reason: '' };
-      flat.push(c.body || '');                    // 表示用（Q-5 適用後は差分のみ）
-      flat.push(c.isCorrect ? '正答' : '誤答');
-      flat.push(c.reason || '');
-      flat.push(c.fullBody || c.body || '');      // 元のフルテキスト
-    }
+    const correct = choices.find(c => c.isCorrect);
+    const correctText = (correct && correct.body) || q.correctAnswer || '';
+    const opt = (i) => (choices[i] && choices[i].body) || '';
     lines.push([
-      i + 1, q.category, q.title, q.questionBody, q.difficulty, q.correctAnswer,
-      ...flat,
-      q.explanation, q.referencePage,
-      q.factId, q.factType, q.factSource, q.questionId, q.distractorMethod || '',
-      q.stemApplied ? 'Yes' : 'No',
+      q.title || '',
+      q.category || '',
+      q.questionBody || '',
+      'SINGLE_CHOICE',
+      opt(0), opt(1), opt(2), opt(3),
+      correctText,
+      q.explanation || '',
+      q.referencePage != null && q.referencePage !== '' ? 'P' + q.referencePage : '',
     ].map(toCsvField).join(','));
-  });
+  }
   return lines.join('\n');
 }
 

@@ -1523,34 +1523,37 @@ function filteredV3() {
     return true;
   });
 }
+// 問題を解くアプリ向け CSV import スキーマ（名前指定方式）
+//   lessonTitle, chapterTitle, questionSentence, questionType,
+//   options.0-3, correctAnswers.0, explanation, referencedPage
+function formatPageRef(p) {
+  if (p == null || p === '') return '';
+  return String(p).startsWith('P') ? String(p) : 'P' + p;
+}
+const APP_CSV_HEADER = [
+  'lessonTitle', 'chapterTitle', 'questionSentence', 'questionType',
+  'options.0', 'options.1', 'options.2', 'options.3',
+  'correctAnswers.0', 'explanation', 'referencedPage',
+];
+
 function exportQuestionsCsv() {
-  const rows = filteredV3().map((x, i) => {
-    const correctIdx = x.choices.findIndex(c => c.isCorrect);
-    const correct = x.choices[correctIdx];
+  const rows = filteredV3().map(x => {
+    const correct = x.choices.find(c => c.isCorrect);
     return [
-      i + 1,
-      x.category || '',
       x.title || '',
-      x.factType || '',
-      x.factSource || '',
+      x.category || '',
       x.questionBody || '',
+      'SINGLE_CHOICE',
       x.choices[0]?.body || '',
       x.choices[1]?.body || '',
       x.choices[2]?.body || '',
       x.choices[3]?.body || '',
-      correctIdx >= 0 ? correctIdx + 1 : '',
       correct?.body || '',
       x.explanation || '',
-      x.referencePage || '',
-      x.distractorMethod || '',
-      x.id || '',
+      formatPageRef(x.referencePage),
     ];
   });
-  downloadCsv(`questions_v3_${timestamp()}.csv`,
-    ['No', 'category', 'title', 'factType', 'factSource', 'questionBody',
-     'choice1', 'choice2', 'choice3', 'choice4', 'correctIndex', 'correctAnswer',
-     'explanation', 'referencePage', 'distractorMethod', 'id'],
-    rows);
+  downloadCsv(`questions_v3_${timestamp()}.csv`, APP_CSV_HEADER, rows);
 }
 
 function filteredV1() {
@@ -1568,31 +1571,23 @@ function filteredV1() {
   });
 }
 function exportDojoCsv() {
-  const rows = filteredV1().map((x, i) => {
+  const rows = filteredV1().map(x => {
     const choices = x.choices || [];
-    const correctIdx = choices.findIndex(c => c.isCorrect);
-    const correct = choices[correctIdx];
+    const correct = choices.find(c => c.isCorrect);
     const correctText = x.correctAnswer || (correct && (correct.body || correct.fullBody)) || '';
     const text = (c) => c ? (c.body || c.fullBody || '') : '';
     return [
-      i + 1,
-      x.category || '',
       x.title || '',
-      x.difficulty || '',
+      x.category || '',
       x.questionBody || '',
+      'SINGLE_CHOICE',
       text(choices[0]), text(choices[1]), text(choices[2]), text(choices[3]),
-      correctIdx >= 0 ? correctIdx + 1 : '',
       correctText,
       x.explanation || '',
-      x.referencePage || '',
-      x.id || '',
+      formatPageRef(x.referencePage),
     ];
   });
-  downloadCsv(`dojo_v1_${timestamp()}.csv`,
-    ['No', 'category', 'title', 'difficulty', 'questionBody',
-     'choice1', 'choice2', 'choice3', 'choice4', 'correctIndex', 'correctAnswer',
-     'explanation', 'referencePage', 'id'],
-    rows);
+  downloadCsv(`dojo_v1_${timestamp()}.csv`, APP_CSV_HEADER, rows);
 }
 
 function filteredFactsList() {
