@@ -817,6 +817,11 @@ let v1 = [], v3 = [], facts = [], textbook = null, rules = null, distractorRules
 let compareIndex = null; // {pairs: [{v1q, bestV3, sim}], byCat: {...}}
 let curTab = 'rules';
 
+// ローカル実行判定（教本JPGは著作権・サイズの都合で公開リポジトリに含めないため、
+//   公開URLでは P.X をリンクにせずテキスト表示にする）
+const IS_LOCAL = ['localhost', '127.0.0.1', '0.0.0.0', ''].includes(location.hostname)
+  || location.protocol === 'file:';
+
 let rawTextbook = {};
 async function load() {
   const [r1, r3, rf, rt, rr, rrt, rd, rq] = await Promise.all([
@@ -925,8 +930,7 @@ function initFilters() {
   document.getElementById('tf-csv').addEventListener('click', exportTextbookCsv);
 
   // ローカル限定タブ（公開URLでは非表示）
-  const isLocal = ['localhost', '127.0.0.1', '0.0.0.0', ''].includes(location.hostname)
-    || location.protocol === 'file:';
+  const isLocal = IS_LOCAL;
   if (!isLocal) {
     document.querySelectorAll('nav.tabs button[data-local-only="true"]').forEach(b => {
       b.style.display = 'none';
@@ -1510,11 +1514,13 @@ function escapeHtml(s) {
 }
 
 // 教本ページ番号からJPGファイルのリンクを生成（4桁ゼロパディング）
+//   公開URL（GitHub Pages 等）では textbook/*.jpg が無いため、リンクにせずテキスト表示
 function pageLink(page, verified) {
   if (!page || page < 1) return '-';
+  const badge = verified ? '<span class="verified">検証済</span>' : '';
+  if (!IS_LOCAL) return `P.${page}${badge}`;
   const padded = String(page).padStart(4, '0');
   const url = `textbook/sake_diploma_p${padded}.jpg`;
-  const badge = verified ? '<span class="verified">検証済</span>' : '';
   return `<a href="${url}" target="_blank">P.${page}</a>${badge}`;
 }
 
